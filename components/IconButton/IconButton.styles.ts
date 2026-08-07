@@ -17,6 +17,7 @@ export const IconButtonRoot = styled.button<{ $tone?: "light" | "dark" }>`
 
   &:hover {
     color: ${({ theme }) => theme.colors.gold};
-    background: ${({ theme }) => theme.colors.gray100};
+    background: ${({ theme, $tone }) =>
+      $tone === "light" ? "rgba(198, 167, 94, 0.12)" : theme.colors.gray100};
   }
 `;

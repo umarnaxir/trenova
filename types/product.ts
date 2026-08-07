@@ -9,7 +9,7 @@ export type ProductColor = {
   hex: string;
 };
 
-export type ProductSize = "XS" | "S" | "M" | "L" | "XL" | "XXL";
+export type ProductSize = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "ONE SIZE" | "FREE SIZE";
 
 export type Product = {
   id: string;

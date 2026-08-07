@@ -17,9 +17,15 @@ export const GlobalStyle = createGlobalStyle`
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
   }
 
   body {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
     min-height: 100%;
     background: ${({ theme }) => theme.colors.white};
     color: ${({ theme }) => theme.colors.black};

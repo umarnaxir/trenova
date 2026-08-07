@@ -34,6 +34,16 @@ const variants = {
       border-color: ${({ theme }) => theme.colors.goldLight};
     }
   `,
+  goldOutline: css`
+    background: transparent;
+    color: ${({ theme }) => theme.colors.gold};
+    border-color: ${({ theme }) => theme.colors.gold};
+
+    &:hover:not(:disabled) {
+      background: ${({ theme }) => theme.colors.gold};
+      color: ${({ theme }) => theme.colors.black};
+    }
+  `,
   ghost: css`
     background: transparent;
     color: ${({ theme }) => theme.colors.black};

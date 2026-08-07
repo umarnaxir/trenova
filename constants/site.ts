@@ -1,9 +1,9 @@
 export const SITE = {
   name: "TRENOvA",
   legalName: "TRENOVA RETAIL PRIVATE LIMITED",
-  tagline: "Premium essentials for modern living",
+  tagline: "Trusted Quality. Affordable Style.",
   description:
-    "TRENOvA is a premium fashion brand offering refined apparel, activewear, and lifestyle essentials crafted for everyday elegance.",
+    "TRENOvA is a premium fashion brand offering refined apparel, activewear, and lifestyle essentials — trusted quality at an affordable price.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://shoptrenova.in",
   domain: "shoptrenova.in",
   locale: "en_IN",
@@ -32,9 +32,7 @@ export const SITE = {
 } as const;
 
 export const ANNOUNCEMENTS = [
-  "Complimentary shipping on orders above ₹2,999",
-  "Easy 7-day returns on all apparel",
-  "New arrivals just dropped — shop the latest edit",
-  "Sale live now on selected essentials",
-  "Premium quality. Everyday comfort. TRENOvA.",
+  "Free shipping on orders above ₹999",
+  "Premium Quality. Affordable Style. Trusted by You.",
+  "Easy Returns | 7-Day Return Policy",
 ] as const;
