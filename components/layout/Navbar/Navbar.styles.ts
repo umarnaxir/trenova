@@ -6,51 +6,96 @@ export const Header = styled.header`
   position: sticky;
   top: 0;
   z-index: ${({ theme }) => theme.zIndices.sticky};
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid ${({ theme }) => theme.colors.gray200};
+  background: ${({ theme }) => theme.colors.black};
+  border-bottom: 1px solid rgba(198, 167, 94, 0.28);
+  color: ${({ theme }) => theme.colors.white};
 `;
 
 export const NavInner = styled.div`
-  display: grid;
-  grid-template-columns: 40px 1fr auto;
+  display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.space[2]};
-  min-height: 64px;
+  justify-content: space-between;
+  min-height: 68px;
+  gap: 0.5rem;
 
   ${({ theme }) => theme.mediaQueries.lg} {
-    grid-template-columns: auto 1fr auto;
-    gap: ${({ theme }) => theme.space[4]};
-    min-height: 72px;
+    min-height: 80px;
+    gap: 2rem;
+  }
+`;
+
+export const MobileHeaderLeft = styled.div`
+  display: flex;
+  align-items: center;
+
+  ${({ theme }) => theme.mediaQueries.lg} {
+    display: none;
+  }
+`;
+
+export const DesktopLogoWrap = styled.div`
+  display: none;
+
+  ${({ theme }) => theme.mediaQueries.lg} {
+    display: flex;
+    align-items: center;
+  }
+`;
+
+export const MobileHeaderRight = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  ${({ theme }) => theme.mediaQueries.sm} {
+    gap: 0.5rem;
+  }
+
+  ${({ theme }) => theme.mediaQueries.lg} {
+    display: none;
+  }
+`;
+
+export const DesktopRightGroup = styled.div`
+  display: none;
+
+  ${({ theme }) => theme.mediaQueries.lg} {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
   }
 `;
 
 export const LogoWrap = styled.div`
   display: flex;
-  justify-content: center;
-
-  ${({ theme }) => theme.mediaQueries.lg} {
-    justify-content: flex-start;
-  }
+  align-items: center;
+  margin-right: 0.25rem;
 `;
 
 export const NavLinks = styled.nav`
   display: none;
   align-items: center;
-  justify-content: center;
-  gap: ${({ theme }) => theme.space[6]};
+  gap: 1.25rem;
+
+  ${({ theme }) => theme.mediaQueries.xl} {
+    gap: 1.75rem;
+  }
 
   ${({ theme }) => theme.mediaQueries.lg} {
     display: flex;
   }
 `;
 
-export const NavLink = styled.a`
+export const NavLink = styled.a<{ $accent?: boolean }>`
   position: relative;
-  font-size: ${({ theme }) => theme.fontSizes.sm};
+  font-size: ${({ theme }) => theme.fontSizes.xs};
   letter-spacing: ${({ theme }) => theme.letterSpacings.wider};
   text-transform: uppercase;
   padding-block: ${({ theme }) => theme.space[2]};
+  color: ${({ theme, $accent }) =>
+    $accent ? theme.colors.gold : theme.colors.white};
+  font-weight: ${({ theme, $accent }) =>
+    $accent ? theme.fontWeights.semibold : theme.fontWeights.regular};
 
   &::after {
     content: "";
@@ -63,6 +108,10 @@ export const NavLink = styled.a`
     transform: scaleX(0);
     transform-origin: left;
     transition: transform ${({ theme }) => theme.transitions.base};
+  }
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.gold};
   }
 
   &:hover::after {
@@ -96,7 +145,8 @@ export const LoginButton = styled.button`
   min-height: 34px;
   padding: 0 ${({ theme }) => theme.space[3]};
   margin-left: ${({ theme }) => theme.space[1]};
-  border: 1px solid ${({ theme }) => theme.colors.black};
+  border: 1px solid ${({ theme }) => theme.colors.gold};
+  color: ${({ theme }) => theme.colors.gold};
   font-size: 10px;
   letter-spacing: ${({ theme }) => theme.letterSpacings.wider};
   text-transform: uppercase;
@@ -106,8 +156,8 @@ export const LoginButton = styled.button`
     color ${({ theme }) => theme.transitions.fast};
 
   &:hover {
-    background: ${({ theme }) => theme.colors.black};
-    color: ${({ theme }) => theme.colors.white};
+    background: ${({ theme }) => theme.colors.gold};
+    color: ${({ theme }) => theme.colors.black};
   }
 
   ${({ theme }) => theme.mediaQueries.md} {
@@ -130,6 +180,7 @@ export const CountDot = styled.span`
   font-size: 10px;
   display: grid;
   place-items: center;
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
 `;
 
 export const ActionWrap = styled.span`
@@ -137,9 +188,9 @@ export const ActionWrap = styled.span`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  color: ${({ theme }) => theme.colors.black};
+  width: 38px;
+  height: 38px;
+  color: ${({ theme }) => theme.colors.white};
 
   a {
     display: inline-flex;
@@ -160,60 +211,181 @@ export const MegaPanel = styled.div`
   left: 0;
   right: 0;
   top: 100%;
-  background: ${({ theme }) => theme.colors.white};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.gray200};
-  box-shadow: ${({ theme }) => theme.shadows.md};
-  padding: ${({ theme }) => `${theme.space[8]} 0`};
+  background: #0D0D0D;
+  border-bottom: 1px solid rgba(198, 167, 94, 0.35);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+  padding: 2rem 0;
+  z-index: 100;
 
   ${({ theme }) => theme.mediaQueries.lg} {
     display: block;
   }
 `;
 
-export const MegaGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: ${({ theme }) => theme.space[6]};
+export const MegaHeader = styled.div`
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(198, 167, 94, 0.2);
+`;
 
-  ${({ theme }) => theme.mediaQueries.xl} {
-    grid-template-columns: repeat(4, 1fr);
+export const MegaCategoryTitle = styled.a`
+  font-family: ${({ theme }) => theme.fonts.heading};
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #C6A75E;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #D4AF37;
   }
 `;
 
-export const MegaColumn = styled.div`
+export const MegaCategorySub = styled.p`
+  font-size: 0.8125rem;
+  color: #A0A0A0;
+`;
+
+export const MegaGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+`;
+
+export const MegaItemCard = styled.a`
   display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.space[3]};
-`;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 1.25rem;
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  color: #E0E0E0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: all 0.2s ease;
 
-export const MegaTitle = styled.a`
-  font-family: ${({ theme }) => theme.fonts.heading};
-  letter-spacing: ${({ theme }) => theme.letterSpacings.wide};
-  text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.black};
-`;
-
-export const MegaItem = styled.a`
-  font-size: ${({ theme }) => theme.fontSizes.sm};
-  color: ${({ theme }) => theme.colors.gray600};
-  transition: color ${({ theme }) => theme.transitions.fast};
+  svg {
+    color: #C6A75E;
+    transition: transform 0.2s ease;
+  }
 
   &:hover {
-    color: ${({ theme }) => theme.colors.goldDark};
+    background: #1A1A1A;
+    border-color: #C6A75E;
+    color: #FFFFFF;
+
+    svg {
+      transform: translateX(4px);
+    }
   }
 `;
 
 export const MobileMenu = styled.div`
-  display: grid;
-  gap: ${({ theme }) => theme.space[4]};
-  padding: ${({ theme }) => theme.space[4]};
-  border-top: 1px solid ${({ theme }) => theme.colors.gray200};
-  max-height: min(70vh, 560px);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  border-top: 1px solid rgba(198, 167, 94, 0.28);
+  background: #0A0A0A;
+  max-height: calc(85vh - 72px);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9);
 
   ${({ theme }) => theme.mediaQueries.lg} {
     display: none;
+  }
+`;
+
+export const MobileSectionTitle = styled.div`
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #C6A75E;
+  margin-bottom: 0.25rem;
+`;
+
+export const MobileSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+export const MobileNavLink = styled.a<{ $accent?: boolean }>`
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: ${({ $accent }) => ($accent ? "#C6A75E" : "#FFFFFF")};
+  padding: 0.5rem 0;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #C6A75E;
+  }
+`;
+
+export const MobileDivider = styled.div`
+  height: 1px;
+  background: rgba(198, 167, 94, 0.2);
+  margin-block: 0.25rem;
+`;
+
+export const MobileAccordionItem = styled.div`
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+`;
+
+export const MobileAccordionHeader = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-block: 0.875rem;
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-align: left;
+
+  &:hover {
+    color: #C6A75E;
+  }
+`;
+
+export const MobileAccordionBody = styled.div`
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding-left: 0.75rem;
+  padding-bottom: 0.75rem;
+`;
+
+export const MobileSubLink = styled.a`
+  font-size: 0.8125rem;
+  color: #C0C0C0;
+  padding: 0.375rem 0.5rem;
+  border-left: 2px solid rgba(198, 167, 94, 0.3);
+  text-decoration: none;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #C6A75E;
+    border-left-color: #C6A75E;
+    background: rgba(198, 167, 94, 0.08);
   }
 `;
 
@@ -223,6 +395,7 @@ export const MenuToggle = styled.button`
   justify-content: center;
   width: 40px;
   height: 40px;
+  color: ${({ theme }) => theme.colors.white};
 
   ${({ theme }) => theme.mediaQueries.lg} {
     display: none;

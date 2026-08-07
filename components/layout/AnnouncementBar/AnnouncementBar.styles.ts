@@ -12,17 +12,19 @@ const marquee = keyframes`
 `;
 
 export const Bar = styled.div`
-  background: ${({ theme }) => theme.colors.black};
-  color: ${({ theme }) => theme.colors.white};
+  background: linear-gradient(90deg, #D4AF37 0%, #C6A75E 50%, #B89635 100%);
+  color: #0A0A0A;
   overflow: hidden;
   white-space: nowrap;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.gray700};
+  padding-block: 0.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  user-select: none;
 `;
 
 export const Track = styled.div`
   display: flex;
   width: max-content;
-  animation: ${marquee} 60s linear infinite;
+  animation: ${marquee} 35s linear infinite;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
@@ -41,14 +43,22 @@ export const Group = styled.div`
 export const Item = styled.span`
   display: inline-flex;
   align-items: center;
-  gap: ${({ theme }) => theme.space[4]};
-  padding: ${({ theme }) => `${theme.space[2]} ${theme.space[6]}`};
-  font-size: ${({ theme }) => theme.fontSizes.xs};
-  letter-spacing: ${({ theme }) => theme.letterSpacings.wide};
+  gap: 0.5rem;
+  padding-inline: 2rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+
+  svg {
+    flex-shrink: 0;
+  }
 
   &::after {
     content: "•";
-    color: ${({ theme }) => theme.colors.gold};
+    margin-left: 2rem;
+    color: #0A0A0A;
+    opacity: 0.4;
   }
 `;
+
