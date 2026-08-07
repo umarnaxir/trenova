@@ -1,0 +1,77 @@
+import type { Review } from "@/types/review";
+
+export const reviews: Review[] = [
+  {
+    id: "rev-1",
+    productId: "prod-aurora-tee",
+    author: "Aarav Mehta",
+    rating: 5,
+    title: "Exceptional fabric quality",
+    body: "Soft, structured, and true to size. Feels like a luxury essential.",
+    createdAt: "2026-07-28T08:00:00.000Z",
+    verified: true,
+  },
+  {
+    id: "rev-2",
+    productId: "prod-aurora-tee",
+    author: "Ishita Kapoor",
+    rating: 5,
+    title: "Clean fit",
+    body: "Premium look without loud branding. Perfect everyday tee.",
+    createdAt: "2026-07-21T11:30:00.000Z",
+    verified: true,
+  },
+  {
+    id: "rev-3",
+    productId: "prod-noir-hoodie",
+    author: "Rohan Desai",
+    rating: 5,
+    title: "Worth every rupee",
+    body: "Warm, refined, and holds shape after washes. Instant wardrobe staple.",
+    createdAt: "2026-07-15T09:10:00.000Z",
+    verified: true,
+  },
+  {
+    id: "rev-4",
+    productId: "prod-noir-hoodie",
+    author: "Meera Shah",
+    rating: 4,
+    title: "Beautiful finish",
+    body: "Great drape and color. Slightly roomy in XL, otherwise excellent.",
+    createdAt: "2026-07-08T14:20:00.000Z",
+    verified: true,
+  },
+];
+
+export const homeReviews: Review[] = [
+  {
+    id: "home-1",
+    productId: "prod-aurora-tee",
+    author: "Kabir N.",
+    rating: 5,
+    title: "Quiet luxury done right",
+    body: "TRENOvA feels considered — quality fabric, clean cuts, zero noise.",
+    createdAt: "2026-07-30T10:00:00.000Z",
+    verified: true,
+  },
+  {
+    id: "home-2",
+    productId: "prod-noir-hoodie",
+    author: "Ananya R.",
+    rating: 5,
+    title: "My new everyday uniform",
+    body: "The hoodie and tee pair beautifully. Packaging was premium too.",
+    createdAt: "2026-07-26T10:00:00.000Z",
+    verified: true,
+  },
+  {
+    id: "home-3",
+    productId: "prod-aurora-tee",
+    author: "Vikram S.",
+    rating: 5,
+    title: "International feel",
+    body: "Fit and finish rival global athletic brands. Highly recommend.",
+    createdAt: "2026-07-18T10:00:00.000Z",
+    verified: true,
+  },
+];

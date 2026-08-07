@@ -1,0 +1,85 @@
+import type { Order, User } from "@/types/user";
+
+export const mockUser: User = {
+  id: "user-1",
+  firstName: "Umar",
+  lastName: "Pathan",
+  email: "umar@example.com",
+  phone: "+91 98765 43210",
+  addresses: [
+    {
+      id: "addr-1",
+      label: "Home",
+      fullName: "Umar Pathan",
+      phone: "+91 98765 43210",
+      line1: "12 Fashion Avenue",
+      line2: "Bandra West",
+      city: "Mumbai",
+      state: "Maharashtra",
+      postalCode: "400050",
+      country: "India",
+      isDefault: true,
+    },
+    {
+      id: "addr-2",
+      label: "Office",
+      fullName: "Umar Pathan",
+      phone: "+91 98765 43210",
+      line1: "88 Business Park",
+      city: "Pune",
+      state: "Maharashtra",
+      postalCode: "411001",
+      country: "India",
+    },
+  ],
+};
+
+export const mockOrders: Order[] = [
+  {
+    id: "ord-1",
+    orderNumber: "TRN-10482",
+    status: "delivered",
+    createdAt: "2026-07-10T12:00:00.000Z",
+    total: 4998,
+    items: [
+      {
+        productId: "prod-aurora-tee",
+        name: "Aurora Premium Tee",
+        image: "/products/tee-front.jpg",
+        size: "M",
+        color: "Black",
+        quantity: 1,
+        price: 1499,
+      },
+      {
+        productId: "prod-noir-hoodie",
+        name: "Noir Essential Hoodie",
+        image: "/products/hoodie-front.jpg",
+        size: "L",
+        color: "Noir",
+        quantity: 1,
+        price: 3499,
+      },
+    ],
+    shippingAddress: mockUser.addresses[0],
+  },
+  {
+    id: "ord-2",
+    orderNumber: "TRN-10511",
+    status: "shipped",
+    createdAt: "2026-08-01T09:30:00.000Z",
+    total: 1499,
+    items: [
+      {
+        productId: "prod-aurora-tee",
+        name: "Aurora Premium Tee",
+        image: "/products/tee-front.jpg",
+        size: "L",
+        color: "Ivory",
+        quantity: 1,
+        price: 1499,
+      },
+    ],
+    shippingAddress: mockUser.addresses[0],
+  },
+];

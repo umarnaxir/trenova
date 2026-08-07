@@ -1,0 +1,50 @@
+export type Address = {
+  id: string;
+  label: string;
+  fullName: string;
+  phone: string;
+  line1: string;
+  line2?: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+  isDefault?: boolean;
+};
+
+export type User = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  avatar?: string;
+  addresses: Address[];
+};
+
+export type OrderStatus =
+  | "pending"
+  | "confirmed"
+  | "shipped"
+  | "delivered"
+  | "cancelled";
+
+export type OrderItem = {
+  productId: string;
+  name: string;
+  image: string;
+  size: string;
+  color: string;
+  quantity: number;
+  price: number;
+};
+
+export type Order = {
+  id: string;
+  orderNumber: string;
+  status: OrderStatus;
+  createdAt: string;
+  total: number;
+  items: OrderItem[];
+  shippingAddress: Address;
+};
