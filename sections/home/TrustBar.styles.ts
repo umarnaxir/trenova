@@ -4,17 +4,15 @@ import styled from "styled-components";
 
 export const TrustRoot = styled.section`
   position: relative;
-  z-index: 10;
-  margin-top: -2.75rem;
-  margin-bottom: 0;
-  padding-block: 0;
+  padding-block: 0 2rem;
   background: transparent;
 `;
 
 export const TrustBox = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  background: #0A0A0A;
+  width: 100%;
+  background: #0a0a0a;
   color: ${({ theme }) => theme.colors.white};
   border: 1px solid rgba(198, 167, 94, 0.35);
   border-radius: 8px;
@@ -72,4 +70,3 @@ export const ItemCopy = styled.p`
   color: ${({ theme }) => theme.colors.gray400};
   font-size: 0.75rem;
 `;
-

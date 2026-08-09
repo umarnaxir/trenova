@@ -1,177 +1,189 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import heroImg from "@/public/images/hero.png";
+import { useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { AnimatePresence } from "framer-motion";
 import { Button } from "@/components/Button/Button";
 import { Container } from "@/components/Container/Container";
 import {
   Actions,
   Content,
-  DesktopButtons,
-  GlowingOrb,
+  Eyebrow,
   Headline,
-  HeroGrid,
-  HeroMedia,
+  HeadlineAccent,
   HeroRoot,
-  InnerRing3D,
-  MobileLinkLeft,
-  MobileLinkRight,
-  Overlay,
-  Ring3D,
+  NavButton,
+  Pagination,
+  PaginationDot,
+  Slide,
+  SlideInner,
+  SlideMedia,
+  SlideOverlay,
   Subcopy,
-  TopRight3DGraphic,
 } from "@/sections/home/Hero.styles";
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.28,
-      delayChildren: 0.1,
-    },
-  },
+type HeroSlide = {
+  id: string;
+  eyebrow: string;
+  lines: Array<{ text: string; accent?: boolean; sameLine?: boolean }>;
+  subcopy: string;
+  image: string;
+  alt: string;
 };
 
-const wordVariants = {
-  hidden: { opacity: 0, y: 35, filter: "blur(12px)" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 1.05, ease: [0.16, 1, 0.3, 1] as const },
-  },
-};
+const AUTO_MS = 3000;
 
-const titleWords = [
-  { text: "Style.", highlight: false },
-  { text: "Quality.", highlight: false },
-  { text: "Trusted.", highlight: false },
-  { text: "Affordable.", highlight: true },
+const slides: HeroSlide[] = [
+  {
+    id: "cover-1",
+    eyebrow: "Performance Meets Style",
+    lines: [
+      { text: "Move Better." },
+      { text: "Live Better.", accent: true },
+    ],
+    subcopy:
+      "Premium sportswear, lifestyle essentials & accessories for Men, Women & Kids.",
+    image: "/images/hero/cover-01.png",
+    alt: "TRENOVA menswear lifestyle cover",
+  },
+  {
+    id: "cover-2",
+    eyebrow: "Performance Meets Style",
+    lines: [
+      { text: "Style That " },
+      { text: "Performs.", accent: true, sameLine: true },
+    ],
+    subcopy: "Engineered for Comfort. Designed for Everyday.",
+    image: "/images/hero/cover-02.png",
+    alt: "TRENOVA womenswear lifestyle cover",
+  },
+  {
+    id: "cover-3",
+    eyebrow: "Performance Meets Style",
+    lines: [
+      { text: "For Every Body." },
+      { text: "For Every Goal.", accent: true },
+    ],
+    subcopy: "Men • Women • Kids",
+    image: "/images/hero/cover-03.png",
+    alt: "TRENOVA kidswear lifestyle cover",
+  },
 ];
 
+const ctas = [
+  { label: "Shop Men", href: "/categories/men" },
+  { label: "Shop Women", href: "/categories/women" },
+  { label: "Shop Kids", href: "/categories/kids" },
+] as const;
+
 export function Hero() {
-  const [rotate, setRotate] = useState({ x: 0, y: 0 });
+  const [activeIndex, setActiveIndex] = useState(0);
+  const total = slides.length;
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const { clientX, clientY, currentTarget } = e;
-    const { width, height, left, top } = currentTarget.getBoundingClientRect();
-    const x = (clientX - left - width / 2) / 35;
-    const y = (clientY - top - height / 2) / 35;
-    setRotate({ x, y });
+  const goTo = (index: number) => {
+    setActiveIndex(((index % total) + total) % total);
   };
 
-  const handleMouseLeave = () => {
-    setRotate({ x: 0, y: 0 });
-  };
+  const goPrev = () => goTo(activeIndex - 1);
+  const goNext = () => goTo(activeIndex + 1);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % total);
+    }, AUTO_MS);
+
+    return () => window.clearInterval(timer);
+  }, [activeIndex, total]);
+
+  const slide = slides[activeIndex];
 
   return (
-    <HeroRoot onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
-      <Overlay />
-
-      <TopRight3DGraphic
-        aria-hidden
-        as={motion.div}
-        animate={{
-          rotateX: rotate.y * -1,
-          rotateY: rotate.x,
-        }}
-        transition={{ type: "spring", stiffness: 40, damping: 25, mass: 1.2 }}
-      >
-        <GlowingOrb />
-        <Ring3D />
-        <InnerRing3D />
-      </TopRight3DGraphic>
-
-      <Container style={{ height: "100%", position: "relative", zIndex: 2 }}>
-        <HeroGrid>
-          <Content>
-            <Headline
-              as={motion.h1}
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              {titleWords.map((word) => (
-                <motion.span
-                  key={word.text}
-                  variants={wordVariants}
-                  style={{
-                    display: "block",
-                    color: word.highlight ? "#C6A75E" : "#FFFFFF",
-                  }}
-                >
-                  {word.text}
-                </motion.span>
-              ))}
-            </Headline>
-
-            <Subcopy
-              as={motion.p}
-              initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 1.0, delay: 1.25, ease: [0.16, 1, 0.3, 1] as const }}
-            >
-              Premium fashion &amp; everyday essentials crafted for effortless luxury.
-            </Subcopy>
-
-            <Actions
-              as={motion.div}
-              initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 1.0, delay: 1.5, ease: [0.16, 1, 0.3, 1] as const }}
-            >
-              {/* Mobile View Underlined Links */}
-              <MobileLinkLeft href="/shop">
-                SHOP NOW <ArrowRight size={14} />
-              </MobileLinkLeft>
-              <MobileLinkRight href="/categories">
-                EXPLORE COLLECTION
-              </MobileLinkRight>
-
-              {/* Desktop View Buttons */}
-              <DesktopButtons>
-                <Button as="a" href="/shop" variant="gold" size="lg">
-                  SHOP NOW <ArrowRight size={16} />
-                </Button>
-                <Button as="a" href="/categories" variant="goldOutline" size="lg">
-                  EXPLORE COLLECTION
-                </Button>
-              </DesktopButtons>
-            </Actions>
-          </Content>
-
-          <HeroMedia
-            as={motion.div}
-            initial={{ opacity: 0, x: 30, filter: "blur(8px)" }}
-            animate={{
-              opacity: 1,
-              x: 0,
-              filter: "blur(0px)",
-              rotateX: rotate.y * -0.4,
-              rotateY: rotate.x * 0.4,
-            }}
-            transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] as const }}
-          >
+    <HeroRoot aria-label="Featured collections" aria-roledescription="carousel">
+      <AnimatePresence mode="sync" initial={false}>
+        <Slide
+          key={slide.id}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.65, ease: "easeInOut" }}
+        >
+          <SlideMedia>
             <Image
-              src={heroImg}
-              alt="TRENOVA luxury collection"
+              src={slide.image}
+              alt={slide.alt}
+              fill
               priority
-              sizes="(max-width: 768px) 100vw, 55vw"
+              sizes="100vw"
             />
-          </HeroMedia>
-        </HeroGrid>
-      </Container>
+          </SlideMedia>
+          <SlideOverlay />
+          <SlideInner>
+            <Container style={{ width: "100%" }}>
+              <Content>
+                <Eyebrow>{slide.eyebrow}</Eyebrow>
+                <Headline>
+                  {slide.lines.map((line, lineIndex) => {
+                    const LineTag = line.accent ? HeadlineAccent : "span";
+                    return (
+                      <span key={`${line.text}-${lineIndex}`}>
+                        {lineIndex > 0 && !line.sameLine ? <br /> : null}
+                        <LineTag>{line.text}</LineTag>
+                      </span>
+                    );
+                  })}
+                </Headline>
+                <Subcopy>{slide.subcopy}</Subcopy>
+                <Actions>
+                  {ctas.map((cta, ctaIndex) => (
+                    <Button
+                      key={cta.href}
+                      as="a"
+                      href={cta.href}
+                      variant={
+                        ctaIndex === activeIndex ? "gold" : "whiteOutline"
+                      }
+                      size="sm"
+                    >
+                      {cta.label}
+                    </Button>
+                  ))}
+                </Actions>
+              </Content>
+            </Container>
+          </SlideInner>
+        </Slide>
+      </AnimatePresence>
+
+      <NavButton
+        type="button"
+        className="hero-prev"
+        aria-label="Previous banner"
+        onClick={goPrev}
+      >
+        <ChevronLeft size={22} strokeWidth={1.75} />
+      </NavButton>
+      <NavButton
+        type="button"
+        className="hero-next"
+        aria-label="Next banner"
+        onClick={goNext}
+      >
+        <ChevronRight size={22} strokeWidth={1.75} />
+      </NavButton>
+
+      <Pagination>
+        {slides.map((item, index) => (
+          <PaginationDot
+            key={item.id}
+            type="button"
+            aria-label={`Go to slide ${index + 1}`}
+            aria-current={index === activeIndex ? "true" : undefined}
+            $active={index === activeIndex}
+            onClick={() => goTo(index)}
+          />
+        ))}
+      </Pagination>
     </HeroRoot>
   );
 }
-
-
-
-
-
-
-

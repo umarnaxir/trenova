@@ -23,8 +23,8 @@ export default async function HomePage() {
   return (
     <>
       <Hero />
-      <TrustBar />
       <ShopByCategory categories={categories} />
+      <TrustBar />
       <ProductRail title="New Arrivals" products={newArrivals} />
       <BrandValues />
     </>

@@ -44,6 +44,17 @@ const variants = {
       color: ${({ theme }) => theme.colors.black};
     }
   `,
+  whiteOutline: css`
+    background: transparent;
+    color: ${({ theme }) => theme.colors.white};
+    border-color: rgba(255, 255, 255, 0.85);
+
+    &:hover:not(:disabled) {
+      background: ${({ theme }) => theme.colors.white};
+      border-color: ${({ theme }) => theme.colors.white};
+      color: ${({ theme }) => theme.colors.black};
+    }
+  `,
   ghost: css`
     background: transparent;
     color: ${({ theme }) => theme.colors.black};

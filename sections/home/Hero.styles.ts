@@ -1,281 +1,305 @@
 "use client";
 
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 export const HeroRoot = styled.section`
   position: relative;
-  min-height: 500px;
-  height: auto;
-  padding-top: 4.5rem;
-  padding-bottom: 3.5rem;
-  display: flex;
-  align-items: center;
-  overflow: visible;
-  background: #000000;
+  width: 100%;
+  height: 70vh;
+  min-height: 460px;
+  max-height: 780px;
+  overflow: hidden;
+  background: ${({ theme }) => theme.colors.black};
   color: ${({ theme }) => theme.colors.white};
+  isolation: isolate;
 
   ${({ theme }) => theme.mediaQueries.md} {
-    height: 72vh;
-    min-height: 580px;
-    max-height: 820px;
-    padding-top: 0;
-    padding-bottom: 0;
+    min-height: 420px;
   }
 `;
 
-export const Overlay = styled.div`
+export const Slide = styled(motion.div)`
   position: absolute;
   inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 78% 45%, rgba(198, 167, 94, 0.3) 0%, rgba(198, 167, 94, 0.06) 55%, transparent 80%),
-    radial-gradient(circle at 15% 85%, rgba(198, 167, 94, 0.12) 0%, transparent 55%);
+  z-index: 1;
 `;
 
-export const TopRight3DGraphic = styled.div`
+export const SlideMedia = styled.div`
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 280px;
-  height: 280px;
-  pointer-events: none;
-  z-index: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  perspective: 1000px;
-  overflow: hidden;
+  inset: 0;
+
+  img {
+    object-fit: cover;
+    object-position: right center;
+  }
 
   ${({ theme }) => theme.mediaQueries.md} {
-    display: flex;
-    top: 0;
-    right: 0;
-    width: min(45vw, 480px);
-    height: min(45vw, 480px);
+    img {
+      object-position: center center;
+    }
   }
 `;
 
-export const GlowingOrb = styled.div`
+export const SlideOverlay = styled.div`
   position: absolute;
-  inset: 12%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(198, 167, 94, 0.4) 0%, rgba(198, 167, 94, 0.1) 50%, transparent 75%);
-  filter: blur(30px);
-  animation: orbPulse 8s ease-in-out infinite alternate;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.15) 0%,
+    rgba(0, 0, 0, 0.08) 35%,
+    rgba(0, 0, 0, 0.55) 72%,
+    rgba(0, 0, 0, 0.88) 100%
+  );
 
-  @keyframes orbPulse {
-    0% {
-      transform: scale(0.85);
-      opacity: 0.5;
-    }
-    100% {
-      transform: scale(1.15);
-      opacity: 0.95;
-    }
+  ${({ theme }) => theme.mediaQueries.md} {
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.18) 0%,
+      transparent 30%,
+      transparent 70%,
+      rgba(0, 0, 0, 0.28) 100%
+    );
   }
 `;
 
-export const Ring3D = styled.div`
-  position: absolute;
-  width: 78%;
-  height: 78%;
-  border-radius: 50%;
-  border: 2px solid rgba(198, 167, 94, 0.5);
-  border-top-color: #C6A75E;
-  border-bottom-color: #D4AF37;
-  box-shadow: 0 0 40px rgba(198, 167, 94, 0.35), inset 0 0 25px rgba(198, 167, 94, 0.2);
-  transform-style: preserve-3d;
-  animation: rotate3d 24s ease-in-out infinite alternate;
-
-  @keyframes rotate3d {
-    0% {
-      transform: rotateX(65deg) rotateY(25deg) rotateZ(0deg);
-    }
-    100% {
-      transform: rotateX(65deg) rotateY(25deg) rotateZ(360deg);
-    }
-  }
-`;
-
-export const InnerRing3D = styled.div`
-  position: absolute;
-  width: 54%;
-  height: 54%;
-  border-radius: 50%;
-  border: 1px dashed rgba(224, 201, 136, 0.7);
-  border-right-color: #C6A75E;
-  transform-style: preserve-3d;
-  animation: rotate3dReverse 20s ease-in-out infinite alternate;
-
-  @keyframes rotate3dReverse {
-    0% {
-      transform: rotateX(35deg) rotateY(70deg) rotateZ(360deg);
-    }
-    100% {
-      transform: rotateX(35deg) rotateY(70deg) rotateZ(0deg);
-    }
-  }
-`;
-
-export const HeroGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: flex-end;
-  width: 100%;
+export const SlideInner = styled.div`
+  position: relative;
+  z-index: 2;
   height: 100%;
-  gap: 1.5rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding-block: 2.5rem 3.75rem;
+  pointer-events: none;
 
   ${({ theme }) => theme.mediaQueries.md} {
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    align-items: center;
+    justify-content: flex-start;
+    padding-block: 4rem 5rem;
+  }
+
+  a,
+  button {
+    pointer-events: auto;
   }
 `;
 
 export const Content = styled.div`
-  position: relative;
-  z-index: 2;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  gap: 1.25rem;
+  align-items: stretch;
+  gap: 0.65rem;
+  max-width: 680px;
   width: 100%;
-  max-width: 620px;
-  padding-bottom: 2rem;
 
   ${({ theme }) => theme.mediaQueries.md} {
-    gap: 1.5rem;
-    padding-bottom: 5.5rem;
+    gap: 1.35rem;
+  }
+`;
+
+export const Eyebrow = styled.p`
+  margin: 0;
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 0.625rem;
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.gold};
+
+  ${({ theme }) => theme.mediaQueries.md} {
+    font-size: 0.8125rem;
+    letter-spacing: 0.18em;
   }
 `;
 
 export const Headline = styled.h1`
-  font-family: ${({ theme }) => theme.fonts.heading};
-  font-size: clamp(2.25rem, 7.5vw, 3.85rem);
-  line-height: 1.28;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #FFFFFF;
+  margin: 0;
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: clamp(1.55rem, 7vw, 2.15rem);
   font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.white};
 
-  span {
-    padding-bottom: 0.2rem;
+  ${({ theme }) => theme.mediaQueries.md} {
+    font-size: clamp(2.15rem, 6.5vw, 4.25rem);
+    line-height: 1.05;
   }
 `;
 
+export const HeadlineAccent = styled.span`
+  color: ${({ theme }) => theme.colors.gold};
+`;
+
 export const Subcopy = styled.p`
-  color: #D0D0D0;
-  font-size: 1rem;
-  line-height: 1.6;
-  max-width: 100%;
+  margin: 0;
+  max-width: 34rem;
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.82);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 
   ${({ theme }) => theme.mediaQueries.md} {
     font-size: 1.0625rem;
-    white-space: nowrap;
+    line-height: 1.65;
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
   }
 `;
 
 export const Actions = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-wrap: nowrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
+  gap: 0.4rem;
   width: 100%;
-  margin-top: 0.75rem;
+  margin-top: 0.15rem;
+
+  a {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 32px;
+    padding: 0 0.35rem;
+    font-size: 0.625rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
 
   ${({ theme }) => theme.mediaQueries.md} {
     justify-content: flex-start;
-    gap: 1rem;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 0.5rem;
     width: auto;
+
+    a {
+      flex: 0 0 auto;
+      min-width: 8.5rem;
+      min-height: 52px;
+      padding: 0 ${({ theme }) => theme.space[8]};
+      font-size: ${({ theme }) => theme.fontSizes.md};
+      letter-spacing: ${({ theme }) => theme.letterSpacings.wider};
+    }
   }
 `;
 
-export const MobileLinkLeft = styled.a`
+export const NavButton = styled.button`
+  position: absolute;
+  top: 50%;
+  z-index: 20;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
   display: inline-flex;
   align-items: center;
-  gap: 0.375rem;
-  color: #C6A75E;
-  font-size: 0.8125rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding-bottom: 4px;
-  border-bottom: 2px solid #C6A75E;
-  background: transparent;
-  transition: opacity 0.2s ease;
-
-  &:hover {
-    opacity: 0.8;
-  }
-
-  ${({ theme }) => theme.mediaQueries.md} {
-    display: none;
-  }
-`;
-
-export const MobileLinkRight = styled.a`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  color: #C6A75E;
-  font-size: 0.8125rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding-bottom: 4px;
-  border-bottom: 2px solid #C6A75E;
-  background: transparent;
-  transition: opacity 0.2s ease;
-
-  &:hover {
-    opacity: 0.8;
-  }
-
-  ${({ theme }) => theme.mediaQueries.md} {
-    display: none;
-  }
-`;
-
-export const DesktopButtons = styled.div`
-  display: none;
-
-  ${({ theme }) => theme.mediaQueries.md} {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-`;
-
-export const HeroMedia = styled.div`
-  position: relative;
-  width: 100%;
-  height: 0;
-  display: none;
-  align-items: flex-end;
   justify-content: center;
-  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.45);
+  color: ${({ theme }) => theme.colors.white};
+  cursor: pointer;
+  pointer-events: auto;
+  transition:
+    background ${({ theme }) => theme.transitions.fast},
+    border-color ${({ theme }) => theme.transitions.fast},
+    color ${({ theme }) => theme.transitions.fast};
 
-  ${({ theme }) => theme.mediaQueries.md} {
-    display: flex;
-    height: 100%;
-    max-height: 720px;
-    justify-content: flex-end;
+  svg {
+    width: 18px;
+    height: 18px;
   }
 
-  img {
-    object-fit: contain;
-    object-position: bottom right;
-    max-height: 100%;
-    max-width: 100%;
-    width: auto;
-    height: 132%;
-    max-height: 700px;
-    filter: drop-shadow(0 -12px 45px rgba(198, 167, 94, 0.25)) drop-shadow(0 15px 35px rgba(0, 0, 0, 0.85));
+  &:hover {
+    background: ${({ theme }) => theme.colors.gold};
+    border-color: ${({ theme }) => theme.colors.gold};
+    color: ${({ theme }) => theme.colors.black};
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.gold};
+    outline-offset: 2px;
+  }
+
+  &.hero-prev {
+    left: 0.5rem;
+  }
+
+  &.hero-next {
+    right: 0.5rem;
+  }
+
+  ${({ theme }) => theme.mediaQueries.md} {
+    width: 44px;
+    height: 44px;
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    &.hero-prev {
+      left: 1rem;
+    }
+
+    &.hero-next {
+      right: 1rem;
+    }
+  }
+
+  ${({ theme }) => theme.mediaQueries.lg} {
+    &.hero-prev {
+      left: 1.5rem;
+    }
+
+    &.hero-next {
+      right: 1.5rem;
+    }
   }
 `;
 
+export const Pagination = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.85rem;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  pointer-events: auto;
 
+  ${({ theme }) => theme.mediaQueries.md} {
+    bottom: 1.5rem;
+    gap: 0.55rem;
+  }
+`;
 
+export const PaginationDot = styled.button<{ $active: boolean }>`
+  width: ${({ $active }) => ($active ? "22px" : "7px")};
+  height: 7px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0;
+  background: ${({ theme, $active }) =>
+    $active ? theme.colors.gold : "rgba(255, 255, 255, 0.45)"};
+  cursor: pointer;
+  transition:
+    width ${({ theme }) => theme.transitions.base},
+    background ${({ theme }) => theme.transitions.base};
 
-
+  ${({ theme }) => theme.mediaQueries.md} {
+    width: ${({ $active }) => ($active ? "28px" : "8px")};
+    height: 8px;
+  }
+`;
