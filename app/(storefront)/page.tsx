@@ -5,13 +5,20 @@ import { ProductRail } from "@/sections/home/ProductRail";
 import { BrandValues } from "@/sections/home/BrandValues";
 import { getPrimaryCategories } from "@/services/category.service";
 import { getNewArrivals } from "@/services/product.service";
-import { buildMetadata } from "@/lib/seo";
+import {
+  buildMetadata,
+  storeJsonLd,
+  websiteJsonLd,
+} from "@/lib/seo";
 import { SITE } from "@/constants/site";
 
 export const metadata = buildMetadata({
-  title: SITE.name,
+  title: SITE.seoTitle,
   description: SITE.description,
   path: "/",
+  image: SITE.ogImage,
+  keywords: SITE.keywords,
+  absoluteTitle: true,
 });
 
 export default async function HomePage() {
@@ -20,8 +27,17 @@ export default async function HomePage() {
     getNewArrivals(),
   ]);
 
+  const structuredData = [websiteJsonLd(), storeJsonLd()];
+
   return (
     <>
+      {structuredData.map((data, index) => (
+        <script
+          key={index}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+        />
+      ))}
       <Hero />
       <ShopByCategory categories={categories} />
       <TrustBar />
@@ -30,5 +46,3 @@ export default async function HomePage() {
     </>
   );
 }
-
-

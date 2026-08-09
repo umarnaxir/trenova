@@ -19,27 +19,23 @@ const display = Cormorant_Garamond({
 
 export const metadata: Metadata = {
   ...buildMetadata({
-    title: SITE.name,
+    title: SITE.seoTitle,
     description: SITE.description,
     path: "/",
+    absoluteTitle: true,
   }),
   metadataBase: new URL(SITE.url),
-  applicationName: SITE.name,
-  keywords: [
-    "TRENOvA",
-    "premium fashion",
-    "menswear",
-    "womenswear",
-    "activewear",
-    "India fashion brand",
-  ],
+  title: {
+    default: SITE.seoTitle,
+    template: `%s | ${SITE.name}`,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   const jsonLd = organizationJsonLd();
 
   return (
-    <html lang="en" className={`${sans.variable} ${display.variable}`}>
+    <html lang="en-IN" className={`${sans.variable} ${display.variable}`}>
       <body>
         <script
           type="application/ld+json"
