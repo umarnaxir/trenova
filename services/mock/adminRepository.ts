@@ -30,7 +30,10 @@ import {
   setInstagramShots,
   type InstagramShot,
 } from "@/services/mock/catalogStore";
-import { SITE } from "@/constants/site";
+import {
+  getSiteSettingsState,
+  setSiteSettingsState,
+} from "@/services/mock/siteSettingsStore";
 
 export type AdminProductInput = {
   name: string;
@@ -124,12 +127,6 @@ let team: TeamMember[] = [
     joinedAt: "2026-07-22T00:00:00.000Z",
   },
 ];
-let settings: AdminSettings = {
-  storeName: SITE.name,
-  supportEmail: SITE.email,
-  supportPhone: SITE.phone,
-  currency: SITE.currency,
-};
 
 function rebuildMedia(): MediaItem[] {
   return getCatalogProducts().flatMap((product) =>
@@ -602,13 +599,13 @@ export async function repoDeleteTeamMember(id: string) {
 
 export async function repoGetSettings() {
   await delay();
-  return clone(settings);
+  return getSiteSettingsState();
 }
 
 export async function repoUpdateSettings(input: AdminSettings) {
   await delay();
-  settings = { ...input };
-  return clone(settings);
+  setSiteSettingsState(input);
+  return getSiteSettingsState();
 }
 
 export async function repoGetInstagram() {

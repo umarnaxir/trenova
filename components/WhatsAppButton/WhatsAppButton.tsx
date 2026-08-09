@@ -1,11 +1,12 @@
 "use client";
 
 import { MessageCircle } from "lucide-react";
-import { SITE } from "@/constants/site";
+import { useSiteSettings } from "@/hooks/stores/siteSettingsStore";
 import { WhatsAppLink } from "@/components/WhatsAppButton/WhatsAppButton.styles";
 
 export function WhatsAppButton() {
-  const href = `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(
+  const site = useSiteSettings();
+  const href = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
     "Hello Trenova, I need help with an order.",
   )}`;
 

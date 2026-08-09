@@ -1,6 +1,8 @@
+"use client";
+
 import { SafeImage } from "@/components/SafeImage/SafeImage";
 import { Container } from "@/components/Container/Container";
-import { SITE } from "@/constants/site";
+import { useSiteSettings } from "@/hooks/stores/siteSettingsStore";
 import type { InstagramShot } from "@/services/instagram.service";
 import {
   FollowTitle,
@@ -20,6 +22,8 @@ function InstagramIcon() {
 }
 
 export function InstagramGallery({ shots }: { shots: InstagramShot[] }) {
+  const site = useSiteSettings();
+
   if (!shots.length) return null;
 
   return (
@@ -29,15 +33,15 @@ export function InstagramGallery({ shots }: { shots: InstagramShot[] }) {
           <FollowTitle>
             follow us{" "}
             <InstagramLink
-              href={SITE.social.instagram}
+              href={site.social.instagram}
               target="_blank"
               rel="noopener noreferrer"
             >
-              {SITE.instagramHandle}
+              {site.instagramHandle}
             </InstagramLink>
           </FollowTitle>
           <InstagramLink
-            href={SITE.social.instagram}
+            href={site.social.instagram}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Open Trenova on Instagram"
@@ -51,7 +55,7 @@ export function InstagramGallery({ shots }: { shots: InstagramShot[] }) {
           {shots.map((shot) => (
             <Shot
               key={shot.id}
-              href={SITE.social.instagram}
+              href={site.social.instagram}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={shot.alt}

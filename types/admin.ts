@@ -82,9 +82,29 @@ export type InventoryRow = {
 
 export type AdminSettings = {
   storeName: string;
+  legalName: string;
+  cin: string;
   supportEmail: string;
   supportPhone: string;
+  phoneSecondary: string;
+  /** Digits only for wa.me links, e.g. 916006216695 */
+  whatsapp: string;
   currency: string;
+  instagramHandle: string;
+  address: {
+    line1: string;
+    line2: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+  };
+  social: {
+    instagram: string;
+    facebook: string;
+    twitter: string;
+    youtube: string;
+  };
 };
 
 export type AnalyticsPoint = {
