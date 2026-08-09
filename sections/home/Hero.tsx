@@ -32,7 +32,7 @@ type HeroSlide = {
   alt: string;
 };
 
-const AUTO_MS = 3000;
+const AUTO_MS = 5000;
 
 const slides: HeroSlide[] = [
   {
@@ -77,6 +77,27 @@ const ctas = [
   { label: "Shop Kids", href: "/categories/kids" },
 ] as const;
 
+const easeOut = [0.22, 1, 0.36, 1] as const;
+
+const contentVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.15,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: easeOut },
+  },
+};
+
 export function Hero() {
   const [activeIndex, setActiveIndex] = useState(0);
   const total = slides.length;
@@ -106,9 +127,13 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.65, ease: "easeInOut" }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
         >
-          <SlideMedia>
+          <SlideMedia
+            initial={{ scale: 1.08 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 5.8, ease: "linear" }}
+          >
             <Image
               src={slide.image}
               alt={slide.alt}
@@ -120,9 +145,13 @@ export function Hero() {
           <SlideOverlay />
           <SlideInner>
             <Container style={{ width: "100%" }}>
-              <Content>
-                <Eyebrow>{slide.eyebrow}</Eyebrow>
-                <Headline>
+              <Content
+                variants={contentVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                <Eyebrow variants={itemVariants}>{slide.eyebrow}</Eyebrow>
+                <Headline variants={itemVariants}>
                   {slide.lines.map((line, lineIndex) => {
                     const LineTag = line.accent ? HeadlineAccent : "span";
                     return (
@@ -133,8 +162,8 @@ export function Hero() {
                     );
                   })}
                 </Headline>
-                <Subcopy>{slide.subcopy}</Subcopy>
-                <Actions>
+                <Subcopy variants={itemVariants}>{slide.subcopy}</Subcopy>
+                <Actions variants={itemVariants}>
                   {ctas.map((cta, ctaIndex) => (
                     <Button
                       key={cta.href}

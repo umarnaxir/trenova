@@ -1,149 +1,149 @@
 "use client";
 
-import { useRef, useState } from "react";
 import Image from "next/image";
-import { Heart } from "lucide-react";
+import { Heart, Star } from "lucide-react";
 import type { Product } from "@/types/product";
 import { Container } from "@/components/Container/Container";
 import { useWishlistStore } from "@/hooks/stores/wishlistStore";
+import { useCartStore } from "@/hooks/stores/cartStore";
 import { useUiStore } from "@/hooks/stores/uiStore";
 import {
-  DotDashBar,
-  DotDashItem,
+  AddToCartButton,
+  CategoryLabel,
   NewBadge,
   PriceText,
   ProductCardFooter,
   ProductCardTitle,
   ProductCardWrapper,
+  ProductGrid,
   ProductImageWrap,
+  ProductMeta,
   ProductRailRoot,
-  RailGridWrap,
+  RatingRow,
   RailTitle,
-  ScrollContainer,
-  ScrollControlsWrap,
   TitleWrap,
   WishlistIconButton,
 } from "@/sections/home/ProductRail.styles";
 
 type ProductRailProps = {
-  eyebrow?: string;
   title: string;
-  description?: string;
   products: Product[];
-  href?: string;
   tone?: "light" | "dark" | "cream";
+  showRating?: boolean;
 };
+
+function formatCategory(slug: string) {
+  return slug
+    .split("-")
+    .filter(Boolean)
+    .slice(0, 2)
+    .join(" ");
+}
 
 export function ProductRail({
   title,
   products,
   tone = "light",
+  showRating = false,
 }: ProductRailProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
   const toggleWishlist = useWishlistStore((state) => state.toggle);
   const hasWishlist = useWishlistStore((state) => state.has);
+  const addItem = useCartStore((state) => state.addItem);
   const pushToast = useUiStore((state) => state.pushToast);
-
-  const totalDots = Math.min(products.length, 5);
-
-  const handleScroll = () => {
-    if (containerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
-      const maxScroll = scrollWidth - clientWidth;
-      if (maxScroll > 0) {
-        const ratio = scrollLeft / maxScroll;
-        const index = Math.min(
-          Math.floor(ratio * totalDots),
-          totalDots - 1
-        );
-        setActiveIndex(index);
-      }
-    }
-  };
-
-  const scrollToDot = (dotIdx: number) => {
-    if (containerRef.current) {
-      const { scrollWidth, clientWidth } = containerRef.current;
-      const maxScroll = scrollWidth - clientWidth;
-      const targetScroll = (maxScroll / (totalDots - 1)) * dotIdx;
-      containerRef.current.scrollTo({ left: targetScroll, behavior: "smooth" });
-      setActiveIndex(dotIdx);
-    }
-  };
 
   return (
     <ProductRailRoot $tone={tone}>
       <Container>
         <TitleWrap>
-          <RailTitle>{title.toUpperCase()}</RailTitle>
+          <RailTitle>{title}</RailTitle>
         </TitleWrap>
 
-        <RailGridWrap>
-          <ScrollContainer ref={containerRef} onScroll={handleScroll}>
-            {products.map((product) => {
-              const inWishlist = hasWishlist(product.id);
+        <ProductGrid>
+          {products.map((product) => {
+            const inWishlist = hasWishlist(product.id);
+            const filledStars = Math.round(product.rating);
 
-              return (
-                <ProductCardWrapper key={product.id}>
+            return (
+              <ProductCardWrapper key={product.id}>
+                <ProductImageWrap href={`/product/${product.slug}`}>
+                  {product.isNewArrival ? <NewBadge>New</NewBadge> : null}
                   <WishlistIconButton
                     type="button"
-                    aria-label="Wishlist"
-                    onClick={(e) => {
-                      e.preventDefault();
+                    aria-label={
+                      inWishlist ? "Remove from wishlist" : "Add to wishlist"
+                    }
+                    onClick={(event) => {
+                      event.preventDefault();
                       toggleWishlist(product);
                       pushToast(
-                        inWishlist ? "Removed from wishlist" : "Added to wishlist",
-                        "info"
+                        inWishlist
+                          ? "Removed from wishlist"
+                          : "Added to wishlist",
+                        "info",
                       );
                     }}
                   >
                     <Heart
-                      size={18}
+                      size={16}
                       fill={inWishlist ? "#C6A75E" : "none"}
                       color={inWishlist ? "#C6A75E" : "#0A0A0A"}
                     />
                   </WishlistIconButton>
+                  <Image
+                    src={product.images.front}
+                    alt={product.name}
+                    fill
+                    sizes="(max-width: 768px) 50vw, 16vw"
+                  />
+                </ProductImageWrap>
 
-                  <ProductImageWrap href={`/product/${product.slug}`}>
-                    <Image
-                      src={product.images.front}
-                      alt={product.name}
-                      fill
-                      sizes="(max-width: 768px) 50vw, 20vw"
-                    />
-                  </ProductImageWrap>
+                <ProductMeta>
+                  <ProductCardTitle href={`/product/${product.slug}`}>
+                    {product.name}
+                  </ProductCardTitle>
+                  <CategoryLabel>
+                    {formatCategory(product.categorySlug)}
+                  </CategoryLabel>
+                </ProductMeta>
 
-                  <div>
-                    <ProductCardTitle href={`/product/${product.slug}`}>
-                      {product.name}
-                    </ProductCardTitle>
-                    <ProductCardFooter>
-                      <PriceText>₹{product.price.toLocaleString("en-IN")}</PriceText>
-                      {product.isNewArrival ? <NewBadge>NEW</NewBadge> : null}
-                    </ProductCardFooter>
-                  </div>
-                </ProductCardWrapper>
-              );
-            })}
-          </ScrollContainer>
-
-          <ScrollControlsWrap>
-            <DotDashBar>
-              {Array.from({ length: totalDots }).map((_, idx) => (
-                <DotDashItem
-                  key={idx}
-                  type="button"
-                  aria-label={`Go to slide ${idx + 1}`}
-                  $active={activeIndex === idx}
-                  onClick={() => scrollToDot(idx)}
-                />
-              ))}
-            </DotDashBar>
-          </ScrollControlsWrap>
-        </RailGridWrap>
+                <ProductCardFooter>
+                  {showRating ? (
+                    <RatingRow aria-label={`Rated ${product.rating} out of 5`}>
+                      {Array.from({ length: 5 }).map((_, index) => (
+                        <Star
+                          key={index}
+                          size={12}
+                          fill={index < filledStars ? "currentColor" : "none"}
+                          strokeWidth={1.5}
+                        />
+                      ))}
+                      <span>{product.rating.toFixed(1)}</span>
+                    </RatingRow>
+                  ) : null}
+                  <PriceText>
+                    ₹{product.price.toLocaleString("en-IN")}
+                  </PriceText>
+                  <AddToCartButton
+                    type="button"
+                    onClick={() => {
+                      const size = product.sizes[0];
+                      const color = product.colors[0]?.name;
+                      if (!size || !color) {
+                        pushToast("Select size and color on the product page", "info");
+                        return;
+                      }
+                      addItem({ product, size, color, quantity: 1 });
+                      pushToast("Added to cart", "success");
+                    }}
+                  >
+                    Add to Cart
+                  </AddToCartButton>
+                </ProductCardFooter>
+              </ProductCardWrapper>
+            );
+          })}
+        </ProductGrid>
       </Container>
     </ProductRailRoot>
   );
 }
-

@@ -3,36 +3,23 @@
 import styled from "styled-components";
 
 export const ShopCategoryRoot = styled.section`
-  padding-block: 2.25rem 1.5rem;
-  background: #FFFFFF;
+  padding-block: 3rem 2.5rem;
+  background: #ffffff;
 `;
 
 export const SectionTitleWrap = styled.div`
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
 `;
 
 export const SectionTitle = styled.h2`
   font-family: ${({ theme }) => theme.fonts.heading};
-  font-size: 1.75rem;
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #0A0A0A;
-  display: inline-block;
-  position: relative;
-  padding-bottom: 0.5rem;
-
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: #C6A75E;
-  }
+  color: #0a0a0a;
+  margin: 0;
 `;
 
 export const CategoryGrid = styled.div`
@@ -41,11 +28,13 @@ export const CategoryGrid = styled.div`
   gap: 0.75rem;
 
   ${({ theme }) => theme.mediaQueries.sm} {
-    gap: 1.25rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
   }
 
   ${({ theme }) => theme.mediaQueries.lg} {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.15rem;
   }
 `;
 
@@ -54,16 +43,19 @@ export const CategoryCardItem = styled.a`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  height: 220px;
-  border-radius: 8px;
+  align-items: center;
+  height: 240px;
+  border-radius: 10px;
   overflow: hidden;
   text-decoration: none;
-  background: #0A0A0A;
+  background: #0a0a0a;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 
-  ${({ theme }) => theme.mediaQueries.sm} {
-    height: 280px;
+  ${({ theme }) => theme.mediaQueries.md} {
+    height: 300px;
   }
 
   &:hover {
@@ -84,103 +76,41 @@ export const CategoryCardItem = styled.a`
 export const CardOverlay = styled.div`
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.85) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.05) 35%,
+    rgba(0, 0, 0, 0.78) 100%
+  );
 `;
 
 export const CardContent = styled.div`
   position: relative;
   z-index: 1;
-  padding: 1.25rem;
-  color: #FFFFFF;
-`;
-
-export const CategoryName = styled.h3`
-  font-size: 1.125rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #FFFFFF;
-  margin-bottom: 0.25rem;
-`;
-
-export const ShopNowLink = styled.span`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #C6A75E;
-
-  svg {
-    transition: transform 0.2s ease;
-  }
-
-  ${CategoryCardItem}:hover & svg {
-    transform: translateX(4px);
-  }
-`;
-
-export const SaleCardItem = styled.div`
+  width: 100%;
+  padding: 1.15rem 0.75rem 1.35rem;
+  color: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 0.45rem;
   text-align: center;
-  height: 180px;
-  grid-column: 1 / -1;
-  border-radius: 8px;
-  padding: 1rem;
-  background: radial-gradient(circle at center, #1A1A1A 0%, #050505 100%);
-  border: 1px solid rgba(198, 167, 94, 0.35);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-
-  ${({ theme }) => theme.mediaQueries.sm} {
-    height: 280px;
-    padding: 1.5rem;
-  }
-
-  ${({ theme }) => theme.mediaQueries.lg} {
-    grid-column: auto;
-  }
 `;
 
-export const SaleTitle = styled.h3`
-  font-family: ${({ theme }) => theme.fonts.heading};
-  font-size: 2.25rem;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  color: #C6A75E;
-  margin-bottom: 0.25rem;
-`;
-
-export const SaleSubtitle = styled.p`
-  font-size: 0.875rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #FFFFFF;
-  margin-bottom: 1.25rem;
-`;
-
-export const SaleButton = styled.a`
+export const CategoryIcon = styled.span`
   display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: #C6A75E;
-  color: #0A0A0A;
-  padding: 0.625rem 1.25rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: background 0.2s ease, transform 0.2s ease;
+  color: #c6a75e;
 
-  &:hover {
-    background: #D4AF37;
-    transform: translateY(-2px);
+  svg {
+    width: 22px;
+    height: 22px;
   }
+`;
+
+export const CategoryName = styled.h3`
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ffffff;
 `;

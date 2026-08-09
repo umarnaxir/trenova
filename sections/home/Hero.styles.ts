@@ -25,7 +25,7 @@ export const Slide = styled(motion.div)`
   z-index: 1;
 `;
 
-export const SlideMedia = styled.div`
+export const SlideMedia = styled(motion.div)`
   position: absolute;
   inset: 0;
 
@@ -87,7 +87,7 @@ export const SlideInner = styled.div`
   }
 `;
 
-export const Content = styled.div`
+export const Content = styled(motion.div)`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -101,7 +101,7 @@ export const Content = styled.div`
   }
 `;
 
-export const Eyebrow = styled.p`
+export const Eyebrow = styled(motion.p)`
   margin: 0;
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: 0.625rem;
@@ -116,7 +116,7 @@ export const Eyebrow = styled.p`
   }
 `;
 
-export const Headline = styled.h1`
+export const Headline = styled(motion.h1)`
   margin: 0;
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: clamp(1.55rem, 7vw, 2.15rem);
@@ -136,7 +136,7 @@ export const HeadlineAccent = styled.span`
   color: ${({ theme }) => theme.colors.gold};
 `;
 
-export const Subcopy = styled.p`
+export const Subcopy = styled(motion.p)`
   margin: 0;
   max-width: 34rem;
   font-family: ${({ theme }) => theme.fonts.body};
@@ -157,7 +157,7 @@ export const Subcopy = styled.p`
   }
 `;
 
-export const Actions = styled.div`
+export const Actions = styled(motion.div)`
   display: flex;
   flex-wrap: nowrap;
   align-items: center;

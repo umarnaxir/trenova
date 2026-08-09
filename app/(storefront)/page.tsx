@@ -2,9 +2,12 @@ import { Hero } from "@/sections/home/Hero";
 import { TrustBar } from "@/sections/home/TrustBar";
 import { ShopByCategory } from "@/sections/home/ShopByCategory";
 import { ProductRail } from "@/sections/home/ProductRail";
-import { BrandValues } from "@/sections/home/BrandValues";
-import { getPrimaryCategories } from "@/services/category.service";
-import { getNewArrivals } from "@/services/product.service";
+import { DualPromoBanners } from "@/sections/home/DualPromoBanners";
+import { InstagramGallery } from "@/sections/home/InstagramGallery";
+import {
+  getBestSellers,
+  getFeaturedProducts,
+} from "@/services/product.service";
 import {
   buildMetadata,
   storeJsonLd,
@@ -22,9 +25,9 @@ export const metadata = buildMetadata({
 });
 
 export default async function HomePage() {
-  const [categories, newArrivals] = await Promise.all([
-    getPrimaryCategories(),
-    getNewArrivals(),
+  const [featured, bestSellers] = await Promise.all([
+    getFeaturedProducts(6),
+    getBestSellers(6),
   ]);
 
   const structuredData = [websiteJsonLd(), storeJsonLd()];
@@ -39,10 +42,17 @@ export default async function HomePage() {
         />
       ))}
       <Hero />
-      <ShopByCategory categories={categories} />
+      <ShopByCategory />
       <TrustBar />
-      <ProductRail title="New Arrivals" products={newArrivals} />
-      <BrandValues />
+      <ProductRail title="Featured Collection" products={featured} />
+      <DualPromoBanners />
+      <ProductRail
+        title="Best Sellers"
+        products={bestSellers}
+        showRating
+        tone="cream"
+      />
+      <InstagramGallery />
     </>
   );
 }

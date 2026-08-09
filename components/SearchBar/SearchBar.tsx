@@ -1,20 +1,32 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { createPortal } from "react-dom";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Search, X } from "lucide-react";
+import type { Product } from "@/types/product";
+import { searchProducts } from "@/services/product.service";
+import { useIsClient } from "@/hooks/useIsClient";
+import { Text } from "@/components/Text/Text";
 import {
   CloseButton,
-  SearchFormRow,
+  EmptyHint,
+  ResultCategory,
+  ResultImage,
+  ResultItem,
+  ResultLink,
+  ResultMeta,
+  ResultName,
+  ResultPrice,
+  ResultsList,
+  ResultsWrap,
   SearchHeader,
+  SearchInputWrap,
   SearchOverlay,
   SearchPanel,
+  ViewAllLink,
 } from "@/components/SearchBar/SearchBar.styles";
-import { Input } from "@/components/Input/Input";
-import { Button } from "@/components/Button/Button";
-import { Text } from "@/components/Text/Text";
-import { useIsClient } from "@/hooks/useIsClient";
 
 type SearchBarProps = {
   open: boolean;
@@ -25,12 +37,15 @@ export function SearchBar({ open, onClose }: SearchBarProps) {
   const isClient = useIsClient();
   const router = useRouter();
   const [query, setQuery] = useState("");
+  const [results, setResults] = useState<Product[]>([]);
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     if (!open) return;
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setQuery("");
+        setResults([]);
         onClose();
       }
     };
@@ -42,12 +57,46 @@ export function SearchBar({ open, onClose }: SearchBarProps) {
     };
   }, [open, onClose]);
 
+  useEffect(() => {
+    if (!open) return;
+    const value = query.trim();
+    if (!value) {
+      setResults([]);
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      startTransition(() => {
+        void searchProducts(value).then((items) => {
+          setResults(items.slice(0, 8));
+        });
+      });
+    }, 180);
+
+    return () => window.clearTimeout(timer);
+  }, [query, open]);
+
   const handleClose = () => {
     setQuery("");
+    setResults([]);
     onClose();
   };
 
+  const goToSearchPage = () => {
+    const value = query.trim();
+    if (!value) return;
+    handleClose();
+    router.push(`/search?q=${encodeURIComponent(value)}`);
+  };
+
+  const goToProduct = (slug: string) => {
+    handleClose();
+    router.push(`/product/${slug}`);
+  };
+
   if (!isClient || !open) return null;
+
+  const trimmed = query.trim();
 
   return createPortal(
     <SearchOverlay onClick={handleClose}>
@@ -64,31 +113,75 @@ export function SearchBar({ open, onClose }: SearchBarProps) {
             Search TRENOvA
           </Text>
         </SearchHeader>
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            const value = query.trim();
-            if (!value) return;
-            setQuery("");
-            onClose();
-            router.push(`/search?q=${encodeURIComponent(value)}`);
-          }}
-        >
-          <SearchFormRow>
-            <Input
-              label="Search products"
-              name="q"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Try hoodie, tee, jacket..."
-              autoFocus
-            />
-            <Button type="submit" aria-label="Search">
-              <Search size={16} />
-              Search
-            </Button>
-          </SearchFormRow>
-        </form>
+
+        <SearchInputWrap>
+          <Search size={18} aria-hidden />
+          <input
+            type="search"
+            name="q"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                event.preventDefault();
+                goToSearchPage();
+              }
+            }}
+            placeholder="Try hoodie, tee, jacket..."
+            autoFocus
+            autoComplete="off"
+            aria-label="Search products"
+          />
+        </SearchInputWrap>
+
+        <ResultsWrap>
+          {!trimmed ? (
+            <EmptyHint>Start typing to see matching products.</EmptyHint>
+          ) : null}
+
+          {trimmed && !isPending && results.length === 0 ? (
+            <EmptyHint>No matches for “{trimmed}”. Try another keyword.</EmptyHint>
+          ) : null}
+
+          {results.length > 0 ? (
+            <>
+              <ResultsList>
+                {results.map((product) => (
+                  <ResultItem key={product.id}>
+                    <ResultLink
+                      href={`/product/${product.slug}`}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        goToProduct(product.slug);
+                      }}
+                    >
+                      <ResultImage>
+                        <Image
+                          src={product.images.front}
+                          alt={product.name}
+                          fill
+                          sizes="56px"
+                        />
+                      </ResultImage>
+                      <ResultMeta>
+                        <ResultName>{product.name}</ResultName>
+                        <ResultCategory>
+                          {product.categorySlug.replace(/-/g, " ")}
+                        </ResultCategory>
+                      </ResultMeta>
+                      <ResultPrice>
+                        ₹{product.price.toLocaleString("en-IN")}
+                      </ResultPrice>
+                    </ResultLink>
+                  </ResultItem>
+                ))}
+              </ResultsList>
+              <ViewAllLink type="button" onClick={goToSearchPage}>
+                View all results
+              </ViewAllLink>
+            </>
+          ) : null}
+        </ResultsWrap>
       </SearchPanel>
     </SearchOverlay>,
     document.body,

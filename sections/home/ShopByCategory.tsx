@@ -1,64 +1,97 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
-import type { Category } from "@/types/category";
+import {
+  Baby,
+  Dumbbell,
+  ShoppingBag,
+  User,
+  UserRound,
+  Watch,
+} from "lucide-react";
 import { Container } from "@/components/Container/Container";
 import {
   CardContent,
   CardOverlay,
   CategoryCardItem,
   CategoryGrid,
+  CategoryIcon,
   CategoryName,
-  SaleButton,
-  SaleCardItem,
-  SaleSubtitle,
-  SaleTitle,
   SectionTitle,
   SectionTitleWrap,
   ShopCategoryRoot,
-  ShopNowLink,
 } from "@/sections/home/ShopByCategory.styles";
 
-export function ShopByCategory({ categories }: { categories: Category[] }) {
-  const displayCategories = categories.slice(0, 4);
+const homeCategories = [
+  {
+    name: "Men",
+    href: "/categories/men",
+    image: "/products/category-men.jpg",
+    icon: User,
+  },
+  {
+    name: "Women",
+    href: "/categories/women",
+    image: "/products/category-women.jpg",
+    icon: UserRound,
+  },
+  {
+    name: "Kids",
+    href: "/categories/kids",
+    image: "/products/category-kids.jpg",
+    icon: Baby,
+  },
+  {
+    name: "Sports",
+    href: "/categories/women-activewear",
+    image: "/products/women-active-front.jpg",
+    icon: Dumbbell,
+  },
+  {
+    name: "Accessories",
+    href: "/categories/accessories",
+    image: "/products/category-accessories.jpg",
+    icon: Watch,
+  },
+  {
+    name: "Bags",
+    href: "/categories/bags",
+    image: "/products/category-accessories.jpg",
+    icon: ShoppingBag,
+  },
+] as const;
 
+export function ShopByCategory() {
   return (
     <ShopCategoryRoot>
       <Container>
         <SectionTitleWrap>
-          <SectionTitle>SHOP BY CATEGORY</SectionTitle>
+          <SectionTitle>Shop by Category</SectionTitle>
         </SectionTitleWrap>
 
         <CategoryGrid>
-          {displayCategories.map((category) => (
-            <CategoryCardItem key={category.id} href={`/categories/${category.slug}`}>
-              <Image
-                src={category.image}
-                alt={category.name}
-                fill
-                sizes="(max-width: 768px) 100vw, 20vw"
-              />
-              <CardOverlay />
-              <CardContent>
-                <CategoryName>{category.name}</CategoryName>
-                <ShopNowLink>
-                  SHOP NOW <ArrowRight size={14} />
-                </ShopNowLink>
-              </CardContent>
-            </CategoryCardItem>
-          ))}
-
-          <SaleCardItem>
-            <SaleTitle>SALE</SaleTitle>
-            <SaleSubtitle>UP TO 50% OFF</SaleSubtitle>
-            <SaleButton href="/categories/sale">
-              SHOP SALE <ArrowRight size={14} />
-            </SaleButton>
-          </SaleCardItem>
+          {homeCategories.map((category) => {
+            const Icon = category.icon;
+            return (
+              <CategoryCardItem key={category.name} href={category.href}>
+                <Image
+                  src={category.image}
+                  alt={category.name}
+                  fill
+                  sizes="(max-width: 768px) 50vw, 16vw"
+                />
+                <CardOverlay />
+                <CardContent>
+                  <CategoryIcon aria-hidden>
+                    <Icon strokeWidth={1.75} />
+                  </CategoryIcon>
+                  <CategoryName>{category.name}</CategoryName>
+                </CardContent>
+              </CategoryCardItem>
+            );
+          })}
         </CategoryGrid>
       </Container>
     </ShopCategoryRoot>
   );
 }
-

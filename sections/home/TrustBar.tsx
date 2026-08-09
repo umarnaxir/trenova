@@ -1,7 +1,12 @@
 "use client";
 
-import { Truck, Award, RotateCcw, Lock } from "lucide-react";
-import { Container } from "@/components/Container/Container";
+import {
+  Award,
+  IndianRupee,
+  Lock,
+  RotateCcw,
+  Truck,
+} from "lucide-react";
 import {
   Item,
   ItemCopy,
@@ -12,44 +17,46 @@ import {
 
 const items = [
   {
-    icon: Truck,
-    title: "FREE SHIPPING",
-    copy: "On orders above ₹999",
+    icon: Award,
+    title: "Premium Quality",
+    copy: "Best Materials",
   },
   {
-    icon: Award,
-    title: "PREMIUM QUALITY",
-    copy: "Carefully crafted for you",
+    icon: IndianRupee,
+    title: "Affordable Prices",
+    copy: "Value for Money",
+  },
+  {
+    icon: Truck,
+    title: "Fast Delivery",
+    copy: "Across India",
   },
   {
     icon: RotateCcw,
-    title: "EASY RETURNS",
-    copy: "7-Day return policy",
+    title: "Easy Returns",
+    copy: "Hassle Free",
   },
   {
     icon: Lock,
-    title: "SECURE PAYMENTS",
-    copy: "100% safe & secure",
+    title: "Secure Payments",
+    copy: "100% Safe",
   },
 ] as const;
 
 export function TrustBar() {
   return (
     <TrustRoot aria-label="Store benefits">
-      <Container>
-        <TrustBox>
-          {items.map(({ icon: Icon, title, copy }) => (
-            <Item key={title}>
-              <Icon size={24} strokeWidth={1.5} />
-              <div>
-                <ItemTitle>{title}</ItemTitle>
-                <ItemCopy>{copy}</ItemCopy>
-              </div>
-            </Item>
-          ))}
-        </TrustBox>
-      </Container>
+      <TrustBox>
+        {items.map(({ icon: Icon, title, copy }) => (
+          <Item key={title}>
+            <Icon size={22} strokeWidth={1.5} />
+            <div>
+              <ItemTitle>{title}</ItemTitle>
+              <ItemCopy>{copy}</ItemCopy>
+            </div>
+          </Item>
+        ))}
+      </TrustBox>
     </TrustRoot>
   );
 }
-

@@ -119,15 +119,11 @@ export function Navbar({ categories }: NavbarProps) {
       <Header onMouseLeave={() => setMegaOpen(false)}>
         <Container>
           <NavInner>
-            {/* Mobile View Left: Hamburger */}
+            {/* Mobile View Left: Logo */}
             <MobileHeaderLeft>
-              <MenuToggle
-                type="button"
-                aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              >
-                {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-              </MenuToggle>
+              <LogoWrap>
+                <Logo height={52} />
+              </LogoWrap>
             </MobileHeaderLeft>
 
             {/* Desktop View Left: Logo */}
@@ -135,12 +131,8 @@ export function Navbar({ categories }: NavbarProps) {
               <Logo height={48} />
             </DesktopLogoWrap>
 
-            {/* Mobile View Right: Logo before Actions */}
+            {/* Mobile View Right: Actions + Menu */}
             <MobileHeaderRight>
-              <LogoWrap>
-                <Logo height={38} />
-              </LogoWrap>
-
               <Actions>
                 <IconButton
                   label="Search"
@@ -188,6 +180,13 @@ export function Navbar({ categories }: NavbarProps) {
                   <CountDot>{cartCount}</CountDot>
                 </ActionWrap>
               </Actions>
+              <MenuToggle
+                type="button"
+                aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              >
+                {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+              </MenuToggle>
             </MobileHeaderRight>
 
             {/* Desktop View Right: NavLinks + Actions */}

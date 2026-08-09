@@ -137,18 +137,21 @@ function takeProducts(
   return [...matched, ...fillers].slice(0, limit);
 }
 
-export async function getBestSellers(): Promise<Product[]> {
-  return takeProducts((item) => Boolean(item.isBestSeller), 8);
+export async function getBestSellers(limit = 6): Promise<Product[]> {
+  return takeProducts((item) => Boolean(item.isBestSeller), limit);
 }
 
-export async function getNewArrivals(): Promise<Product[]> {
-  return takeProducts((item) => Boolean(item.isNewArrival), 8);
+export async function getNewArrivals(limit = 6): Promise<Product[]> {
+  return takeProducts((item) => Boolean(item.isNewArrival), limit);
 }
 
-export async function getTrendingProducts(): Promise<Product[]> {
-  return takeProducts((item) => Boolean(item.isTrending), 8);
+export async function getTrendingProducts(limit = 6): Promise<Product[]> {
+  return takeProducts((item) => Boolean(item.isTrending), limit);
 }
 
-export async function getFeaturedProducts(): Promise<Product[]> {
-  return products;
+export async function getFeaturedProducts(limit = 6): Promise<Product[]> {
+  return takeProducts(
+    (item) => Boolean(item.isTrending || item.isNewArrival || item.isBestSeller),
+    limit,
+  );
 }

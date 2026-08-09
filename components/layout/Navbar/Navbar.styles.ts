@@ -27,6 +27,9 @@ export const NavInner = styled.div`
 export const MobileHeaderLeft = styled.div`
   display: flex;
   align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  margin-left: -0.15rem;
 
   ${({ theme }) => theme.mediaQueries.lg} {
     display: none;
@@ -69,7 +72,7 @@ export const DesktopRightGroup = styled.div`
 export const LogoWrap = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 0.25rem;
+  line-height: 0;
 `;
 
 export const NavLinks = styled.nav`
