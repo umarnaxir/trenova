@@ -1,8 +1,9 @@
+import { AdminGate } from "@/features/admin/AdminGate";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Admin",
-  description: "TRENOvA admin dashboard",
+  description: "Trenova admin dashboard",
   path: "/admin",
   noIndex: true,
 });
@@ -12,5 +13,5 @@ export default function AdminRootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return <AdminGate>{children}</AdminGate>;
 }

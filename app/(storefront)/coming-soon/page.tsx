@@ -7,7 +7,7 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Coming Soon",
-  description: "New TRENOvA drops are on the way. Join the list.",
+  description: "New Trenova drops are on the way. Join the list.",
   path: "/coming-soon",
 });
 

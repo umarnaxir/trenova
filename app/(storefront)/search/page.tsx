@@ -13,7 +13,7 @@ export async function generateMetadata({ searchParams }: Props) {
   const q = typeof params.q === "string" ? params.q : "";
   return buildMetadata({
     title: q ? `Search: ${q}` : "Search",
-    description: "Search the TRENOvA catalog.",
+    description: "Search the Trenova catalog.",
     path: q ? `/search?q=${encodeURIComponent(q)}` : "/search",
   });
 }

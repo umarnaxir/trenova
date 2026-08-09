@@ -5,9 +5,11 @@ import { ShopCatalog } from "@/features/shop/ShopCatalog";
 import { getProducts } from "@/services/product.service";
 import { buildMetadata } from "@/lib/seo";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = buildMetadata({
   title: "Shop",
-  description: "Browse the full TRENOvA collection of premium fashion essentials.",
+  description: "Browse the full Trenova collection of premium fashion essentials.",
   path: "/shop",
 });
 

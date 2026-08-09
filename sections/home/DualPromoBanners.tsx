@@ -21,7 +21,7 @@ const banners = [
     href: "/categories/women",
     label: "Woman",
     image: "/products/collection-women.jpg",
-    alt: "TRENOVA women performance wear",
+    alt: "Trenova women performance wear",
   },
   {
     id: "men",
@@ -30,7 +30,7 @@ const banners = [
     href: "/categories/men",
     label: "Man",
     image: "/products/collection-essentials.jpg",
-    alt: "TRENOVA men lifestyle essentials",
+    alt: "Trenova men lifestyle essentials",
   },
   {
     id: "kids",
@@ -39,7 +39,7 @@ const banners = [
     href: "/categories/kids",
     label: "Kids",
     image: "/images/hero/cover-03.png",
-    alt: "TRENOVA kidswear lifestyle cover",
+    alt: "Trenova kidswear lifestyle cover",
   },
 ] as const;
 

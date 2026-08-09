@@ -8,12 +8,15 @@ import {
   getBestSellers,
   getFeaturedProducts,
 } from "@/services/product.service";
+import { getHomeInstagramShots } from "@/services/instagram.service";
 import {
   buildMetadata,
   storeJsonLd,
   websiteJsonLd,
 } from "@/lib/seo";
 import { SITE } from "@/constants/site";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = buildMetadata({
   title: SITE.seoTitle,
@@ -25,9 +28,10 @@ export const metadata = buildMetadata({
 });
 
 export default async function HomePage() {
-  const [featured, bestSellers] = await Promise.all([
+  const [featured, bestSellers, instagramShots] = await Promise.all([
     getFeaturedProducts(6),
     getBestSellers(6),
+    getHomeInstagramShots(),
   ]);
 
   const structuredData = [websiteJsonLd(), storeJsonLd()];
@@ -44,15 +48,19 @@ export default async function HomePage() {
       <Hero />
       <ShopByCategory />
       <TrustBar />
-      <ProductRail title="Featured Collection" products={featured} />
+      {featured.length ? (
+        <ProductRail title="Featured Collection" products={featured} />
+      ) : null}
       <DualPromoBanners />
-      <ProductRail
-        title="Best Sellers"
-        products={bestSellers}
-        showRating
-        tone="cream"
-      />
-      <InstagramGallery />
+      {bestSellers.length ? (
+        <ProductRail
+          title="Best Sellers"
+          products={bestSellers}
+          showRating
+          tone="cream"
+        />
+      ) : null}
+      <InstagramGallery shots={instagramShots} />
     </>
   );
 }

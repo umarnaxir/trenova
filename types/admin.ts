@@ -52,3 +52,42 @@ export type NewsletterSubscriber = {
   subscribedAt: string;
   status: "active" | "unsubscribed";
 };
+
+/** Roles ready for future permission maps — not enforced yet. */
+export type AdminRole = "Admin" | "Manager" | "Editor" | "Viewer";
+
+export type AdminSession = {
+  id: string;
+  name: string;
+  email: string;
+  role: AdminRole;
+};
+
+export type TeamMember = {
+  id: string;
+  name: string;
+  email: string;
+  role: AdminRole;
+  status: "active" | "invited" | "disabled";
+  joinedAt: string;
+};
+
+export type InventoryRow = {
+  id: string;
+  name: string;
+  sku: string;
+  stock: number;
+  status: "In Stock" | "Low" | "Out";
+};
+
+export type AdminSettings = {
+  storeName: string;
+  supportEmail: string;
+  supportPhone: string;
+  currency: string;
+};
+
+export type AnalyticsPoint = {
+  label: string;
+  value: number;
+};

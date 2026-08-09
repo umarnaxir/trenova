@@ -9,7 +9,7 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Contact",
-  description: "Contact TRENOvA for support, partnerships, or product questions.",
+  description: "Contact Trenova for support, partnerships, or product questions.",
   path: "/contact",
 });
 

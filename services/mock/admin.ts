@@ -21,7 +21,7 @@ export const adminStats: AdminStat[] = [
 ];
 
 export const adminBrands: AdminBrand[] = [
-  { id: "brand-1", name: "TRENOvA", slug: "trenova", productCount: products.length },
+  { id: "brand-1", name: "Trenova", slug: "trenova", productCount: products.length },
 ];
 
 export const adminCustomers: AdminCustomer[] = [

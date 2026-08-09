@@ -6,7 +6,7 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "FAQ",
-  description: "Answers to common questions about TRENOvA orders, shipping, and returns.",
+  description: "Answers to common questions about Trenova orders, shipping, and returns.",
   path: "/faq",
 });
 

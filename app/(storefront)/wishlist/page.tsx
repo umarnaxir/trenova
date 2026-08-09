@@ -6,7 +6,7 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Wishlist",
-  description: "Your saved TRENOvA favorites.",
+  description: "Your saved Trenova favorites.",
   path: "/wishlist",
   noIndex: true,
 });

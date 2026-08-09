@@ -28,6 +28,7 @@ export type Product = {
   categoryId: string;
   categorySlug: string;
   tags: string[];
+  isFeatured?: boolean;
   isBestSeller?: boolean;
   isNewArrival?: boolean;
   isTrending?: boolean;

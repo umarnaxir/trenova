@@ -3,7 +3,7 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Returns Policy",
-  description: "TRENOvA returns and exchanges within 7 days of delivery.",
+  description: "Trenova returns and exchanges within 7 days of delivery.",
   path: "/returns-policy",
 });
 

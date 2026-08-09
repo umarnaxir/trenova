@@ -4,7 +4,7 @@ import { SITE } from "@/constants/site";
 
 export const metadata = buildMetadata({
   title: "Terms & Conditions",
-  description: "Terms governing use of the TRENOvA website and purchases.",
+  description: "Terms governing use of the Trenova website and purchases.",
   path: "/terms",
 });
 

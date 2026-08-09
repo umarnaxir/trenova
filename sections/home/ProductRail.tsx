@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { SafeImage } from "@/components/SafeImage/SafeImage";
 import { Heart, Star } from "lucide-react";
 import type { Product } from "@/types/product";
 import { Container } from "@/components/Container/Container";
@@ -89,7 +89,7 @@ export function ProductRail({
                       color={inWishlist ? "#C6A75E" : "#0A0A0A"}
                     />
                   </WishlistIconButton>
-                  <Image
+                  <SafeImage
                     src={product.images.front}
                     alt={product.name}
                     fill
@@ -122,6 +122,20 @@ export function ProductRail({
                   ) : null}
                   <PriceText>
                     ₹{product.price.toLocaleString("en-IN")}
+                    {product.compareAtPrice &&
+                    product.compareAtPrice > product.price ? (
+                      <span
+                        style={{
+                          marginLeft: 8,
+                          color: "#6B6B6B",
+                          textDecoration: "line-through",
+                          fontWeight: 400,
+                          fontSize: "0.85em",
+                        }}
+                      >
+                        ₹{product.compareAtPrice.toLocaleString("en-IN")}
+                      </span>
+                    ) : null}
                   </PriceText>
                   <AddToCartButton
                     type="button"

@@ -1,22 +1,18 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { AuthCard, AuthLinks } from "@/features/auth/AuthForm.styles";
+import {
+  loginSchema,
+  type LoginFormValues,
+} from "@/features/auth/loginSchema";
 import { Input } from "@/components/Input/Input";
 import { Button } from "@/components/Button/Button";
 import { Text } from "@/components/Text/Text";
 import { useAuthStore } from "@/hooks/stores/authStore";
 import { useUiStore } from "@/hooks/stores/uiStore";
-
-const schema = z.object({
-  email: z.string().email("Enter a valid email"),
-  password: z.string().min(6, "Minimum 6 characters"),
-});
-
-type FormValues = z.infer<typeof schema>;
 
 export function LoginForm() {
   const router = useRouter();
@@ -26,7 +22,7 @@ export function LoginForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<FormValues>({ resolver: zodResolver(schema) });
+  } = useForm<LoginFormValues>({ resolver: zodResolver(loginSchema) });
 
   return (
     <AuthCard

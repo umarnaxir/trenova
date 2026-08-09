@@ -6,7 +6,7 @@ import { WhatsAppLink } from "@/components/WhatsAppButton/WhatsAppButton.styles"
 
 export function WhatsAppButton() {
   const href = `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(
-    "Hello TRENOvA, I need help with an order.",
+    "Hello Trenova, I need help with an order.",
   )}`;
 
   return (

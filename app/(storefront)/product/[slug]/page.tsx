@@ -9,6 +9,8 @@ import {
 import { getProductReviews } from "@/services/review.service";
 import { buildMetadata, productJsonLd } from "@/lib/seo";
 
+export const dynamic = "force-dynamic";
+
 type Props = PageProps<"/product/[slug]">;
 
 export async function generateMetadata({ params }: Props) {

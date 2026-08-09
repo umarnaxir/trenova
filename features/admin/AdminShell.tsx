@@ -1,12 +1,37 @@
 "use client";
 
 import { useState } from "react";
-import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import {
+  LayoutDashboard,
+  Package,
+  Users,
+  ShoppingBag,
+  Warehouse,
+  TicketPercent,
+  Star,
+  ChartColumn,
+  UsersRound,
+  Images,
+  Settings,
+  LogOut,
+  Menu,
+  X,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Store,
+} from "lucide-react";
+import {
+  BrandBlock,
+  CollapseButton,
   Main,
   MenuToggle,
+  Nav,
+  Overlay,
   Shell,
+  SideButton,
+  SideFooter,
   SideLink,
   Sidebar,
   TopBar,
@@ -14,71 +39,155 @@ import {
 import { Text } from "@/components/Text/Text";
 import { IconButton } from "@/components/IconButton/IconButton";
 import { Logo } from "@/components/Logo/Logo";
+import { ConfirmDialog } from "@/features/admin/ConfirmDialog";
+import { useAdminUiStore } from "@/hooks/stores/adminUiStore";
+import { useAdminAuthStore } from "@/hooks/stores/adminAuthStore";
 
 const links = [
-  { href: "/admin", label: "Dashboard" },
-  { href: "/admin/products", label: "Products" },
-  { href: "/admin/categories", label: "Categories" },
-  { href: "/admin/brands", label: "Brands" },
-  { href: "/admin/customers", label: "Customers" },
-  { href: "/admin/orders", label: "Orders" },
-  { href: "/admin/inventory", label: "Inventory" },
-  { href: "/admin/coupons", label: "Coupons" },
-  { href: "/admin/reviews", label: "Reviews" },
-  { href: "/admin/analytics", label: "Analytics" },
-  { href: "/admin/cms", label: "CMS" },
-  { href: "/admin/media", label: "Media Library" },
-  { href: "/admin/newsletter", label: "Newsletter" },
-  { href: "/admin/settings", label: "Settings" },
-  { href: "/admin/profile", label: "Profile" },
-  { href: "/admin/notifications", label: "Notifications" },
+  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/products", label: "Products", icon: Package },
+  { href: "/admin/customers", label: "Customers", icon: Users },
+  { href: "/admin/orders", label: "Orders", icon: ShoppingBag },
+  { href: "/admin/inventory", label: "Inventory", icon: Warehouse },
+  { href: "/admin/coupons", label: "Coupons", icon: TicketPercent },
+  { href: "/admin/reviews", label: "Reviews", icon: Star },
+  { href: "/admin/instagram", label: "Instagram", icon: Images },
+  { href: "/admin/analytics", label: "Analytics", icon: ChartColumn },
+  { href: "/admin/team", label: "Team", icon: UsersRound },
+  { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
+
+function isActive(pathname: string, href: string) {
+  if (href === "/admin") return pathname === "/admin";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
 
 export function AdminShell({
   title,
   children,
+  actions,
 }: {
   title: string;
   children: React.ReactNode;
+  actions?: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const collapsed = useAdminUiStore((state) => state.sidebarCollapsed);
+  const mobileOpen = useAdminUiStore((state) => state.mobileSidebarOpen);
+  const toggleCollapsed = useAdminUiStore((state) => state.toggleSidebarCollapsed);
+  const setMobileOpen = useAdminUiStore((state) => state.setMobileSidebarOpen);
+  const logout = useAdminAuthStore((state) => state.logout);
+  const [logoutOpen, setLogoutOpen] = useState(false);
+
+  const closeMobile = () => setMobileOpen(false);
 
   return (
-    <Shell>
-      <Sidebar $open={open}>
-        <Logo height={36} href="/admin" />
-        <Text color="gold" variant="eyebrow">
-          Admin
-        </Text>
-        {links.map((link) => (
+    <Shell $collapsed={collapsed}>
+      <Overlay
+        type="button"
+        aria-label="Close sidebar"
+        $open={mobileOpen}
+        onClick={closeMobile}
+      />
+      <Sidebar $open={mobileOpen} $collapsed={collapsed}>
+        <BrandBlock $collapsed={collapsed}>
+          <Logo height={collapsed ? 28 : 36} href="/admin" />
+          {!collapsed ? (
+            <Text color="gold" variant="eyebrow">
+              Admin
+            </Text>
+          ) : null}
+        </BrandBlock>
+
+        <Nav aria-label="Admin">
+          {links.map((link) => {
+            const Icon = link.icon;
+            return (
+              <SideLink
+                key={link.href}
+                as={Link}
+                href={link.href}
+                $active={isActive(pathname, link.href)}
+                $collapsed={collapsed}
+                title={link.label}
+                onClick={closeMobile}
+              >
+                <Icon size={18} aria-hidden />
+                <span>{link.label}</span>
+              </SideLink>
+            );
+          })}
+        </Nav>
+
+        <SideFooter>
           <SideLink
-            key={link.href}
-            href={link.href}
-            $active={pathname === link.href}
-            onClick={() => setOpen(false)}
+            as={Link}
+            href="/"
+            $collapsed={collapsed}
+            title="Back to store"
+            onClick={closeMobile}
           >
-            {link.label}
+            <Store size={18} aria-hidden />
+            <span>Back to store</span>
           </SideLink>
-        ))}
-        <SideLink href="/">Back to store</SideLink>
+          <SideButton
+            type="button"
+            $collapsed={collapsed}
+            title="Logout"
+            onClick={() => setLogoutOpen(true)}
+          >
+            <LogOut size={18} aria-hidden />
+            <span>Logout</span>
+          </SideButton>
+        </SideFooter>
       </Sidebar>
+
+      <CollapseButton
+        type="button"
+        $collapsed={collapsed}
+        onClick={toggleCollapsed}
+        aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+        title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+      >
+        {collapsed ? <PanelLeftOpen size={16} /> : <PanelLeftClose size={16} />}
+      </CollapseButton>
+
       <Main>
         <TopBar>
           <Text as="h1" variant="h2">
             {title}
           </Text>
-          <MenuToggle>
-            <IconButton
-              label={open ? "Close menu" : "Open menu"}
-              onClick={() => setOpen((value) => !value)}
-            >
-              {open ? <X size={18} /> : <Menu size={18} />}
-            </IconButton>
-          </MenuToggle>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+            {actions}
+            <MenuToggle>
+              <IconButton
+                label={mobileOpen ? "Close menu" : "Open menu"}
+                onClick={() => setMobileOpen(!mobileOpen)}
+              >
+                {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+              </IconButton>
+            </MenuToggle>
+          </div>
         </TopBar>
         {children}
       </Main>
+
+      <ConfirmDialog
+        open={logoutOpen}
+        title="Log out"
+        message="Are you sure you want to log out?"
+        confirmLabel="Logout"
+        cancelLabel="Cancel"
+        tone="danger"
+        onCancel={() => setLogoutOpen(false)}
+        onConfirm={() => {
+          setLogoutOpen(false);
+          closeMobile();
+          logout();
+          router.replace("/admin");
+        }}
+      />
     </Shell>
   );
 }

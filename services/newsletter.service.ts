@@ -7,6 +7,6 @@ export async function subscribeNewsletter(
 
   return {
     success: true,
-    message: "You are subscribed to TRENOvA updates",
+    message: "You are subscribed to Trenova updates",
   };
 }

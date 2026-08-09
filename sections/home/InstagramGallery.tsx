@@ -1,8 +1,7 @@
-"use client";
-
-import Image from "next/image";
+import { SafeImage } from "@/components/SafeImage/SafeImage";
 import { Container } from "@/components/Container/Container";
 import { SITE } from "@/constants/site";
+import type { InstagramShot } from "@/services/instagram.service";
 import {
   FollowTitle,
   GalleryGrid,
@@ -20,19 +19,9 @@ function InstagramIcon() {
   );
 }
 
-const shots = [
-  { id: 1, src: "/products/instagram-1.jpg" },
-  { id: 2, src: "/products/instagram-2.jpg" },
-  { id: 3, src: "/products/instagram-3.jpg" },
-  { id: 4, src: "/products/instagram-4.jpg" },
-  { id: 5, src: "/products/instagram-5.jpg" },
-  { id: 6, src: "/products/instagram-6.jpg" },
-  { id: 7, src: "/products/collection-layers.jpg" },
-  { id: 8, src: "/products/collection-women.jpg" },
-  { id: 9, src: "/products/collection-essentials.jpg" },
-];
+export function InstagramGallery({ shots }: { shots: InstagramShot[] }) {
+  if (!shots.length) return null;
 
-export function InstagramGallery() {
   return (
     <InstagramRoot>
       <Container>
@@ -65,11 +54,11 @@ export function InstagramGallery() {
               href={SITE.social.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`TRENOvA Instagram look ${shot.id}`}
+              aria-label={shot.alt}
             >
-              <Image
+              <SafeImage
                 src={shot.src}
-                alt={`TRENOvA look ${shot.id}`}
+                alt={shot.alt}
                 fill
                 sizes="(max-width: 768px) 33vw, 11vw"
               />

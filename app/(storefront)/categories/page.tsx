@@ -8,7 +8,7 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Categories",
-  description: "Explore TRENOvA categories across men, women, kids, and accessories.",
+  description: "Explore Trenova categories across men, women, kids, and accessories.",
   path: "/categories",
 });
 
@@ -27,7 +27,7 @@ export default async function CategoriesPage() {
         Categories
       </Text>
       <Text color="gray600" mb={8}>
-        Navigate the full TRENOvA wardrobe architecture.
+        Navigate the full Trenova wardrobe architecture.
       </Text>
       <Grid
         gridTemplateColumns={["1fr", "1fr 1fr", "repeat(3, 1fr)"]}

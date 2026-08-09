@@ -6,7 +6,7 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Checkout",
-  description: "Secure checkout for your TRENOvA order.",
+  description: "Secure checkout for your Trenova order.",
   path: "/checkout",
   noIndex: true,
 });

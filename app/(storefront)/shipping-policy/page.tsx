@@ -3,7 +3,7 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Shipping Policy",
-  description: "Shipping timelines, fees, and delivery information for TRENOvA orders.",
+  description: "Shipping timelines, fees, and delivery information for Trenova orders.",
   path: "/shipping-policy",
 });
 

@@ -1,5 +1,5 @@
 import type { PaginatedProducts, Product, ProductFilters } from "@/types/product";
-import { products } from "@/services/mock/products";
+import { getCatalogProducts } from "@/services/mock/catalogStore";
 
 function applyFilters(items: Product[], filters: ProductFilters = {}): Product[] {
   let result = [...items];
@@ -12,6 +12,8 @@ function applyFilters(items: Product[], filters: ProductFilters = {}): Product[]
       result = result.filter((item) => item.isBestSeller);
     } else if (category === "new-arrivals") {
       result = result.filter((item) => item.isNewArrival);
+    } else if (category === "featured") {
+      result = result.filter((item) => item.isFeatured);
     } else {
       result = result.filter(
         (item) =>
@@ -76,7 +78,11 @@ function applyFilters(items: Product[], filters: ProductFilters = {}): Product[]
       result.sort((a, b) => b.rating - a.rating);
       break;
     default:
-      result.sort((a, b) => Number(b.isBestSeller) - Number(a.isBestSeller));
+      result.sort(
+        (a, b) =>
+          Number(b.isFeatured) - Number(a.isFeatured) ||
+          Number(b.isBestSeller) - Number(a.isBestSeller),
+      );
   }
 
   return result;
@@ -85,6 +91,7 @@ function applyFilters(items: Product[], filters: ProductFilters = {}): Product[]
 export async function getProducts(
   filters: ProductFilters = {},
 ): Promise<PaginatedProducts> {
+  const products = getCatalogProducts();
   const page = filters.page ?? 1;
   const pageSize = filters.pageSize ?? 12;
   const filtered = applyFilters(products, filters);
@@ -101,13 +108,14 @@ export async function getProducts(
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  return products.find((item) => item.slug === slug) ?? null;
+  return getCatalogProducts().find((item) => item.slug === slug) ?? null;
 }
 
 export async function getRelatedProducts(
   productId: string,
   limit = 4,
 ): Promise<Product[]> {
+  const products = getCatalogProducts();
   const current = products.find((item) => item.id === productId);
   if (!current) return products.slice(0, limit);
   return products
@@ -125,33 +133,26 @@ export async function searchProducts(query: string): Promise<Product[]> {
   return items;
 }
 
-function takeProducts(
-  predicate: (item: Product) => boolean,
-  limit = 8,
-): Product[] {
-  const matched = products.filter(predicate);
-  if (matched.length >= limit) return matched.slice(0, limit);
-
-  const ids = new Set(matched.map((item) => item.id));
-  const fillers = products.filter((item) => !ids.has(item.id));
-  return [...matched, ...fillers].slice(0, limit);
-}
-
 export async function getBestSellers(limit = 6): Promise<Product[]> {
-  return takeProducts((item) => Boolean(item.isBestSeller), limit);
-}
-
-export async function getNewArrivals(limit = 6): Promise<Product[]> {
-  return takeProducts((item) => Boolean(item.isNewArrival), limit);
-}
-
-export async function getTrendingProducts(limit = 6): Promise<Product[]> {
-  return takeProducts((item) => Boolean(item.isTrending), limit);
+  return getCatalogProducts()
+    .filter((item) => Boolean(item.isBestSeller))
+    .slice(0, limit);
 }
 
 export async function getFeaturedProducts(limit = 6): Promise<Product[]> {
-  return takeProducts(
-    (item) => Boolean(item.isTrending || item.isNewArrival || item.isBestSeller),
-    limit,
-  );
+  return getCatalogProducts()
+    .filter((item) => Boolean(item.isFeatured))
+    .slice(0, limit);
+}
+
+export async function getNewArrivals(limit = 6): Promise<Product[]> {
+  return getCatalogProducts()
+    .filter((item) => Boolean(item.isNewArrival))
+    .slice(0, limit);
+}
+
+export async function getTrendingProducts(limit = 6): Promise<Product[]> {
+  return getCatalogProducts()
+    .filter((item) => Boolean(item.isTrending))
+    .slice(0, limit);
 }

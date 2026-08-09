@@ -60,18 +60,19 @@ export function SearchBar({ open, onClose }: SearchBarProps) {
   useEffect(() => {
     if (!open) return;
     const value = query.trim();
-    if (!value) {
-      setResults([]);
-      return;
-    }
 
     const timer = window.setTimeout(() => {
+      if (!value) {
+        setResults([]);
+        return;
+      }
+
       startTransition(() => {
         void searchProducts(value).then((items) => {
           setResults(items.slice(0, 8));
         });
       });
-    }, 180);
+    }, value ? 180 : 0);
 
     return () => window.clearTimeout(timer);
   }, [query, open]);
@@ -110,7 +111,7 @@ export function SearchBar({ open, onClose }: SearchBarProps) {
         </CloseButton>
         <SearchHeader>
           <Text as="h2" variant="h3" pr={8}>
-            Search TRENOvA
+            Search Trenova
           </Text>
         </SearchHeader>
 
@@ -143,7 +144,7 @@ export function SearchBar({ open, onClose }: SearchBarProps) {
             <EmptyHint>No matches for “{trimmed}”. Try another keyword.</EmptyHint>
           ) : null}
 
-          {results.length > 0 ? (
+          {trimmed && results.length > 0 ? (
             <>
               <ResultsList>
                 {results.map((product) => (

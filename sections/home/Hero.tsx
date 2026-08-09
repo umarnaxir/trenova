@@ -45,7 +45,7 @@ const slides: HeroSlide[] = [
     subcopy:
       "Premium sportswear, lifestyle essentials & accessories for Men, Women & Kids.",
     image: "/images/hero/cover-01.png",
-    alt: "TRENOVA menswear lifestyle cover",
+    alt: "Trenova menswear lifestyle cover",
   },
   {
     id: "cover-2",
@@ -56,7 +56,7 @@ const slides: HeroSlide[] = [
     ],
     subcopy: "Engineered for Comfort. Designed for Everyday.",
     image: "/images/hero/cover-02.png",
-    alt: "TRENOVA womenswear lifestyle cover",
+    alt: "Trenova womenswear lifestyle cover",
   },
   {
     id: "cover-3",
@@ -67,7 +67,7 @@ const slides: HeroSlide[] = [
     ],
     subcopy: "Men • Women • Kids",
     image: "/images/hero/cover-03.png",
-    alt: "TRENOVA kidswear lifestyle cover",
+    alt: "Trenova kidswear lifestyle cover",
   },
 ];
 

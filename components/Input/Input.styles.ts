@@ -16,10 +16,20 @@ export const Label = styled.span`
   color: ${({ theme }) => theme.colors.gray600};
 `;
 
-export const InputRoot = styled.input<{ $hasError?: boolean }>`
+export const InputWrap = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+export const InputRoot = styled.input<{
+  $hasError?: boolean;
+  $hasEndAdornment?: boolean;
+}>`
   width: 100%;
   min-height: 48px;
   padding: 0 ${({ theme }) => theme.space[4]};
+  padding-right: ${({ theme, $hasEndAdornment }) =>
+    $hasEndAdornment ? theme.space[10] : theme.space[4]};
   border: 1px solid
     ${({ theme, $hasError }) =>
       $hasError ? theme.colors.error : theme.colors.gray300};
@@ -34,6 +44,15 @@ export const InputRoot = styled.input<{ $hasError?: boolean }>`
   &::placeholder {
     color: ${({ theme }) => theme.colors.gray400};
   }
+`;
+
+export const EndAdornment = styled.div`
+  position: absolute;
+  top: 50%;
+  right: ${({ theme }) => theme.space[2]};
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
 `;
 
 export const Helper = styled.span<{ $error?: boolean }>`

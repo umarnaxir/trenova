@@ -22,7 +22,3 @@ export async function validateCoupon(
 
   return { coupon };
 }
-
-export async function getCoupons(): Promise<Coupon[]> {
-  return coupons;
-}

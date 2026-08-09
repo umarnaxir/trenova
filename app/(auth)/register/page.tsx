@@ -3,7 +3,7 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Register",
-  description: "Create your TRENOvA account.",
+  description: "Create your Trenova account.",
   path: "/register",
   noIndex: true,
 });

@@ -7,6 +7,8 @@ import { getCategoryBySlug } from "@/services/category.service";
 import { getProducts } from "@/services/product.service";
 import { buildMetadata } from "@/lib/seo";
 
+export const dynamic = "force-dynamic";
+
 type Props = PageProps<"/categories/[slug]">;
 
 export async function generateMetadata({ params }: Props) {
@@ -16,7 +18,7 @@ export async function generateMetadata({ params }: Props) {
     title: category?.name ?? "Category",
     description:
       category?.description ||
-      `Shop ${category?.name ?? "category"} at TRENOvA.`,
+      `Shop ${category?.name ?? "category"} at Trenova.`,
     path: `/categories/${slug}`,
   });
 }
@@ -41,7 +43,7 @@ export default async function CategoryPage({ params }: Props) {
         {category.name}
       </Text>
       <Text color="gray600" mb={8}>
-        {category.description || `Explore ${category.name} from TRENOvA.`}
+        {category.description || `Explore ${category.name} from Trenova.`}
       </Text>
       <ShopCatalog
         products={items}

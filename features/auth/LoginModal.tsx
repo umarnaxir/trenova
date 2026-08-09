@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
@@ -15,6 +14,10 @@ import {
   Links,
   Overlay,
 } from "@/features/auth/LoginModal.styles";
+import {
+  loginSchema,
+  type LoginFormValues,
+} from "@/features/auth/loginSchema";
 import { Text } from "@/components/Text/Text";
 import { Input } from "@/components/Input/Input";
 import { Button } from "@/components/Button/Button";
@@ -23,13 +26,6 @@ import { Stack } from "@/components/Stack/Stack";
 import { useAuthStore } from "@/hooks/stores/authStore";
 import { useUiStore } from "@/hooks/stores/uiStore";
 import { useIsClient } from "@/hooks/useIsClient";
-
-const schema = z.object({
-  email: z.string().email("Enter a valid email"),
-  password: z.string().min(6, "Minimum 6 characters"),
-});
-
-type FormValues = z.infer<typeof schema>;
 
 export function LoginModal() {
   const isClient = useIsClient();
@@ -44,7 +40,7 @@ export function LoginModal() {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<FormValues>({ resolver: zodResolver(schema) });
+  } = useForm<LoginFormValues>({ resolver: zodResolver(loginSchema) });
 
   const close = () => {
     setLoginDrawerOpen(false);

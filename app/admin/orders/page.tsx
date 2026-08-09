@@ -1,10 +1,89 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+import type { Order, OrderStatus } from "@/types/user";
+import {
+  getAdminOrders,
+  updateAdminOrderStatus,
+} from "@/services/admin.service";
 import { AdminPage } from "@/features/admin/AdminPage";
-import { getAdminOrders } from "@/services/admin.service";
+import { AdminForm } from "@/features/admin/AdminForm";
+import { Select } from "@/components/Select/Select";
+import { Text } from "@/components/Text/Text";
+import { Stack } from "@/components/Stack/Stack";
+import { StatusPill } from "@/features/admin/AdminShared.styles";
 import { formatCurrency, formatDate } from "@/utils/format";
-import type { Order } from "@/types/user";
+import { useUiStore } from "@/hooks/stores/uiStore";
+
+const statusOptions: { label: string; value: OrderStatus }[] = [
+  { label: "Pending", value: "pending" },
+  { label: "Confirmed", value: "confirmed" },
+  { label: "Shipped", value: "shipped" },
+  { label: "Delivered", value: "delivered" },
+  { label: "Cancelled", value: "cancelled" },
+];
+
+function statusTone(status: OrderStatus) {
+  if (status === "delivered") return "success" as const;
+  if (status === "cancelled") return "danger" as const;
+  if (status === "shipped" || status === "confirmed") return "warning" as const;
+  return "neutral" as const;
+}
+
+function OrderForm({
+  item,
+  onClose,
+  onSaved,
+}: {
+  item: Order | null;
+  onClose: () => void;
+  onSaved: () => void;
+}) {
+  const pushToast = useUiStore((state) => state.pushToast);
+  const [submitting, setSubmitting] = useState(false);
+
+  if (!item) return null;
+
+  return (
+    <AdminForm
+      submitting={submitting}
+      submitLabel="Update status"
+      onCancel={onClose}
+      onSubmit={async (event) => {
+        const data = new FormData(event.currentTarget);
+        const status = String(data.get("status")) as OrderStatus;
+        setSubmitting(true);
+        try {
+          await updateAdminOrderStatus(item.id, status);
+          pushToast("Order updated");
+          onSaved();
+        } catch (err) {
+          pushToast(err instanceof Error ? err.message : "Update failed", "error");
+        } finally {
+          setSubmitting(false);
+        }
+      }}
+    >
+      <Stack gap={3}>
+        <Text>
+          <strong>{item.orderNumber}</strong> · {formatCurrency(item.total)}
+        </Text>
+        <Text color="gray600">
+          {item.items.map((line) => `${line.name} × ${line.quantity}`).join(", ")}
+        </Text>
+        <Text color="gray600">
+          Ship to {item.shippingAddress.fullName}, {item.shippingAddress.city}
+        </Text>
+        <Select
+          name="status"
+          label="Status"
+          options={statusOptions}
+          defaultValue={item.status}
+        />
+      </Stack>
+    </AdminForm>
+  );
+}
 
 export default function AdminOrdersPage() {
   const load = useCallback(() => getAdminOrders(), []);
@@ -12,8 +91,14 @@ export default function AdminOrdersPage() {
   return (
     <AdminPage<Order>
       title="Orders"
+      description="Fulfillment pipeline — update order status as work progresses."
       load={load}
       getRowKey={(row) => row.id}
+      getSearchText={(row) =>
+        `${row.orderNumber} ${row.status} ${row.shippingAddress.fullName}`
+      }
+      formTitle={() => "Order details"}
+      renderForm={(props) => <OrderForm {...props} />}
       columns={[
         {
           key: "number",
@@ -25,7 +110,18 @@ export default function AdminOrdersPage() {
           header: "Date",
           render: (row) => formatDate(row.createdAt),
         },
-        { key: "status", header: "Status", render: (row) => row.status },
+        {
+          key: "customer",
+          header: "Customer",
+          render: (row) => row.shippingAddress.fullName,
+        },
+        {
+          key: "status",
+          header: "Status",
+          render: (row) => (
+            <StatusPill $tone={statusTone(row.status)}>{row.status}</StatusPill>
+          ),
+        },
         {
           key: "items",
           header: "Items",

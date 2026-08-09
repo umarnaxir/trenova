@@ -9,7 +9,7 @@ type BuildMetadataInput = {
   image?: string;
   keywords?: readonly string[] | string[];
   noIndex?: boolean;
-  /** Use the title as-is (no `| TRENOvA` suffix). */
+  /** Use the title as-is (no `| Trenova` suffix). */
   absoluteTitle?: boolean;
 };
 

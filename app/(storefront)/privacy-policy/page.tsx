@@ -4,7 +4,7 @@ import { SITE } from "@/constants/site";
 
 export const metadata = buildMetadata({
   title: "Privacy Policy",
-  description: "How TRENOvA collects, uses, and protects your information.",
+  description: "How Trenova collects, uses, and protects your information.",
   path: "/privacy-policy",
 });
 
@@ -13,7 +13,7 @@ export default function PrivacyPolicyPage() {
     <PolicyContent title="Privacy Policy">
       <p>
         We collect account, order, and communication details solely to operate
-        and improve the TRENOvA shopping experience.
+        and improve the Trenova shopping experience.
       </p>
       <h2>Data we process</h2>
       <ul>

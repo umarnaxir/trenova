@@ -132,7 +132,7 @@ export function Footer() {
                 <Mail size={18} />
               </FooterNewsletterIcon>
               <div>
-                <FooterNewsletterTitle>JOIN THE TRENOVA COMMUNITY</FooterNewsletterTitle>
+                <FooterNewsletterTitle>JOIN THE Trenova COMMUNITY</FooterNewsletterTitle>
                 <FooterNewsletterSub>Get exclusive updates, new arrivals &amp; special offers.</FooterNewsletterSub>
               </div>
             </FooterNewsletterText>

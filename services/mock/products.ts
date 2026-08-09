@@ -4,11 +4,11 @@ export const products: Product[] = [
   {
     id: "prod-essential-hoodie",
     slug: "trenova-essential-hoodie",
-    name: "TRENOVA ESSENTIAL HOODIE",
-    brand: "TRENOVA",
+    name: "Trenova ESSENTIAL HOODIE",
+    brand: "Trenova",
     shortDescription: "Minimal hoodie with brushed fleece and refined structure.",
     description:
-      "The TRENOVA Essential Hoodie balances softness and structure. Brushed fleece interior, clean kangaroo pocket, and understated hardware deliver a premium everyday layer.",
+      "The Trenova Essential Hoodie balances softness and structure. Brushed fleece interior, clean kangaroo pocket, and understated hardware deliver a premium everyday layer.",
     price: 1699,
     compareAtPrice: 2199,
     rating: 4.9,
@@ -42,8 +42,8 @@ export const products: Product[] = [
   {
     id: "prod-dryfit-tshirt",
     slug: "trenova-dryfit-t-shirt",
-    name: "TRENOVA DRY-FIT T-SHIRT",
-    brand: "TRENOVA",
+    name: "Trenova DRY-FIT T-SHIRT",
+    brand: "Trenova",
     shortDescription: "Breathable performance dry-fit tee.",
     description:
       "Engineered with lightweight dry-fit fabric for moisture management and maximum comfort during workout and daily activities.",
@@ -78,8 +78,8 @@ export const products: Product[] = [
   {
     id: "prod-joggers-premium",
     slug: "trenova-joggers-premium",
-    name: "TRENOVA JOGGERS PREMIUM",
-    brand: "TRENOVA",
+    name: "Trenova JOGGERS PREMIUM",
+    brand: "Trenova",
     shortDescription: "Tapered premium stretch joggers.",
     description:
       "Crafted with soft stretch cotton fabric, deep zipped pockets, and custom tapered fit.",
@@ -114,8 +114,8 @@ export const products: Product[] = [
   {
     id: "prod-active-crop-top",
     slug: "trenova-active-crop-top",
-    name: "TRENOVA ACTIVE CROP TOP",
-    brand: "TRENOVA",
+    name: "Trenova ACTIVE CROP TOP",
+    brand: "Trenova",
     shortDescription: "Seamless supportive active crop top.",
     description:
       "Seamless design engineered for active lifestyles with high flexibility and breathable knit texture.",
@@ -150,11 +150,11 @@ export const products: Product[] = [
   {
     id: "prod-premium-cap",
     slug: "trenova-premium-cap",
-    name: "TRENOVA PREMIUM CAP",
-    brand: "TRENOVA",
+    name: "Trenova PREMIUM CAP",
+    brand: "Trenova",
     shortDescription: "Structured luxury cotton cap with gold embroidery.",
     description:
-      "Structured 6-panel strapback cap featuring high-density gold metallic TRENOVA emblem.",
+      "Structured 6-panel strapback cap featuring high-density gold metallic Trenova emblem.",
     price: 499,
     compareAtPrice: 699,
     rating: 4.9,
@@ -186,8 +186,8 @@ export const products: Product[] = [
   {
     id: "prod-sports-socks",
     slug: "trenova-sports-socks",
-    name: "TRENOVA SPORTS SOCKS (PACK OF 3)",
-    brand: "TRENOVA",
+    name: "Trenova SPORTS SOCKS (PACK OF 3)",
+    brand: "Trenova",
     shortDescription: "Cushioned arch support performance crew socks.",
     description:
       "Reinforced heel and toe with ribbed arch support for high performance and luxury everyday wear.",
@@ -223,7 +223,7 @@ export const products: Product[] = [
     id: "prod-lumen-polo",
     slug: "lumen-classic-polo",
     name: "Lumen Classic Polo",
-    brand: "TRENOvA",
+    brand: "Trenova",
     shortDescription: "Crisp polo with a clean collar and premium piqué knit.",
     description:
       "The Lumen Classic Polo is built for elevated everyday wear. Soft piqué cotton, a precise collar, and a tailored yet comfortable fit make it ideal from desk to weekend.",
@@ -263,7 +263,7 @@ export const products: Product[] = [
     id: "prod-aero-jacket",
     slug: "aero-utility-jacket",
     name: "Aero Utility Jacket",
-    brand: "TRENOvA",
+    brand: "Trenova",
     shortDescription: "Lightweight utility jacket with clean modern lines.",
     description:
       "The Aero Utility Jacket layers easily over tees and hoodies. Lightweight shell, functional pockets, and a minimal silhouette keep it sharp without feeling heavy.",
@@ -303,7 +303,7 @@ export const products: Product[] = [
     id: "prod-stride-joggers",
     slug: "stride-tapered-joggers",
     name: "Stride Tapered Joggers",
-    brand: "TRENOvA",
+    brand: "Trenova",
     shortDescription: "Tapered joggers engineered for movement and ease.",
     description:
       "Stride Tapered Joggers combine soft stretch fabric with a clean tapered silhouette. Perfect for travel, training recovery, and elevated lounge wear.",
@@ -343,7 +343,7 @@ export const products: Product[] = [
     id: "prod-coast-shorts",
     slug: "coast-everyday-shorts",
     name: "Coast Everyday Shorts",
-    brand: "TRENOvA",
+    brand: "Trenova",
     shortDescription: "Breathable shorts with a clean tailored casual cut.",
     description:
       "Coast Everyday Shorts are cut for warm days and easy movement. Soft fabric, refined length, and a versatile silhouette that works from city walks to travel.",
@@ -381,7 +381,7 @@ export const products: Product[] = [
     id: "prod-velvet-women-tee",
     slug: "velvet-soft-tee",
     name: "Velvet Soft Tee",
-    brand: "TRENOvA",
+    brand: "Trenova",
     shortDescription: "Women's soft tee with an elegant everyday drape.",
     description:
       "The Velvet Soft Tee is designed for elevated comfort. Soft hand-feel, flattering cut, and a minimal finish that pairs with denim, skirts, and layered looks.",
@@ -421,7 +421,7 @@ export const products: Product[] = [
     id: "prod-pulse-active",
     slug: "pulse-active-set",
     name: "Pulse Active Set",
-    brand: "TRENOvA",
+    brand: "Trenova",
     shortDescription: "Performance activewear built for studio and street.",
     description:
       "The Pulse Active Set blends stretch, support, and a sleek silhouette. Designed for training sessions and polished athleisure styling outside the gym.",

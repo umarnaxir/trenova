@@ -10,9 +10,9 @@ export const metadata = buildMetadata({
 
 export default function AboutPage() {
   return (
-    <PolicyContent title="About TRENOvA">
+    <PolicyContent title="About Trenova">
       <p>
-        TRENOvA is a premium fashion brand built for modern living. We design
+        Trenova is a premium fashion brand built for modern living. We design
         elevated essentials with precise fits, considered fabrics, and a
         signature black–white–gold identity.
       </p>

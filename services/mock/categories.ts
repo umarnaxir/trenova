@@ -80,7 +80,7 @@ export const categories: Category[] = [
     id: "cat-best",
     slug: "best-sellers",
     name: "Best Sellers",
-    description: "Most loved by the TRENOvA community.",
+    description: "Most loved by the Trenova community.",
     image: "/products/category-best.jpg",
   },
   {

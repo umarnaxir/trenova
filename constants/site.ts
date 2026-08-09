@@ -1,7 +1,7 @@
 export const SITE = {
-  name: "TRENOvA",
+  name: "Trenova",
   brand: "Trenova",
-  legalName: "TRENOVA RETAIL PRIVATE LIMITED",
+  legalName: "Trenova Retail Private Limited",
   tagline: "Trusted Quality. Affordable Style.",
   seoTitle:
     "Trenova - Premium Fashion, Activewear & Lifestyle Essentials",
@@ -21,7 +21,6 @@ export const SITE = {
   ogImage: "/images/hero/cover-01.png",
   keywords: [
     "Trenova",
-    "TRENOvA",
     "shop Trenova",
     "shoptrenova",
     "premium fashion brand",
