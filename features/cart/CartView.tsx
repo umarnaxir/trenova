@@ -18,8 +18,10 @@ import { Input } from "@/components/Input/Input";
 import { EmptyState } from "@/components/EmptyState/EmptyState";
 import { IconButton } from "@/components/IconButton/IconButton";
 import { Flex } from "@/components/Flex/Flex";
+import { Loader } from "@/components/Loader/Loader";
 import { useCartStore } from "@/hooks/stores/cartStore";
 import { useUiStore } from "@/hooks/stores/uiStore";
+import { useIsClient } from "@/hooks/useIsClient";
 import { validateCoupon } from "@/services/coupon.service";
 import { formatCurrency } from "@/utils/format";
 import { useState } from "react";
@@ -35,6 +37,15 @@ export function CartView() {
   const total = useCartStore((state) => state.total());
   const pushToast = useUiStore((state) => state.pushToast);
   const [code, setCode] = useState(coupon?.code ?? "");
+  const isClient = useIsClient();
+
+  if (!isClient) {
+    return (
+      <div style={{ minHeight: 240, display: "grid", placeItems: "center" }}>
+        <Loader />
+      </div>
+    );
+  }
 
   if (!items.length) {
     return (

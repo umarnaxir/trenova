@@ -22,6 +22,7 @@ import {
   type TypographyProps,
   type ShadowProps,
 } from "styled-system";
+import { shouldForwardSystemProp } from "@/lib/shouldForwardSystemProp";
 
 export type BoxStyleProps = SpaceProps &
   ColorProps &
@@ -33,7 +34,9 @@ export type BoxStyleProps = SpaceProps &
   TypographyProps &
   ShadowProps;
 
-export const BoxRoot = styled.div<BoxStyleProps>`
+export const BoxRoot = styled.div.withConfig({
+  shouldForwardProp: shouldForwardSystemProp,
+})<BoxStyleProps>`
   ${compose(
     space,
     color,

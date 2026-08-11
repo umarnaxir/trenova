@@ -43,12 +43,12 @@ export const BannerCard = styled.a`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-end;
   padding: 1.35rem 1.15rem 1.5rem;
   color: #ffffff;
   text-decoration: none;
-  text-align: center;
+  text-align: left;
   scroll-snap-align: start;
   isolation: isolate;
   transition:
@@ -81,26 +81,15 @@ export const BannerMedia = styled.div`
 
   img {
     object-fit: cover;
+    object-position: right center;
     transition: transform 0.6s ease;
-  }
-
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.18) 10%,
-      rgba(0, 0, 0, 0.2) 45%,
-      rgba(0, 0, 0, 0.78) 100%
-    );
   }
 `;
 
 export const BannerLink = styled.span`
   position: absolute;
   top: 1rem;
-  right: 1rem;
+  left: 1.15rem;
   z-index: 2;
   display: inline-block;
   padding-bottom: 0.25rem;
@@ -128,7 +117,7 @@ export const BannerLink = styled.span`
 
   ${({ theme }) => theme.mediaQueries.md} {
     top: 1.35rem;
-    right: 1.5rem;
+    left: 2rem;
     font-size: 0.875rem;
   }
 `;
@@ -137,32 +126,32 @@ export const BannerText = styled.div`
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 28rem;
+  max-width: 22rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.45rem;
-  text-align: center;
+  align-items: flex-start;
+  gap: 0.5rem;
+  text-align: left;
 `;
 
 export const BannerTitle = styled.h3`
   margin: 0;
   font-family: ${({ theme }) => theme.fonts.heading};
-  font-size: clamp(1.2rem, 3.4vw, 1.85rem);
+  font-size: clamp(1.15rem, 2.8vw, 1.65rem);
   font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-transform: none;
   line-height: 1.2;
   color: #ffffff;
-  text-wrap: balance;
+  white-space: nowrap;
 `;
 
 export const BannerCopy = styled.p`
   margin: 0;
   font-size: 0.875rem;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.9);
-  text-wrap: balance;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.92);
+  white-space: nowrap;
 
   ${({ theme }) => theme.mediaQueries.md} {
     font-size: 0.9375rem;

@@ -8,13 +8,13 @@ export const LogoLink = styled.a`
   line-height: 0;
 `;
 
-export const LogoImageWrap = styled.span<{ $height: number }>`
+export const LogoImageWrap = styled.span<{ $height: number; $aspect: number }>`
   position: relative;
   display: block;
   height: ${({ $height }) => $height}px;
   max-height: ${({ $height }) => $height}px;
   width: auto;
-  max-width: ${({ $height }) => Math.round($height * 1.03)}px;
+  max-width: ${({ $height, $aspect }) => Math.round($height * $aspect)}px;
   flex-shrink: 0;
   overflow: hidden;
 

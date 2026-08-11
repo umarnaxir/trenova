@@ -8,6 +8,7 @@ import { DiscountBadge } from "@/components/DiscountBadge/DiscountBadge";
 import { useWishlistStore } from "@/hooks/stores/wishlistStore";
 import { useCartStore } from "@/hooks/stores/cartStore";
 import { useUiStore } from "@/hooks/stores/uiStore";
+import { useIsClient } from "@/hooks/useIsClient";
 import { discountPercent } from "@/utils/format";
 import { getSizeQty } from "@/utils/inventory";
 import {
@@ -54,6 +55,7 @@ export function ProductRail({
   const hasWishlist = useWishlistStore((state) => state.has);
   const addItem = useCartStore((state) => state.addItem);
   const pushToast = useUiStore((state) => state.pushToast);
+  const isClient = useIsClient();
 
   return (
     <ProductRailRoot $tone={tone}>
@@ -64,7 +66,7 @@ export function ProductRail({
 
         <ProductGrid>
           {products.map((product) => {
-            const inWishlist = hasWishlist(product.id);
+            const inWishlist = isClient && hasWishlist(product.id);
             const filledStars = Math.round(product.rating);
             const discount = discountPercent(
               product.price,

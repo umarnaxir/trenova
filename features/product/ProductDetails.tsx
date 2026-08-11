@@ -48,6 +48,7 @@ import { useCartStore } from "@/hooks/stores/cartStore";
 import { useWishlistStore } from "@/hooks/stores/wishlistStore";
 import { useRecentlyViewedStore } from "@/hooks/stores/recentlyViewedStore";
 import { useUiStore } from "@/hooks/stores/uiStore";
+import { useIsClient } from "@/hooks/useIsClient";
 import { discountPercent, formatCurrency } from "@/utils/format";
 import { getSizeQty } from "@/utils/inventory";
 
@@ -77,7 +78,9 @@ export function ProductDetails({
 
   const addItem = useCartStore((state) => state.addItem);
   const toggleWish = useWishlistStore((state) => state.toggle);
-  const wished = useWishlistStore((state) => state.has(product.id));
+  const wishedRaw = useWishlistStore((state) => state.has(product.id));
+  const isClient = useIsClient();
+  const wished = isClient && wishedRaw;
   const addRecent = useRecentlyViewedStore((state) => state.add);
   const pushToast = useUiStore((state) => state.pushToast);
   const discount = discountPercent(product.price, product.compareAtPrice);

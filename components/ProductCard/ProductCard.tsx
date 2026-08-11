@@ -20,6 +20,7 @@ import { Rating } from "@/components/Rating/Rating";
 import { Text } from "@/components/Text/Text";
 import { useWishlistStore } from "@/hooks/stores/wishlistStore";
 import { useUiStore } from "@/hooks/stores/uiStore";
+import { useIsClient } from "@/hooks/useIsClient";
 import { discountPercent } from "@/utils/format";
 
 type ProductCardProps = {
@@ -28,7 +29,9 @@ type ProductCardProps = {
 
 export function ProductCard({ product }: ProductCardProps) {
   const toggle = useWishlistStore((state) => state.toggle);
-  const has = useWishlistStore((state) => state.has(product.id));
+  const wished = useWishlistStore((state) => state.has(product.id));
+  const isClient = useIsClient();
+  const has = isClient && wished;
   const pushToast = useUiStore((state) => state.pushToast);
   const discount = discountPercent(product.price, product.compareAtPrice);
 

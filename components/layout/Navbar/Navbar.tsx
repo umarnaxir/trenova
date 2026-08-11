@@ -43,6 +43,7 @@ import { useCartStore } from "@/hooks/stores/cartStore";
 import { useWishlistStore } from "@/hooks/stores/wishlistStore";
 import { useAuthStore } from "@/hooks/stores/authStore";
 import { useUiStore } from "@/hooks/stores/uiStore";
+import { useIsClient } from "@/hooks/useIsClient";
 import { SearchBar } from "@/components/SearchBar/SearchBar";
 import { LoginModal } from "@/features/auth/LoginModal";
 
@@ -72,14 +73,18 @@ export function Navbar({ categories }: NavbarProps) {
   const [hoveredCategorySlug, setHoveredCategorySlug] = useState<string | null>(null);
   const [expandedMobileCategory, setExpandedMobileCategory] = useState<string | null>(null);
 
-  const cartCount = useCartStore((state) => state.itemCount());
-  const wishCount = useWishlistStore((state) => state.items.length);
+  const cartCountRaw = useCartStore((state) => state.itemCount());
+  const wishCountRaw = useWishlistStore((state) => state.items.length);
+  const isAuthenticatedRaw = useAuthStore((state) => state.isAuthenticated);
+  const isClient = useIsClient();
+  const cartCount = isClient ? cartCountRaw : 0;
+  const wishCount = isClient ? wishCountRaw : 0;
+  const isAuthenticated = isClient && isAuthenticatedRaw;
   const mobileMenuOpen = useUiStore((state) => state.mobileMenuOpen);
   const setMobileMenuOpen = useUiStore((state) => state.setMobileMenuOpen);
   const searchOpen = useUiStore((state) => state.searchOpen);
   const setSearchOpen = useUiStore((state) => state.setSearchOpen);
   const setLoginDrawerOpen = useUiStore((state) => state.setLoginDrawerOpen);
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   useEffect(() => {
     const onResize = () => {
@@ -122,13 +127,13 @@ export function Navbar({ categories }: NavbarProps) {
             {/* Mobile View Left: Logo */}
             <MobileHeaderLeft>
               <LogoWrap>
-                <Logo height={36} />
+                <Logo height={44} />
               </LogoWrap>
             </MobileHeaderLeft>
 
             {/* Desktop View Left: Logo */}
             <DesktopLogoWrap>
-              <Logo height={40} />
+              <Logo height={56} />
             </DesktopLogoWrap>
 
             {/* Mobile View Right: Actions + Menu */}

@@ -9,17 +9,18 @@ export const Header = styled.header`
   background: ${({ theme }) => theme.colors.black};
   border-bottom: 1px solid rgba(198, 167, 94, 0.28);
   color: ${({ theme }) => theme.colors.white};
+  width: 100%;
 `;
 
 export const NavInner = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 68px;
+  min-height: 60px;
   gap: 0.5rem;
 
   ${({ theme }) => theme.mediaQueries.lg} {
-    min-height: 80px;
+    min-height: 72px;
     gap: 2rem;
   }
 `;

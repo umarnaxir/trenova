@@ -10,6 +10,7 @@ import {
   type SpaceProps,
   type TypographyProps,
 } from "styled-system";
+import { shouldForwardSystemProp } from "@/lib/shouldForwardSystemProp";
 
 export type TextStyleProps = ColorProps & SpaceProps & TypographyProps;
 
@@ -65,7 +66,9 @@ const variantStyles = {
 
 export type TextVariant = keyof typeof variantStyles;
 
-export const TextRoot = styled.p<{ $variant: TextVariant } & TextStyleProps>`
+export const TextRoot = styled.p.withConfig({
+  shouldForwardProp: shouldForwardSystemProp,
+})<{ $variant: TextVariant } & TextStyleProps>`
   ${({ $variant }) => variantStyles[$variant]}
   ${compose(color, space, typography)}
 `;

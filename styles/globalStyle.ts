@@ -19,13 +19,14 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-text-size-adjust: 100%;
     width: 100%;
     max-width: 100vw;
-    overflow-x: hidden;
+    /* clip avoids horizontal bleed without breaking position:sticky */
+    overflow-x: clip;
   }
 
   body {
     width: 100%;
     max-width: 100vw;
-    overflow-x: hidden;
+    overflow-x: clip;
     min-height: 100%;
     background: ${({ theme }) => theme.colors.white};
     color: ${({ theme }) => theme.colors.black};

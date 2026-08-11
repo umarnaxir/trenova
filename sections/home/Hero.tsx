@@ -36,38 +36,37 @@ const AUTO_MS = 5000;
 
 const slides: HeroSlide[] = [
   {
-    id: "cover-1",
+    id: "hero-1",
     eyebrow: "Performance Meets Style",
     lines: [
       { text: "Move Better." },
       { text: "Live Better.", accent: true },
     ],
-    subcopy:
-      "Premium sportswear, lifestyle essentials & accessories for Men, Women & Kids.",
-    image: "/images/hero/cover-01.png",
-    alt: "Trenova menswear lifestyle cover",
+    subcopy: "Premium sportswear for Men, Women & Kids.",
+    image: "/images/hero/hero-01.png",
+    alt: "Trenova menswear lifestyle hero",
   },
   {
-    id: "cover-2",
+    id: "hero-2",
     eyebrow: "Performance Meets Style",
     lines: [
       { text: "Style That " },
       { text: "Performs.", accent: true, sameLine: true },
     ],
     subcopy: "Engineered for Comfort. Designed for Everyday.",
-    image: "/images/hero/cover-02.png",
-    alt: "Trenova womenswear lifestyle cover",
+    image: "/images/hero/hero-02.png",
+    alt: "Trenova womenswear lifestyle hero",
   },
   {
-    id: "cover-3",
+    id: "hero-3",
     eyebrow: "Performance Meets Style",
     lines: [
       { text: "For Every Body." },
       { text: "For Every Goal.", accent: true },
     ],
     subcopy: "Men • Women • Kids",
-    image: "/images/hero/cover-03.png",
-    alt: "Trenova kidswear lifestyle cover",
+    image: "/images/hero/hero-03.png",
+    alt: "Trenova kidswear lifestyle hero",
   },
 ];
 

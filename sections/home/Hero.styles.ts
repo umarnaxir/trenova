@@ -46,22 +46,38 @@ export const SlideOverlay = styled.div`
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.15) 0%,
-    rgba(0, 0, 0, 0.08) 35%,
-    rgba(0, 0, 0, 0.55) 72%,
-    rgba(0, 0, 0, 0.88) 100%
-  );
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.92) 0%,
+      rgba(0, 0, 0, 0.78) 22%,
+      rgba(0, 0, 0, 0.4) 42%,
+      transparent 58%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0.12) 35%,
+      rgba(0, 0, 0, 0.55) 72%,
+      rgba(0, 0, 0, 0.88) 100%
+    );
 
   ${({ theme }) => theme.mediaQueries.md} {
-    background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.18) 0%,
-      transparent 30%,
-      transparent 70%,
-      rgba(0, 0, 0, 0.28) 100%
-    );
+    background:
+      linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.88) 0%,
+        rgba(0, 0, 0, 0.7) 26%,
+        rgba(0, 0, 0, 0.32) 45%,
+        transparent 58%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.18) 0%,
+        transparent 30%,
+        transparent 70%,
+        rgba(0, 0, 0, 0.28) 100%
+      );
   }
 `;
 
@@ -138,22 +154,18 @@ export const HeadlineAccent = styled.span`
 
 export const Subcopy = styled(motion.p)`
   margin: 0;
-  max-width: 34rem;
+  max-width: 100%;
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: 0.75rem;
   line-height: 1.45;
   color: rgba(255, 255, 255, 0.82);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 
   ${({ theme }) => theme.mediaQueries.md} {
     font-size: 1.0625rem;
     line-height: 1.65;
-    display: block;
-    -webkit-line-clamp: unset;
-    overflow: visible;
   }
 `;
 
