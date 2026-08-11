@@ -58,21 +58,13 @@ export const SlideOverlay = styled.div`
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0.92) 0%,
-      rgba(0, 0, 0, 0.78) 22%,
-      rgba(0, 0, 0, 0.4) 42%,
-      transparent 58%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.2) 0%,
-      rgba(0, 0, 0, 0.12) 35%,
-      rgba(0, 0, 0, 0.55) 72%,
-      rgba(0, 0, 0, 0.88) 100%
-    );
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 58%,
+    rgba(0, 0, 0, 0.28) 78%,
+    rgba(0, 0, 0, 0.62) 100%
+  );
 
   ${({ theme }) => theme.mediaQueries.md} {
     background:

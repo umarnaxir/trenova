@@ -1,30 +1,33 @@
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar/AnnouncementBar";
+import { Navbar } from "@/components/layout/Navbar/Navbar";
 import { Footer } from "@/components/layout/Footer/Footer";
+import { WhatsAppButton } from "@/components/WhatsAppButton/WhatsAppButton";
+import { StorefrontShell } from "@/components/layout/StorefrontShell/StorefrontShell";
 import { PageShell } from "@/components/PageShell/PageShell";
-import { AccountNav } from "@/features/account/AccountNav";
+import { AccountShell } from "@/features/account/AccountNav";
 import { AccountGate } from "@/features/account/AccountGate";
-import { Logo } from "@/components/Logo/Logo";
-import { Flex } from "@/components/Flex/Flex";
+import { getMegaMenuCategories } from "@/services/category.service";
 
-export default function AccountLayout({
+export default async function AccountLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const categories = await getMegaMenuCategories();
+
   return (
-    <>
+    <StorefrontShell>
       <AnnouncementBar />
-      <PageShell>
-        <Flex justifyContent="space-between" alignItems="center" mb={6}>
-          <Logo height={36} />
-          <a href="/shop">Continue shopping</a>
-        </Flex>
-        <AccountGate>
-          <AccountNav />
-          {children}
-        </AccountGate>
-      </PageShell>
+      <Navbar categories={categories} />
+      <main id="main-content">
+        <PageShell>
+          <AccountGate>
+            <AccountShell>{children}</AccountShell>
+          </AccountGate>
+        </PageShell>
+      </main>
       <Footer />
-    </>
+      <WhatsAppButton />
+    </StorefrontShell>
   );
 }

@@ -44,6 +44,14 @@ export default function AdminUsersPage() {
     });
   }, [load, pushToast]);
 
+  useEffect(() => {
+    const onFocus = () => {
+      load().catch(() => undefined);
+    };
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, [load]);
+
   const filtered = useMemo(() => {
     if (!rows) return [];
     const q = query.trim().toLowerCase();
@@ -194,7 +202,10 @@ export default function AdminUsersPage() {
                   <Text key={address.id} color="gray600">
                     {address.label}: {address.line1}
                     {address.line2 ? `, ${address.line2}` : ""}, {address.city},{" "}
-                    {address.state} {address.postalCode}
+                    {address.state} {address.postalCode} · {address.phone}
+                    {address.alternatePhone
+                      ? ` / ${address.alternatePhone}`
+                      : ""}
                   </Text>
                 ))}
               </Stack>

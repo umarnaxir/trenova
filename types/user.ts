@@ -3,6 +3,7 @@ export type Address = {
   label: string;
   fullName: string;
   phone: string;
+  alternatePhone?: string;
   line1: string;
   line2?: string;
   city: string;

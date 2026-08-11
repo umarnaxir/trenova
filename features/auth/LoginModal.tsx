@@ -88,7 +88,14 @@ export function LoginModal() {
 
         <Form
           onSubmit={handleSubmit(async (values) => {
-            login(values.email, values.password);
+            const ok = login(values.email, values.password);
+            if (!ok) {
+              pushToast(
+                "Unable to sign in. Account may be deactivated for deletion or credentials are incorrect.",
+                "error",
+              );
+              return;
+            }
             pushToast("Welcome back");
             close();
             router.push("/account");
