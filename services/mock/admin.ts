@@ -1,6 +1,5 @@
 import type {
   AdminBrand,
-  AdminCustomer,
   AdminNotification,
   AdminStat,
   CmsPage,
@@ -16,39 +15,12 @@ import { mockOrders } from "@/services/mock/user";
 export const adminStats: AdminStat[] = [
   { label: "Revenue", value: "₹4.2L", change: "+12.4%", trend: "up" },
   { label: "Orders", value: "318", change: "+8.1%", trend: "up" },
-  { label: "Customers", value: "1,204", change: "+5.6%", trend: "up" },
+  { label: "Users", value: "1,204", change: "+5.6%", trend: "up" },
   { label: "Conversion", value: "3.8%", change: "-0.3%", trend: "down" },
 ];
 
 export const adminBrands: AdminBrand[] = [
   { id: "brand-1", name: "Trenova", slug: "trenova", productCount: products.length },
-];
-
-export const adminCustomers: AdminCustomer[] = [
-  {
-    id: "cust-1",
-    name: "Umar Pathan",
-    email: "umar@example.com",
-    orders: 2,
-    spent: 6497,
-    joinedAt: "2026-05-12T00:00:00.000Z",
-  },
-  {
-    id: "cust-2",
-    name: "Aarav Mehta",
-    email: "aarav@example.com",
-    orders: 5,
-    spent: 18450,
-    joinedAt: "2026-03-02T00:00:00.000Z",
-  },
-  {
-    id: "cust-3",
-    name: "Ishita Kapoor",
-    email: "ishita@example.com",
-    orders: 3,
-    spent: 9200,
-    joinedAt: "2026-04-18T00:00:00.000Z",
-  },
 ];
 
 export const adminNotifications: AdminNotification[] = [
@@ -68,8 +40,8 @@ export const adminNotifications: AdminNotification[] = [
   },
   {
     id: "n3",
-    title: "Review posted",
-    body: "Aarav Mehta left a 5-star review.",
+    title: "Coupon used",
+    body: "TRENOVA10 was applied on a checkout.",
     createdAt: "2026-07-28T08:05:00.000Z",
     read: true,
   },

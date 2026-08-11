@@ -8,9 +8,15 @@ import {
 
 export type Crumb = { label: string; href?: string };
 
-export function Breadcrumb({ items }: { items: Crumb[] }) {
+export function Breadcrumb({
+  items,
+  compact,
+}: {
+  items: Crumb[];
+  compact?: boolean;
+}) {
   return (
-    <CrumbList aria-label="Breadcrumb">
+    <CrumbList aria-label="Breadcrumb" $compact={compact}>
       {items.map((item, index) => {
         const isLast = index === items.length - 1;
         return (

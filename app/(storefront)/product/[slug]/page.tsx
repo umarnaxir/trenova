@@ -39,12 +39,13 @@ export default async function ProductPage({ params }: Props) {
   const jsonLd = productJsonLd(product);
 
   return (
-    <PageShell>
+    <PageShell compact>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Breadcrumb
+        compact
         items={[
           { label: "Home", href: "/" },
           { label: "Shop", href: "/shop" },

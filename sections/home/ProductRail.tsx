@@ -4,13 +4,17 @@ import { SafeImage } from "@/components/SafeImage/SafeImage";
 import { Heart, Star } from "lucide-react";
 import type { Product } from "@/types/product";
 import { Container } from "@/components/Container/Container";
+import { DiscountBadge } from "@/components/DiscountBadge/DiscountBadge";
 import { useWishlistStore } from "@/hooks/stores/wishlistStore";
 import { useCartStore } from "@/hooks/stores/cartStore";
 import { useUiStore } from "@/hooks/stores/uiStore";
+import { discountPercent } from "@/utils/format";
+import { getSizeQty } from "@/utils/inventory";
 import {
   AddToCartButton,
   CategoryLabel,
   NewBadge,
+  PriceRow,
   PriceText,
   ProductCardFooter,
   ProductCardTitle,
@@ -62,6 +66,10 @@ export function ProductRail({
           {products.map((product) => {
             const inWishlist = hasWishlist(product.id);
             const filledStars = Math.round(product.rating);
+            const discount = discountPercent(
+              product.price,
+              product.compareAtPrice,
+            );
 
             return (
               <ProductCardWrapper key={product.id}>
@@ -120,30 +128,38 @@ export function ProductRail({
                       <span>{product.rating.toFixed(1)}</span>
                     </RatingRow>
                   ) : null}
-                  <PriceText>
-                    ₹{product.price.toLocaleString("en-IN")}
-                    {product.compareAtPrice &&
-                    product.compareAtPrice > product.price ? (
-                      <span
-                        style={{
-                          marginLeft: 8,
-                          color: "#6B6B6B",
-                          textDecoration: "line-through",
-                          fontWeight: 400,
-                          fontSize: "0.85em",
-                        }}
-                      >
-                        ₹{product.compareAtPrice.toLocaleString("en-IN")}
-                      </span>
-                    ) : null}
-                  </PriceText>
+                  <PriceRow>
+                    <PriceText>
+                      ₹{product.price.toLocaleString("en-IN")}
+                      {product.compareAtPrice &&
+                      product.compareAtPrice > product.price ? (
+                        <span
+                          style={{
+                            marginLeft: 8,
+                            color: "#6B6B6B",
+                            textDecoration: "line-through",
+                            fontWeight: 400,
+                            fontSize: "0.85em",
+                          }}
+                        >
+                          ₹{product.compareAtPrice.toLocaleString("en-IN")}
+                        </span>
+                      ) : null}
+                    </PriceText>
+                    {discount ? <DiscountBadge percent={discount} /> : null}
+                  </PriceRow>
                   <AddToCartButton
                     type="button"
                     onClick={() => {
-                      const size = product.sizes[0];
+                      const size = product.sizes.find(
+                        (item) => getSizeQty(product, item) > 0,
+                      );
                       const color = product.colors[0]?.name;
                       if (!size || !color) {
-                        pushToast("Select size and color on the product page", "info");
+                        pushToast(
+                          "Select size and color on the product page",
+                          "info",
+                        );
                         return;
                       }
                       addItem({ product, size, color, quantity: 1 });

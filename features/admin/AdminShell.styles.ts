@@ -7,7 +7,7 @@ const SIDEBAR_COLLAPSED = "80px";
 
 export const Shell = styled.div<{ $collapsed?: boolean }>`
   min-height: 100vh;
-  background: ${({ theme }) => theme.colors.offWhite};
+  background: ${({ theme }) => theme.colors.white};
   position: relative;
 
   ${({ theme }) => theme.mediaQueries.lg} {
@@ -197,6 +197,15 @@ export const TopBar = styled.div`
   align-items: center;
   gap: ${({ theme }) => theme.space[4]};
   margin-bottom: ${({ theme }) => theme.space[6]};
+  padding-bottom: ${({ theme }) => theme.space[4]};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray200};
+`;
+
+export const TopBarLeft = styled.div`
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
 `;
 
 export const MenuToggle = styled.div`
@@ -204,5 +213,150 @@ export const MenuToggle = styled.div`
 
   ${({ theme }) => theme.mediaQueries.lg} {
     display: none;
+  }
+`;
+
+export const TopBarRight = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.space[3]};
+  flex-shrink: 0;
+`;
+
+export const ProfileMenuWrap = styled.div`
+  position: relative;
+`;
+
+export const ProfileTrigger = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.space[2]};
+  border: 1px solid ${({ theme }) => theme.colors.black};
+  background: ${({ theme }) => theme.colors.white};
+  padding: 0.35rem 0.65rem 0.35rem 0.35rem;
+  border-radius: ${({ theme }) => theme.radii.pill};
+  cursor: pointer;
+  max-width: min(100%, 240px);
+  transition:
+    border-color ${({ theme }) => theme.transitions.fast},
+    background ${({ theme }) => theme.transitions.fast};
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.gold};
+    background: ${({ theme }) => theme.colors.offWhite};
+  }
+`;
+
+export const ProfileAvatar = styled.span`
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.gold};
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+`;
+
+export const ProfileMeta = styled.span`
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  text-align: left;
+
+  ${({ theme }) => theme.mediaQueries.md} {
+    display: flex;
+  }
+
+  strong {
+    font-size: ${({ theme }) => theme.fontSizes.sm};
+    color: ${({ theme }) => theme.colors.black};
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
+  }
+
+  small {
+    font-size: 0.6875rem;
+    color: ${({ theme }) => theme.colors.gray500};
+  }
+`;
+
+export const ProfileDropdown = styled.div<{ $open?: boolean }>`
+  display: ${({ $open }) => ($open ? "flex" : "none")};
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  z-index: ${({ theme }) => theme.zIndices.dropdown};
+  width: min(260px, 80vw);
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.5rem;
+  background: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.gray200};
+  box-shadow: ${({ theme }) => theme.shadows.md};
+`;
+
+export const ProfileDropdownHeader = styled.div`
+  padding: 0.65rem 0.75rem 0.75rem;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray200};
+  margin-bottom: 0.25rem;
+
+  strong {
+    display: block;
+    font-size: ${({ theme }) => theme.fontSizes.sm};
+  }
+
+  small {
+    display: block;
+    margin-top: 0.15rem;
+    color: ${({ theme }) => theme.colors.gray500};
+    font-size: 0.75rem;
+  }
+`;
+
+export const ProfileDropdownItem = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0.65rem 0.75rem;
+  text-align: left;
+  font: inherit;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  color: ${({ theme }) => theme.colors.black};
+  cursor: pointer;
+  border-radius: ${({ theme }) => theme.radii.md};
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.gray100};
+  }
+
+  &[data-danger="true"] {
+    color: ${({ theme }) => theme.colors.error};
+  }
+`;
+
+export const ProfileDropdownLink = styled.a`
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  text-align: left;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  color: ${({ theme }) => theme.colors.black};
+  border-radius: ${({ theme }) => theme.radii.md};
+  text-decoration: none;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.gray100};
   }
 `;

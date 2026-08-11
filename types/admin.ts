@@ -12,13 +12,32 @@ export type AdminBrand = {
   productCount: number;
 };
 
-export type AdminCustomer = {
+export type AdminUserOrderSummary = {
   id: string;
+  orderNumber: string;
+  status: string;
+  createdAt: string;
+  total: number;
+  itemCount: number;
+};
+
+/** Registered storefront users visible in Admin → Users. */
+export type AdminUser = {
+  id: string;
+  firstName: string;
+  lastName: string;
   name: string;
   email: string;
-  orders: number;
-  spent: number;
-  joinedAt: string;
+  phone: string;
+  location: string;
+  status: "active" | "inactive";
+  createdAt: string;
+  lastLoginAt: string;
+  totalOrders: number;
+  totalSpent: number;
+  hasPurchased: boolean;
+  addresses: import("@/types/user").Address[];
+  orders: AdminUserOrderSummary[];
 };
 
 export type AdminNotification = {
@@ -54,7 +73,7 @@ export type NewsletterSubscriber = {
 };
 
 /** Roles ready for future permission maps — not enforced yet. */
-export type AdminRole = "Admin" | "Manager" | "Editor" | "Viewer";
+export type AdminRole = "Admin" | "Manager" | "Editor";
 
 export type AdminSession = {
   id: string;
@@ -70,6 +89,8 @@ export type TeamMember = {
   role: AdminRole;
   status: "active" | "invited" | "disabled";
   joinedAt: string;
+  /** Mock-only credential for team login / password updates. */
+  password?: string;
 };
 
 export type InventoryRow = {
@@ -78,6 +99,9 @@ export type InventoryRow = {
   sku: string;
   stock: number;
   status: "In Stock" | "Low" | "Out";
+  sizes: string[];
+  sizeStock: Partial<Record<string, number>>;
+  sizeSummary: string;
 };
 
 export type AdminSettings = {

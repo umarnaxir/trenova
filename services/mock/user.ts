@@ -6,6 +6,9 @@ export const mockUser: User = {
   lastName: "Pathan",
   email: "umar@example.com",
   phone: "+91 98765 43210",
+  status: "active",
+  createdAt: "2026-01-12T00:00:00.000Z",
+  lastLoginAt: "2026-08-11T00:00:00.000Z",
   addresses: [
     {
       id: "addr-1",
@@ -41,6 +44,8 @@ export const mockOrders: Order[] = [
     status: "delivered",
     createdAt: "2026-07-10T12:00:00.000Z",
     total: 4998,
+    userId: "user-1",
+    userEmail: "umar@example.com",
     items: [
       {
         productId: "prod-aurora-tee",
@@ -69,6 +74,8 @@ export const mockOrders: Order[] = [
     status: "shipped",
     createdAt: "2026-08-01T09:30:00.000Z",
     total: 1499,
+    userId: "user-1",
+    userEmail: "umar@example.com",
     items: [
       {
         productId: "prod-aurora-tee",

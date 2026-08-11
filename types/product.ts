@@ -11,6 +11,9 @@ export type ProductColor = {
 
 export type ProductSize = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "ONE SIZE" | "FREE SIZE";
 
+/** Per-size available quantity. Keys are only sizes offered on the product. */
+export type SizeStock = Partial<Record<ProductSize, number>>;
+
 export type Product = {
   id: string;
   slug: string;
@@ -24,6 +27,8 @@ export type Product = {
   reviewCount: number;
   colors: ProductColor[];
   sizes: ProductSize[];
+  /** Quantity available for each size (source of truth for inventory). */
+  sizeStock?: SizeStock;
   images: ProductImageSet;
   categoryId: string;
   categorySlug: string;
@@ -33,6 +38,7 @@ export type Product = {
   isNewArrival?: boolean;
   isTrending?: boolean;
   isOnSale?: boolean;
+  /** Total units across all sizes (derived from sizeStock). */
   stock: number;
   sku: string;
   specifications: Record<string, string>;

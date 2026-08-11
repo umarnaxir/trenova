@@ -1,5 +1,6 @@
 import type { Product } from "@/types/product";
 import { products as seedProducts } from "@/services/mock/products";
+import { normalizeProductInventory } from "@/utils/inventory";
 
 export type InstagramShot = {
   id: string;
@@ -24,11 +25,16 @@ function clone<T>(value: T): T {
 }
 
 /** Shared mutable catalog — admin + storefront read/write the same data. */
-let catalog: Product[] = clone(seedProducts).map((product, index) => ({
-  ...product,
-  isFeatured: index < 6,
-  isOnSale: Boolean(product.compareAtPrice && product.compareAtPrice > product.price),
-}));
+let catalog: Product[] = clone(seedProducts).map((product, index) =>
+  normalizeProductInventory({
+    ...product,
+    sizeStock: product.sizeStock ?? {},
+    isFeatured: index < 6,
+    isOnSale: Boolean(
+      product.compareAtPrice && product.compareAtPrice > product.price,
+    ),
+  }),
+);
 
 let instagramShots: InstagramShot[] = clone(seedInstagram);
 
@@ -37,7 +43,7 @@ export function getCatalogProducts(): Product[] {
 }
 
 export function setCatalogProducts(next: Product[]) {
-  catalog = next;
+  catalog = next.map((product) => normalizeProductInventory(product));
 }
 
 export function getInstagramShots(): InstagramShot[] {

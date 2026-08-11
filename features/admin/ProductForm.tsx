@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { Product, ProductSize } from "@/types/product";
+import type { Product, ProductColor, ProductSize, SizeStock } from "@/types/product";
 import type { AdminProductInput } from "@/services/admin.service";
 import {
   createAdminProduct,
@@ -10,19 +10,36 @@ import {
 import { AdminForm } from "@/features/admin/AdminForm";
 import { ImageDropzone } from "@/features/admin/ImageDropzone";
 import {
-  CheckLabel,
-  FieldHint,
-  FlagGrid,
-  FormSection,
-  FormSectionTitle,
-  SizeGrid,
-} from "@/features/admin/AdminShared.styles";
+  ColorList,
+  ColorPickerWrap,
+  ColorRow,
+  ColorSwatch,
+  CompactGrid,
+  CompactHint,
+  CompactSection,
+  CompactTitle,
+  FlagRow,
+  HiddenColorInput,
+  ImageGrid,
+  InlineActions,
+  ProductFormRoot,
+  SizeQtyCell,
+  SizeQtyGrid,
+  SizeToggle,
+  SizeToggleRow,
+  SplitRow,
+  TinyCheck,
+} from "@/features/admin/ProductForm.styles";
 import { Input } from "@/components/Input/Input";
 import { TextArea } from "@/components/TextArea/TextArea";
-import { Stack } from "@/components/Stack/Stack";
-import { Grid } from "@/components/Grid/Grid";
+import { Text } from "@/components/Text/Text";
+import { Button } from "@/components/Button/Button";
 import { useUiStore } from "@/hooks/stores/uiStore";
-
+import { buildSizeStock, sumSizeStock } from "@/utils/inventory";
+import {
+  hexFromColorName,
+  toColorInputValue,
+} from "@/utils/colorNames";
 const ALL_SIZES: ProductSize[] = [
   "XS",
   "S",
@@ -34,23 +51,24 @@ const ALL_SIZES: ProductSize[] = [
   "FREE SIZE",
 ];
 
-function parseColors(value: string) {
-  return value
-    .split(",")
-    .map((part) => part.trim())
-    .filter(Boolean)
-    .map((part) => {
-      const [name, hex] = part.split(":").map((item) => item.trim());
-      return {
-        name: name || "Black",
-        hex: hex || "#0A0A0A",
-      };
-    });
+const SIZE_LABELS: Record<ProductSize, string> = {
+  XS: "XS",
+  S: "S",
+  M: "M",
+  L: "L",
+  XL: "XL",
+  XXL: "XXL",
+  "ONE SIZE": "ONE",
+  "FREE SIZE": "FREE",
+};
+
+function initialSizeStock(item: Product | null, sizes: ProductSize[]): SizeStock {
+  return buildSizeStock(sizes, item?.sizeStock, item?.stock ?? 0);
 }
 
-function colorsToString(product: Product | null) {
-  if (!product?.colors?.length) return "Black:#0A0A0A";
-  return product.colors.map((color) => `${color.name}:${color.hex}`).join(", ");
+function initialColors(item: Product | null): ProductColor[] {
+  if (item?.colors?.length) return item.colors.map((color) => ({ ...color }));
+  return [{ name: "Black", hex: "#0A0A0A" }];
 }
 
 export function ProductForm({
@@ -67,11 +85,35 @@ export function ProductForm({
   const [sizes, setSizes] = useState<ProductSize[]>(
     item?.sizes?.length ? item.sizes : ["S", "M", "L", "XL"],
   );
+  const [sizeStock, setSizeStock] = useState<SizeStock>(() =>
+    initialSizeStock(item, item?.sizes?.length ? item.sizes : ["S", "M", "L", "XL"]),
+  );
   const [images, setImages] = useState({
     front: item?.images.front ?? "",
     left: item?.images.left ?? "",
     right: item?.images.right ?? "",
   });
+  const [colors, setColors] = useState<ProductColor[]>(() => initialColors(item));
+
+  const orderedSizes = ALL_SIZES.filter((size) => sizes.includes(size));
+  const totalUnits = sumSizeStock(sizeStock);
+
+  const toggleSize = (size: ProductSize) => {
+    const checked = !sizes.includes(size);
+    setSizes((current) => {
+      const next = checked
+        ? [...current, size]
+        : current.filter((value) => value !== size);
+      setSizeStock((stock) => {
+        if (checked) {
+          return { ...stock, [size]: stock[size] ?? 0 };
+        }
+        const { [size]: _removed, ...rest } = stock;
+        return rest;
+      });
+      return next;
+    });
+  };
 
   return (
     <AdminForm
@@ -91,11 +133,18 @@ export function ProductForm({
           return;
         }
 
-        const colors = parseColors(String(data.get("colors") ?? ""));
-        if (!colors.length) {
+        const cleanedColors = colors
+          .map((color) => ({
+            name: color.name.trim() || "Color",
+            hex: color.hex.trim() || "#0A0A0A",
+          }))
+          .filter((color) => color.name);
+        if (!cleanedColors.length) {
           pushToast("Add at least one color", "error");
           return;
         }
+
+        const nextSizeStock = buildSizeStock(sizes, sizeStock, 0);
 
         const payload: AdminProductInput = {
           name: String(data.get("name") ?? ""),
@@ -103,14 +152,15 @@ export function ProductForm({
           brand: "Trenova",
           price: sale,
           compareAtPrice: retail > 0 ? retail : undefined,
-          stock: Number(data.get("stock") ?? 0),
+          stock: sumSizeStock(nextSizeStock),
+          sizeStock: nextSizeStock,
           categorySlug: String(data.get("categorySlug") ?? "men"),
           shortDescription: String(data.get("shortDescription") ?? ""),
           description: String(data.get("description") ?? ""),
           rating: Number(data.get("rating") ?? 0),
           reviewCount: Number(data.get("reviewCount") ?? 0),
-          colors,
-          sizes,
+          colors: cleanedColors,
+          sizes: orderedSizes,
           images,
           isFeatured: data.get("isFeatured") === "on",
           isBestSeller: data.get("isBestSeller") === "on",
@@ -136,93 +186,78 @@ export function ProductForm({
         }
       }}
     >
-      <Stack gap={4}>
-        <FormSection>
-          <FormSectionTitle>Homepage placement</FormSectionTitle>
-          <FieldHint>
+      <ProductFormRoot>
+        <CompactSection>
+          <CompactTitle>Homepage placement</CompactTitle>
+          <CompactHint>
             Tick Featured or Best Seller to show this product on the matching
             homepage rail.
-          </FieldHint>
-          <FlagGrid>
-            <CheckLabel>
+          </CompactHint>
+          <FlagRow>
+            <TinyCheck>
               <input
                 type="checkbox"
                 name="isFeatured"
                 defaultChecked={item?.isFeatured}
               />
-              Featured Collection
-            </CheckLabel>
-            <CheckLabel>
+              Featured
+            </TinyCheck>
+            <TinyCheck>
               <input
                 type="checkbox"
                 name="isBestSeller"
                 defaultChecked={item?.isBestSeller}
               />
               Best Seller
-            </CheckLabel>
-            <CheckLabel>
+            </TinyCheck>
+            <TinyCheck>
               <input
                 type="checkbox"
                 name="isNewArrival"
                 defaultChecked={item?.isNewArrival ?? !item}
               />
-              New Arrival
-            </CheckLabel>
-            <CheckLabel>
+              New
+            </TinyCheck>
+            <TinyCheck>
               <input
                 type="checkbox"
                 name="isTrending"
                 defaultChecked={item?.isTrending}
               />
               Trending
-            </CheckLabel>
-            <CheckLabel>
+            </TinyCheck>
+            <TinyCheck>
               <input
                 type="checkbox"
                 name="isOnSale"
                 defaultChecked={item?.isOnSale}
               />
-              On Sale
-            </CheckLabel>
-          </FlagGrid>
-        </FormSection>
+              Sale
+            </TinyCheck>
+          </FlagRow>
+        </CompactSection>
 
-        <FormSection>
-          <FormSectionTitle>Basics</FormSectionTitle>
-          <Grid
-            gridTemplateColumns={["1fr", null, "1fr 1fr"]}
-            style={{ gap: "1rem" }}
-          >
+        <CompactSection>
+          <CompactTitle>Basics</CompactTitle>
+          <CompactGrid $cols={3}>
             <Input name="name" label="Product name" defaultValue={item?.name} required />
             <Input name="sku" label="SKU" defaultValue={item?.sku} required />
             <Input
               name="categorySlug"
               label="Category slug"
               defaultValue={item?.categorySlug ?? "men"}
-              hint="e.g. men-hoodies, women-tees"
+              hint="e.g. men-hoodies"
               required
             />
-            <Input
-              name="stock"
-              label="Quantity / stock"
-              type="number"
-              min={0}
-              defaultValue={item?.stock ?? 0}
-              required
-            />
-          </Grid>
-        </FormSection>
+          </CompactGrid>
+        </CompactSection>
 
-        <FormSection>
-          <FormSectionTitle>Pricing</FormSectionTitle>
-          <FieldHint>
-            Retail price is the original (struck-through) price. Sale price is
-            what customers pay.
-          </FieldHint>
-          <Grid
-            gridTemplateColumns={["1fr", null, "1fr 1fr"]}
-            style={{ gap: "1rem" }}
-          >
+        <CompactSection>
+          <CompactTitle>Pricing</CompactTitle>
+          <CompactHint>
+            Retail = struck-through price. Sale = what customers pay.
+          </CompactHint>
+          <CompactGrid $cols={2}>
             <Input
               name="compareAtPrice"
               label="Retail price"
@@ -232,96 +267,209 @@ export function ProductForm({
             />
             <Input
               name="price"
-              label="Sale / discount price"
+              label="Sale price"
               type="number"
               min={0}
               defaultValue={item?.price ?? 999}
               required
             />
-          </Grid>
-        </FormSection>
+          </CompactGrid>
+        </CompactSection>
 
-        <FormSection>
-          <FormSectionTitle>Images (drag & drop)</FormSectionTitle>
-          <Grid
-            gridTemplateColumns={["1fr", null, "repeat(3, 1fr)"]}
-            style={{ gap: "1rem" }}
-          >
+        <CompactSection>
+          <CompactTitle>Images</CompactTitle>
+          <ImageGrid>
             <ImageDropzone
-              label="Front image"
+              compact
+              label="Front"
               value={images.front}
               onChange={(front) => setImages((current) => ({ ...current, front }))}
             />
             <ImageDropzone
-              label="Left image"
+              compact
+              label="Left"
               value={images.left}
               onChange={(left) => setImages((current) => ({ ...current, left }))}
             />
             <ImageDropzone
-              label="Right image"
+              compact
+              label="Right"
               value={images.right}
               onChange={(right) => setImages((current) => ({ ...current, right }))}
             />
-          </Grid>
-        </FormSection>
+          </ImageGrid>
+        </CompactSection>
 
-        <FormSection>
-          <FormSectionTitle>Sizes</FormSectionTitle>
-          <SizeGrid>
-            {ALL_SIZES.map((size) => (
-              <CheckLabel key={size}>
-                <input
-                  type="checkbox"
-                  checked={sizes.includes(size)}
-                  onChange={(event) => {
-                    setSizes((current) =>
-                      event.target.checked
-                        ? [...current, size]
-                        : current.filter((value) => value !== size),
-                    );
-                  }}
-                />
-                {size}
-              </CheckLabel>
-            ))}
-          </SizeGrid>
-        </FormSection>
+        <SplitRow>
+          <CompactSection>
+            <CompactTitle>Sizes & quantity</CompactTitle>
+            <CompactHint>
+              Tap sizes to enable, then set stock. Total:{" "}
+              <strong>{totalUnits}</strong>
+            </CompactHint>
+            <SizeToggleRow>
+              {ALL_SIZES.map((size) => (
+                <SizeToggle
+                  key={size}
+                  type="button"
+                  title={size}
+                  $active={sizes.includes(size)}
+                  onClick={() => toggleSize(size)}
+                >
+                  {SIZE_LABELS[size]}
+                </SizeToggle>
+              ))}
+            </SizeToggleRow>
 
-        <FormSection>
-          <FormSectionTitle>Colors</FormSectionTitle>
-          <Input
-            name="colors"
-            label="Colors"
-            defaultValue={colorsToString(item)}
-            hint="Format: Name:#hex, Name:#hex"
-            required
-          />
-        </FormSection>
+            {orderedSizes.length ? (
+              <SizeQtyGrid>
+                {orderedSizes.map((size) => (
+                  <SizeQtyCell key={size}>
+                    <span title={size}>{SIZE_LABELS[size]}</span>
+                    <Input
+                      aria-label={`${size} quantity`}
+                      type="number"
+                      min={0}
+                      value={sizeStock[size] ?? 0}
+                      onChange={(event) => {
+                        const qty = Math.max(0, Number(event.target.value) || 0);
+                        setSizeStock((current) => ({ ...current, [size]: qty }));
+                      }}
+                    />
+                  </SizeQtyCell>
+                ))}
+              </SizeQtyGrid>
+            ) : (
+              <Text variant="small" color="gray500">
+                Select at least one size.
+              </Text>
+            )}
+          </CompactSection>
 
-        <FormSection>
-          <FormSectionTitle>Descriptions</FormSectionTitle>
-          <TextArea
-            name="shortDescription"
-            label="Short description"
-            defaultValue={item?.shortDescription}
-            rows={2}
-            required
-          />
-          <TextArea
-            name="description"
-            label="Full description"
-            defaultValue={item?.description}
-            rows={4}
-            required
-          />
-        </FormSection>
+          <CompactSection>
+            <CompactTitle>Colors</CompactTitle>
+            <CompactHint>
+              Type a name (e.g. green) or click the circle to pick a color —
+              hex fills automatically.
+            </CompactHint>
+            <ColorList>
+              {colors.map((color, index) => {
+                const swatchHex = toColorInputValue(color.hex);
+                return (
+                  <ColorRow key={`color-${index}`}>
+                    <Input
+                      aria-label="Color name"
+                      placeholder="e.g. Green"
+                      value={color.name}
+                      onChange={(event) => {
+                        const name = event.target.value;
+                        const fromName = hexFromColorName(name);
+                        setColors((current) =>
+                          current.map((entry, i) =>
+                            i === index
+                              ? {
+                                  ...entry,
+                                  name,
+                                  ...(fromName ? { hex: fromName } : {}),
+                                }
+                              : entry,
+                          ),
+                        );
+                      }}
+                      required
+                    />
+                    <Input
+                      aria-label="Hex"
+                      placeholder="#0A0A0A"
+                      value={color.hex}
+                      onChange={(event) => {
+                        const hex = event.target.value;
+                        setColors((current) =>
+                          current.map((entry, i) =>
+                            i === index ? { ...entry, hex } : entry,
+                          ),
+                        );
+                      }}
+                      required
+                    />
+                    <ColorPickerWrap title="Pick a color">
+                      <ColorSwatch $hex={swatchHex} />
+                      <HiddenColorInput
+                        type="color"
+                        value={swatchHex}
+                        aria-label={`Pick color for ${color.name || "swatch"}`}
+                        onChange={(event) => {
+                          const hex = event.target.value.toUpperCase();
+                          setColors((current) =>
+                            current.map((entry, i) =>
+                              i === index
+                                ? {
+                                    ...entry,
+                                    hex,
+                                    name: entry.name.trim()
+                                      ? entry.name
+                                      : "Custom",
+                                  }
+                                : entry,
+                            ),
+                          );
+                        }}
+                      />
+                    </ColorPickerWrap>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="secondary"
+                      disabled={colors.length <= 1}
+                      onClick={() =>
+                        setColors((current) =>
+                          current.filter((_, i) => i !== index),
+                        )
+                      }
+                    >
+                      ×
+                    </Button>
+                  </ColorRow>
+                );
+              })}
+            </ColorList>
+            <InlineActions>
+              <Button
+                type="button"
+                size="sm"
+                variant="secondary"
+                onClick={() =>
+                  setColors((current) => [
+                    ...current,
+                    { name: "", hex: "#C6A75E" },
+                  ])
+                }
+              >
+                + Add color
+              </Button>
+            </InlineActions>
+          </CompactSection>
+        </SplitRow>
 
-        <FormSection>
-          <FormSectionTitle>Reviews summary</FormSectionTitle>
-          <Grid
-            gridTemplateColumns={["1fr", null, "1fr 1fr"]}
-            style={{ gap: "1rem" }}
-          >
+        <CompactSection>
+          <CompactTitle>Descriptions & reviews</CompactTitle>
+          <CompactGrid $cols={1}>
+            <TextArea
+              name="shortDescription"
+              label="Short description"
+              defaultValue={item?.shortDescription}
+              rows={2}
+              required
+            />
+            <TextArea
+              name="description"
+              label="Full description"
+              defaultValue={item?.description}
+              rows={3}
+              required
+            />
+          </CompactGrid>
+          <CompactGrid $cols={2}>
             <Input
               name="rating"
               label="Average rating"
@@ -338,9 +486,9 @@ export function ProductForm({
               min={0}
               defaultValue={item?.reviewCount ?? 0}
             />
-          </Grid>
-        </FormSection>
-      </Stack>
+          </CompactGrid>
+        </CompactSection>
+      </ProductFormRoot>
     </AdminForm>
   );
 }

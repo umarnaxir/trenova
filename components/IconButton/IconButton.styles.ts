@@ -1,23 +1,43 @@
 "use client";
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-export const IconButtonRoot = styled.button<{ $tone?: "light" | "dark" }>`
+export const IconButtonRoot = styled.button<{
+  $tone?: "light" | "dark";
+  $plain?: boolean;
+}>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: ${({ $plain }) => ($plain ? "28px" : "40px")};
+  height: ${({ $plain }) => ($plain ? "28px" : "40px")};
+  border: 0;
+  padding: 0;
   border-radius: ${({ theme }) => theme.radii.none};
+  background: transparent;
   color: ${({ theme, $tone }) =>
     $tone === "light" ? theme.colors.white : theme.colors.black};
-  transition:
-    color ${({ theme }) => theme.transitions.fast},
-    background ${({ theme }) => theme.transitions.fast};
+  cursor: pointer;
+  transition: color ${({ theme }) => theme.transitions.fast};
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     color: ${({ theme }) => theme.colors.gold};
-    background: ${({ theme, $tone }) =>
-      $tone === "light" ? "rgba(198, 167, 94, 0.12)" : theme.colors.gray100};
+    background: transparent;
+    outline: none;
   }
+
+  ${({ $plain, $tone, theme }) =>
+    !$plain &&
+    css`
+      transition:
+        color ${theme.transitions.fast},
+        background ${theme.transitions.fast};
+
+      &:hover {
+        background: ${$tone === "light"
+          ? "rgba(198, 167, 94, 0.12)"
+          : theme.colors.gray100};
+      }
+    `}
 `;

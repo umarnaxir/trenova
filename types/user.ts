@@ -12,6 +12,8 @@ export type Address = {
   isDefault?: boolean;
 };
 
+export type UserStatus = "active" | "inactive";
+
 export type User = {
   id: string;
   firstName: string;
@@ -20,6 +22,9 @@ export type User = {
   phone?: string;
   avatar?: string;
   addresses: Address[];
+  status?: UserStatus;
+  createdAt?: string;
+  lastLoginAt?: string;
 };
 
 export type OrderStatus =
@@ -47,4 +52,6 @@ export type Order = {
   total: number;
   items: OrderItem[];
   shippingAddress: Address;
+  userId?: string;
+  userEmail?: string;
 };

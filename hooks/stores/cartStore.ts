@@ -4,6 +4,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { CartItem, Coupon } from "@/types/cart";
 import type { Product, ProductSize } from "@/types/product";
+import { getSizeQty } from "@/utils/inventory";
 
 type AddPayload = {
   product: Product;
@@ -73,8 +74,8 @@ export const useCartStore = create<CartState>()(
             color,
             size,
             quantity,
-            maxStock: product.stock,
-          };
+          maxStock: getSizeQty(product, size),
+        };
 
           return { items: [...state.items, next] };
         });

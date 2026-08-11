@@ -4,13 +4,17 @@ import { useEffect, useState } from "react";
 import type { AdminSettings } from "@/types/admin";
 import { AdminShell } from "@/features/admin/AdminShell";
 import {
-  FormSection,
-  FormSectionTitle,
-} from "@/features/admin/AdminShared.styles";
+  CardHintOnDark,
+  CardTitleOnDark,
+  FieldGrid,
+  FormFooter,
+  FullSpan,
+  PageGrid,
+  PageIntro,
+  SmartCardDark,
+} from "@/features/admin/AdminLayout.styles";
 import { Input } from "@/components/Input/Input";
 import { Button } from "@/components/Button/Button";
-import { Stack } from "@/components/Stack/Stack";
-import { Text } from "@/components/Text/Text";
 import { Loader } from "@/components/Loader/Loader";
 import { updateAdminSettings } from "@/services/admin.service";
 import { useUiStore } from "@/hooks/stores/uiStore";
@@ -48,12 +52,11 @@ export default function AdminSettingsPage() {
 
   return (
     <AdminShell title="Settings">
-      <Text color="gray600" mb={5}>
+      <PageIntro>
         Contact, address, and social links used across the storefront footer,
         homepage, contact page, and WhatsApp button.
-      </Text>
+      </PageIntro>
       <form
-        style={{ maxWidth: 720 }}
         onSubmit={async (event) => {
           event.preventDefault();
           const data = new FormData(event.currentTarget);
@@ -98,140 +101,174 @@ export default function AdminSettingsPage() {
           }
         }}
       >
-        <Stack gap={5}>
-          <FormSection>
-            <FormSectionTitle>Store</FormSectionTitle>
-            <Input
-              label="Store name"
-              name="storeName"
-              defaultValue={settings.storeName}
-              required
-            />
-            <Input
-              label="Legal name"
-              name="legalName"
-              defaultValue={settings.legalName}
-              required
-            />
-            <Input label="CIN" name="cin" defaultValue={settings.cin} required />
-            <Input
-              label="Currency"
-              name="currency"
-              defaultValue={settings.currency}
-              required
-            />
-          </FormSection>
+        <PageGrid $cols={2}>
+          <SmartCardDark>
+            <CardTitleOnDark>Store</CardTitleOnDark>
+            <CardHintOnDark>
+              Brand and legal identity shown on invoices and footer.
+            </CardHintOnDark>
+            <FieldGrid $cols={2}>
+              <Input
+                label="Store name"
+                name="storeName"
+                defaultValue={settings.storeName}
+                required
+              />
+              <Input
+                label="Currency"
+                name="currency"
+                defaultValue={settings.currency}
+                required
+              />
+              <FullSpan>
+                <Input
+                  label="Legal name"
+                  name="legalName"
+                  defaultValue={settings.legalName}
+                  required
+                />
+              </FullSpan>
+              <FullSpan>
+                <Input label="CIN" name="cin" defaultValue={settings.cin} required />
+              </FullSpan>
+            </FieldGrid>
+          </SmartCardDark>
 
-          <FormSection>
-            <FormSectionTitle>Contact</FormSectionTitle>
-            <Input
-              label="Support email"
-              name="supportEmail"
-              type="email"
-              defaultValue={settings.supportEmail}
-              required
-            />
-            <Input
-              label="Primary phone"
-              name="supportPhone"
-              defaultValue={settings.supportPhone}
-              required
-            />
-            <Input
-              label="Secondary phone"
-              name="phoneSecondary"
-              defaultValue={settings.phoneSecondary}
-            />
-            <Input
-              label="WhatsApp number (digits for wa.me)"
-              name="whatsapp"
-              defaultValue={settings.whatsapp}
-              placeholder="916006216695"
-              required
-            />
-          </FormSection>
+          <SmartCardDark>
+            <CardTitleOnDark>Contact</CardTitleOnDark>
+            <CardHintOnDark>
+              Support channels used on contact page and WhatsApp.
+            </CardHintOnDark>
+            <FieldGrid $cols={2}>
+              <FullSpan>
+                <Input
+                  label="Support email"
+                  name="supportEmail"
+                  type="email"
+                  defaultValue={settings.supportEmail}
+                  required
+                />
+              </FullSpan>
+              <Input
+                label="Primary phone"
+                name="supportPhone"
+                defaultValue={settings.supportPhone}
+                required
+              />
+              <Input
+                label="Secondary phone"
+                name="phoneSecondary"
+                defaultValue={settings.phoneSecondary}
+              />
+              <FullSpan>
+                <Input
+                  label="WhatsApp (digits for wa.me)"
+                  name="whatsapp"
+                  defaultValue={settings.whatsapp}
+                  placeholder="916006216695"
+                  required
+                />
+              </FullSpan>
+            </FieldGrid>
+          </SmartCardDark>
 
-          <FormSection>
-            <FormSectionTitle>Address / location</FormSectionTitle>
-            <Input
-              label="Address line 1"
-              name="addressLine1"
-              defaultValue={settings.address.line1}
-              required
-            />
-            <Input
-              label="Address line 2"
-              name="addressLine2"
-              defaultValue={settings.address.line2}
-            />
-            <Input
-              label="City"
-              name="city"
-              defaultValue={settings.address.city}
-              required
-            />
-            <Input
-              label="State"
-              name="state"
-              defaultValue={settings.address.state}
-              required
-            />
-            <Input
-              label="Postal code"
-              name="postalCode"
-              defaultValue={settings.address.postalCode}
-              required
-            />
-            <Input
-              label="Country"
-              name="country"
-              defaultValue={settings.address.country}
-              required
-            />
-          </FormSection>
+          <SmartCardDark>
+            <CardTitleOnDark>Address / location</CardTitleOnDark>
+            <CardHintOnDark>
+              Business location for footer and contact page.
+            </CardHintOnDark>
+            <FieldGrid $cols={2}>
+              <FullSpan>
+                <Input
+                  label="Address line 1"
+                  name="addressLine1"
+                  defaultValue={settings.address.line1}
+                  required
+                />
+              </FullSpan>
+              <FullSpan>
+                <Input
+                  label="Address line 2"
+                  name="addressLine2"
+                  defaultValue={settings.address.line2}
+                />
+              </FullSpan>
+              <Input
+                label="City"
+                name="city"
+                defaultValue={settings.address.city}
+                required
+              />
+              <Input
+                label="State"
+                name="state"
+                defaultValue={settings.address.state}
+                required
+              />
+              <Input
+                label="Postal code"
+                name="postalCode"
+                defaultValue={settings.address.postalCode}
+                required
+              />
+              <Input
+                label="Country"
+                name="country"
+                defaultValue={settings.address.country}
+                required
+              />
+            </FieldGrid>
+          </SmartCardDark>
 
-          <FormSection>
-            <FormSectionTitle>Social media</FormSectionTitle>
-            <Input
-              label="Instagram handle"
-              name="instagramHandle"
-              defaultValue={settings.instagramHandle}
-              placeholder="@shoptrenova"
-            />
-            <Input
-              label="Instagram URL"
-              name="socialInstagram"
-              type="url"
-              defaultValue={settings.social.instagram}
-              required
-            />
-            <Input
-              label="Facebook URL"
-              name="socialFacebook"
-              type="url"
-              defaultValue={settings.social.facebook}
-              required
-            />
-            <Input
-              label="YouTube URL"
-              name="socialYoutube"
-              type="url"
-              defaultValue={settings.social.youtube}
-              required
-            />
-            <Input
-              label="X / Twitter URL"
-              name="socialTwitter"
-              type="url"
-              defaultValue={settings.social.twitter}
-              required
-            />
-          </FormSection>
+          <SmartCardDark>
+            <CardTitleOnDark>Social media</CardTitleOnDark>
+            <CardHintOnDark>Links for footer and Instagram rail.</CardHintOnDark>
+            <FieldGrid $cols={2}>
+              <FullSpan>
+                <Input
+                  label="Instagram handle"
+                  name="instagramHandle"
+                  defaultValue={settings.instagramHandle}
+                  placeholder="@shoptrenova"
+                />
+              </FullSpan>
+              <Input
+                label="Instagram URL"
+                name="socialInstagram"
+                type="url"
+                defaultValue={settings.social.instagram}
+                required
+              />
+              <Input
+                label="Facebook URL"
+                name="socialFacebook"
+                type="url"
+                defaultValue={settings.social.facebook}
+                required
+              />
+              <Input
+                label="YouTube URL"
+                name="socialYoutube"
+                type="url"
+                defaultValue={settings.social.youtube}
+                required
+              />
+              <Input
+                label="X / Twitter URL"
+                name="socialTwitter"
+                type="url"
+                defaultValue={settings.social.twitter}
+                required
+              />
+            </FieldGrid>
+          </SmartCardDark>
+        </PageGrid>
 
+        <FormFooter>
           <Button type="submit" disabled={saving}>
             {saving ? "Saving..." : "Save settings"}
           </Button>
-        </Stack>
+        </FormFooter>
       </form>
     </AdminShell>
   );

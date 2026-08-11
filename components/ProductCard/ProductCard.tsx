@@ -8,11 +8,13 @@ import {
   Card,
   Media,
   Meta,
+  PriceRow,
   ShopLink,
   TitleLink,
   WishButton,
 } from "@/components/ProductCard/ProductCard.styles";
 import { Badge } from "@/components/Badge/Badge";
+import { DiscountBadge } from "@/components/DiscountBadge/DiscountBadge";
 import { Price } from "@/components/Price/Price";
 import { Rating } from "@/components/Rating/Rating";
 import { Text } from "@/components/Text/Text";
@@ -41,7 +43,6 @@ export function ProductCard({ product }: ProductCardProps) {
         />
         <BadgeRow>
           {product.isNewArrival ? <Badge>New</Badge> : null}
-          {discount ? <Badge tone="sale">-{discount}%</Badge> : null}
         </BadgeRow>
         <WishButton
           type="button"
@@ -64,8 +65,11 @@ export function ProductCard({ product }: ProductCardProps) {
           {product.brand}
         </Text>
         <TitleLink href={`/product/${product.slug}`}>{product.name}</TitleLink>
-        <Price price={product.price} compareAtPrice={product.compareAtPrice} />
         <Rating value={product.rating} count={product.reviewCount} />
+        <PriceRow>
+          <Price price={product.price} compareAtPrice={product.compareAtPrice} />
+          {discount ? <DiscountBadge percent={discount} /> : null}
+        </PriceRow>
         <ShopLink href={`/product/${product.slug}`}>Shop now</ShopLink>
       </Meta>
     </Card>

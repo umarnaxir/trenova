@@ -12,7 +12,7 @@ import { EmptyState } from "@/components/EmptyState/EmptyState";
 import { getAdminAnalytics, getAdminStats } from "@/services/admin.service";
 
 const Chart = styled.div`
-  border: 1px solid ${({ theme }) => theme.colors.gray200};
+  border: 1px solid rgba(198, 167, 94, 0.35);
   background: ${({ theme }) => theme.colors.white};
   padding: ${({ theme }) => theme.space[5]};
   min-height: 280px;
@@ -20,6 +20,7 @@ const Chart = styled.div`
   align-items: end;
   grid-template-columns: repeat(6, 1fr);
   gap: ${({ theme }) => theme.space[3]};
+  box-shadow: 0 8px 24px rgba(10, 10, 10, 0.04);
 `;
 
 const BarWrap = styled.div`
@@ -89,7 +90,7 @@ export default function AdminAnalyticsPage() {
         style={{ gap: "1rem", marginBottom: "2rem" }}
       >
         {stats.map((stat) => (
-          <StatCard key={stat.label} stat={stat} />
+          <StatCard key={stat.label} stat={stat} tone="black" />
         ))}
       </Grid>
       <Text as="h2" variant="h3" mb={4}>

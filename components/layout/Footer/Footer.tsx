@@ -83,7 +83,7 @@ export function Footer() {
         <FooterGrid>
           <BrandCol>
             <BrandIdentity>
-              <Logo height={44} />
+              <Logo height={40} />
               <BrandText>Elevate Every Move.</BrandText>
             </BrandIdentity>
             <ColTitle $compact>FOLLOW US</ColTitle>

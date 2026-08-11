@@ -122,13 +122,13 @@ export function Navbar({ categories }: NavbarProps) {
             {/* Mobile View Left: Logo */}
             <MobileHeaderLeft>
               <LogoWrap>
-                <Logo height={52} />
+                <Logo height={36} />
               </LogoWrap>
             </MobileHeaderLeft>
 
             {/* Desktop View Left: Logo */}
             <DesktopLogoWrap>
-              <Logo height={48} />
+              <Logo height={40} />
             </DesktopLogoWrap>
 
             {/* Mobile View Right: Actions + Menu */}

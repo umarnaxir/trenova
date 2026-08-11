@@ -13,7 +13,7 @@ export default function AuthLayout({
       <AnnouncementBar />
       <PageShell>
         <Flex justifyContent="center" mb={6}>
-          <Logo height={44} />
+          <Logo height={40} />
         </Flex>
         {children}
       </PageShell>

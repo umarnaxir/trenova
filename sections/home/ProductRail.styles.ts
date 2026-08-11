@@ -42,10 +42,10 @@ export const ProductCardWrapper = styled.article`
   background: #ffffff;
   border: 1px solid rgba(10, 10, 10, 0.06);
   border-radius: 10px;
-  padding: 0.85rem;
+  padding: 0.7rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.55rem;
   position: relative;
   transition:
     transform 0.25s ease,
@@ -136,14 +136,25 @@ export const CategoryLabel = styled.span`
 export const ProductCardFooter = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  gap: 0.4rem;
   margin-top: auto;
+`;
+
+export const PriceRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding-right: 0.35rem;
+  padding-bottom: 0.15rem;
 `;
 
 export const PriceText = styled.span`
   font-size: 0.9375rem;
   font-weight: 800;
   color: #0a0a0a;
+  min-width: 0;
 `;
 
 export const NewBadge = styled.span`

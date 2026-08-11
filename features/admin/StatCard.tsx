@@ -1,23 +1,32 @@
 "use client";
 
 import type { AdminStat } from "@/types/admin";
-import { Stat } from "@/features/admin/StatCard.styles";
+import { Stat, StatValue } from "@/features/admin/StatCard.styles";
 import { Text } from "@/components/Text/Text";
 
-export function StatCard({ stat }: { stat: AdminStat }) {
+export function StatCard({
+  stat,
+  tone = "white",
+}: {
+  stat: AdminStat;
+  tone?: "white" | "black";
+}) {
+  const isBlack = tone === "black";
   return (
-    <Stat>
-      <Text variant="eyebrow">{stat.label}</Text>
-      <Text as="p" variant="h2">
-        {stat.value}
+    <Stat $tone={tone}>
+      <Text variant="eyebrow" color="gold">
+        {stat.label}
       </Text>
+      <StatValue $onDark={isBlack}>{stat.value}</StatValue>
       <Text
         color={
           stat.trend === "up"
-            ? "success"
+            ? "gold"
             : stat.trend === "down"
               ? "error"
-              : "gray500"
+              : isBlack
+                ? "gray400"
+                : "gray500"
         }
         fontSize="sm"
       >

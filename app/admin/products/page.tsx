@@ -43,6 +43,14 @@ export default function AdminProductsPage() {
         },
         { key: "stock", header: "Qty", render: (row) => row.stock },
         {
+          key: "sizes",
+          header: "Sizes",
+          render: (row) =>
+            row.sizes
+              .map((size) => `${size}:${row.sizeStock?.[size] ?? 0}`)
+              .join(" · ") || "—",
+        },
+        {
           key: "placement",
           header: "Homepage",
           render: (row) => (

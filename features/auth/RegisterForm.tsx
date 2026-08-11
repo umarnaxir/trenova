@@ -16,6 +16,7 @@ const schema = z
     firstName: z.string().min(2, "Enter first name"),
     lastName: z.string().min(2, "Enter last name"),
     email: z.string().email("Enter a valid email"),
+    phone: z.string().min(10, "Enter a valid phone number").optional().or(z.literal("")),
     password: z.string().min(6, "Minimum 6 characters"),
     confirmPassword: z.string().min(6, "Confirm password"),
   })
@@ -40,7 +41,13 @@ export function RegisterForm() {
     <AuthCard
       as="form"
       onSubmit={handleSubmit(async (values) => {
-        registerUser(values);
+        registerUser({
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          password: values.password,
+          phone: values.phone || undefined,
+        });
         pushToast("Account created");
         router.push("/account");
       })}
@@ -63,6 +70,11 @@ export function RegisterForm() {
         type="email"
         error={errors.email?.message}
         {...register("email")}
+      />
+      <Input
+        label="Phone"
+        error={errors.phone?.message}
+        {...register("phone")}
       />
       <Input
         label="Password"

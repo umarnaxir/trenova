@@ -86,6 +86,7 @@ export function AdminLogin() {
           error={errors.password?.message}
           endAdornment={
             <IconButton
+              plain
               label={showPassword ? "Hide password" : "Show password"}
               onClick={() => setShowPassword((value) => !value)}
             >

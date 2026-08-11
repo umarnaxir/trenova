@@ -6,17 +6,18 @@ import { AdminShell } from "@/features/admin/AdminShell";
 import { DataTable, type Column } from "@/features/admin/DataTable";
 import { ConfirmDialog } from "@/features/admin/ConfirmDialog";
 import {
-  ActionGroup,
-  SearchField,
-  Toolbar,
-} from "@/features/admin/AdminShared.styles";
+  AdminPagination,
+  ADMIN_PAGE_SIZE,
+  paginateItems,
+} from "@/features/admin/AdminPagination";
+import { ActionGroup, Toolbar } from "@/features/admin/AdminShared.styles";
 import { Loader } from "@/components/Loader/Loader";
 import { Text } from "@/components/Text/Text";
-import { Input } from "@/components/Input/Input";
 import { Button } from "@/components/Button/Button";
 import { EmptyState } from "@/components/EmptyState/EmptyState";
 import { Modal } from "@/components/Modal/Modal";
 import { useUiStore } from "@/hooks/stores/uiStore";
+import { useAdminUiStore } from "@/hooks/stores/adminUiStore";
 
 type AdminPageProps<T> = {
   title: string;
@@ -27,6 +28,8 @@ type AdminPageProps<T> = {
   getSearchText?: (row: T) => string;
   createLabel?: string;
   formTitle?: (item: T | null) => string;
+  formSize?: "md" | "lg" | "xl";
+  pageSize?: number;
   renderForm?: (args: {
     item: T | null;
     onClose: () => void;
@@ -47,6 +50,8 @@ export function AdminPage<T>({
   getSearchText,
   createLabel,
   formTitle,
+  formSize = "xl",
+  pageSize = ADMIN_PAGE_SIZE,
   renderForm,
   onDelete,
   deleteMessage,
@@ -54,9 +59,10 @@ export function AdminPage<T>({
   emptyDescription = "Create a new record to get started.",
 }: AdminPageProps<T>) {
   const pushToast = useUiStore((state) => state.pushToast);
+  const query = useAdminUiStore((state) => state.globalSearchQuery);
   const [rows, setRows] = useState<T[] | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
   const [editing, setEditing] = useState<T | null | undefined>(undefined);
   const [pendingDelete, setPendingDelete] = useState<T | null>(null);
   const [deleting, setDeleting] = useState(false);
@@ -91,6 +97,20 @@ export function AdminPage<T>({
     return rows.filter((row) => getSearchText(row).toLowerCase().includes(q));
   }, [rows, query, getSearchText]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [query]);
+
+  useEffect(() => {
+    const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+    if (page > totalPages) setPage(totalPages);
+  }, [filtered.length, page, pageSize]);
+
+  const paged = useMemo(
+    () => paginateItems(filtered, page, pageSize),
+    [filtered, page, pageSize],
+  );
+
   const openCreate = () => setEditing(null);
   const closeForm = () => setEditing(undefined);
 
@@ -102,28 +122,16 @@ export function AdminPage<T>({
         </Text>
       ) : null}
 
-      <Toolbar>
-        {getSearchText ? (
-          <SearchField>
-            <Input
-              aria-label={`Search ${title}`}
-              placeholder="Search..."
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-            />
-          </SearchField>
-        ) : (
-          <div />
-        )}
-        <ActionGroup>
-          {renderForm && createLabel ? (
+      {renderForm && createLabel ? (
+        <Toolbar>
+          <ActionGroup>
             <Button type="button" onClick={openCreate}>
               <Plus size={16} style={{ marginRight: 8 }} />
               {createLabel}
             </Button>
-          ) : null}
-        </ActionGroup>
-      </Toolbar>
+          </ActionGroup>
+        </Toolbar>
+      ) : null}
 
       {error ? (
         <EmptyState
@@ -136,27 +144,41 @@ export function AdminPage<T>({
         <Loader />
       ) : filtered.length === 0 ? (
         <EmptyState
-          title={query ? "No matches" : emptyTitle}
+          title={query.trim() ? "No matches" : emptyTitle}
           description={
-            query ? "Try a different search term." : emptyDescription
+            query.trim()
+              ? "Try a different search in the header."
+              : emptyDescription
           }
-          actionLabel={renderForm && createLabel && !query ? createLabel : undefined}
-          onAction={renderForm && createLabel && !query ? openCreate : undefined}
+          actionLabel={
+            renderForm && createLabel && !query.trim() ? createLabel : undefined
+          }
+          onAction={
+            renderForm && createLabel && !query.trim() ? openCreate : undefined
+          }
         />
       ) : (
-        <DataTable
-          rows={filtered}
-          columns={columns}
-          getRowKey={getRowKey}
-          onEdit={renderForm ? (row) => setEditing(row) : undefined}
-          onDelete={onDelete ? (row) => setPendingDelete(row) : undefined}
-        />
+        <>
+          <DataTable
+            rows={paged}
+            columns={columns}
+            getRowKey={getRowKey}
+            onEdit={renderForm ? (row) => setEditing(row) : undefined}
+            onDelete={onDelete ? (row) => setPendingDelete(row) : undefined}
+          />
+          <AdminPagination
+            page={page}
+            pageSize={pageSize}
+            total={filtered.length}
+            onPageChange={setPage}
+          />
+        </>
       )}
 
       {renderForm && editing !== undefined ? (
         <Modal
           open
-          size="xl"
+          size={formSize}
           title={formTitle?.(editing) ?? (editing ? "Edit" : "Create")}
           onClose={closeForm}
         >

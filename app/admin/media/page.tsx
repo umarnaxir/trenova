@@ -9,9 +9,8 @@ import { Grid } from "@/components/Grid/Grid";
 import { Text } from "@/components/Text/Text";
 import { Loader } from "@/components/Loader/Loader";
 import { EmptyState } from "@/components/EmptyState/EmptyState";
-import { Input } from "@/components/Input/Input";
 import { getAdminMedia } from "@/services/admin.service";
-import { SearchField, Toolbar } from "@/features/admin/AdminShared.styles";
+import { useAdminUiStore } from "@/hooks/stores/adminUiStore";
 
 const Card = styled.article`
   border: 1px solid ${({ theme }) => theme.colors.gray200};
@@ -28,8 +27,8 @@ const Media = styled.div`
 `;
 
 export default function AdminMediaPage() {
+  const query = useAdminUiStore((state) => state.globalSearchQuery);
   const [items, setItems] = useState<MediaItem[] | null>(null);
-  const [query, setQuery] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -51,26 +50,16 @@ export default function AdminMediaPage() {
       <Text color="gray600" mb={4}>
         Product imagery available to the catalog. Upload API is not available yet.
       </Text>
-      <Toolbar>
-        <SearchField>
-          <Input
-            aria-label="Search media"
-            placeholder="Search media..."
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-          />
-        </SearchField>
-      </Toolbar>
       {error ? (
         <EmptyState title="Unable to load media" description={error} />
       ) : !items ? (
         <Loader />
       ) : filtered.length === 0 ? (
         <EmptyState
-          title={query ? "No matches" : "No media yet"}
+          title={query.trim() ? "No matches" : "No media yet"}
           description={
-            query
-              ? "Try a different search term."
+            query.trim()
+              ? "Try a different search in the header."
               : "Media appears when products have images."
           }
         />

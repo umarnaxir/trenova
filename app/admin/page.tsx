@@ -18,17 +18,26 @@ import { getAdminDashboard } from "@/services/admin.service";
 import { formatCurrency, formatDate } from "@/utils/format";
 
 const Section = styled.section`
-  margin-bottom: ${({ theme }) => theme.space[8]};
+  margin-bottom: ${({ theme }) => theme.space[7]};
 `;
 
-const QuickLinks = styled.div`
-  display: grid;
+const SectionHead = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
   gap: ${({ theme }) => theme.space[3]};
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-bottom: ${({ theme }) => theme.space[8]};
+  margin-bottom: ${({ theme }) => theme.space[4]};
+`;
 
-  ${({ theme }) => theme.mediaQueries.md} {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+const Split = styled.div`
+  display: grid;
+  gap: ${({ theme }) => theme.space[4]};
+  margin-bottom: ${({ theme }) => theme.space[7]};
+
+  ${({ theme }) => theme.mediaQueries.lg} {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    align-items: start;
   }
 `;
 
@@ -36,27 +45,46 @@ const InsightGrid = styled.div`
   display: grid;
   gap: ${({ theme }) => theme.space[3]};
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-bottom: ${({ theme }) => theme.space[8]};
+  margin-bottom: ${({ theme }) => theme.space[7]};
 
   ${({ theme }) => theme.mediaQueries.md} {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  ${({ theme }) => theme.mediaQueries.lg} {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 `;
 
 const InsightCard = styled.div`
-  border: 1px solid ${({ theme }) => theme.colors.gray200};
-  background: ${({ theme }) => theme.colors.white};
+  position: relative;
+  overflow: hidden;
+  border: 1px solid ${({ theme }) => theme.colors.black};
+  background: linear-gradient(
+    145deg,
+    ${({ theme }) => theme.colors.black} 0%,
+    #171717 100%
+  );
+  color: ${({ theme }) => theme.colors.white};
   padding: ${({ theme }) => theme.space[4]};
+  box-shadow: 0 8px 24px rgba(10, 10, 10, 0.12);
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: auto -18% -45% auto;
+    width: 80px;
+    height: 80px;
+    border-radius: 999px;
+    background: rgba(198, 167, 94, 0.16);
+  }
 `;
 
 const InsightValue = styled.p`
   margin: 0 0 ${({ theme }) => theme.space[1]};
   font-size: ${({ theme }) => theme.fontSizes["2xl"]};
-  font-family: ${({ theme }) => theme.fonts.heading};
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: ${({ theme }) => theme.colors.gold};
+  position: relative;
+  z-index: 1;
 `;
 
 const InsightLabel = styled.p`
@@ -64,7 +92,88 @@ const InsightLabel = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.xs};
   letter-spacing: ${({ theme }) => theme.letterSpacings.wider};
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.gray500};
+  color: ${({ theme }) => theme.colors.gray300};
+  position: relative;
+  z-index: 1;
+`;
+
+const Panel = styled.div<{ $tone?: "white" | "black" }>`
+  border: 1px solid
+    ${({ theme, $tone }) =>
+      $tone === "black" ? theme.colors.black : "rgba(198, 167, 94, 0.35)"};
+  background: ${({ theme, $tone }) =>
+    $tone === "black"
+      ? `linear-gradient(145deg, ${theme.colors.black} 0%, #171717 100%)`
+      : theme.colors.white};
+  color: ${({ theme, $tone }) =>
+    $tone === "black" ? theme.colors.white : theme.colors.black};
+  padding: ${({ theme }) => theme.space[5]};
+  min-height: 100%;
+  box-shadow: 0 8px 24px rgba(10, 10, 10, 0.08);
+`;
+
+const PanelTitle = styled.h3<{ $tone?: "white" | "black" }>`
+  margin: 0 0 ${({ theme }) => theme.space[4]};
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.gold};
+  font-weight: 700;
+`;
+
+const MetricList = styled.div`
+  display: grid;
+  gap: ${({ theme }) => theme.space[3]};
+`;
+
+const MetricRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: ${({ theme }) => theme.space[3]};
+  align-items: baseline;
+  padding-bottom: ${({ theme }) => theme.space[3]};
+  border-bottom: 1px solid rgba(198, 167, 94, 0.22);
+
+  &:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  strong {
+    font-size: ${({ theme }) => theme.fontSizes.lg};
+    font-family: ${({ theme }) => theme.fonts.body};
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: ${({ theme }) => theme.colors.black};
+  }
+
+  span {
+    font-size: ${({ theme }) => theme.fontSizes.sm};
+    color: ${({ theme }) => theme.colors.gray600};
+  }
+`;
+
+const QuickLinks = styled.div`
+  display: grid;
+  gap: ${({ theme }) => theme.space[3]};
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  ${({ theme }) => theme.mediaQueries.md} {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  a,
+  button {
+    border-color: ${({ theme }) => theme.colors.gold} !important;
+    background: transparent !important;
+    color: ${({ theme }) => theme.colors.gold} !important;
+  }
+
+  a:hover,
+  button:hover {
+    background: ${({ theme }) => theme.colors.gold} !important;
+    color: ${({ theme }) => theme.colors.black} !important;
+  }
 `;
 
 function statusTone(status: Order["status"]) {
@@ -72,12 +181,6 @@ function statusTone(status: Order["status"]) {
   if (status === "cancelled") return "danger" as const;
   if (status === "shipped" || status === "confirmed") return "warning" as const;
   return "neutral" as const;
-}
-
-function stockTone(status: string) {
-  if (status === "In Stock") return "success" as const;
-  if (status === "Low") return "warning" as const;
-  return "danger" as const;
 }
 
 export default function AdminDashboardPage() {
@@ -108,67 +211,118 @@ export default function AdminDashboardPage() {
     );
   }
 
+  const insights: { label: string; value: string | number }[] = [
+    { label: "Pending orders", value: data.pendingOrders },
+    { label: "Delivered", value: data.deliveredOrders },
+    { label: "Cancelled", value: data.cancelledOrders },
+    { label: "Stock alerts", value: data.lowStockCount },
+    { label: "Featured", value: data.featuredCount },
+    { label: "Best sellers", value: data.bestSellerCount },
+    { label: "New arrivals", value: data.newArrivalCount },
+    { label: "On sale", value: data.onSaleCount },
+  ];
+
   return (
     <AdminShell title="Dashboard">
-      <Text color="gray600" mb={5}>
-        Overview of storefront performance, catalog placement, and operations.
+      <Text color="gray700" mb={5}>
+        Command center for catalog, orders, customers, and store operations.
       </Text>
 
       <Grid
         gridTemplateColumns={["1fr 1fr", null, "repeat(4, 1fr)"]}
-        style={{ gap: "1rem", marginBottom: "2rem" }}
+        style={{ gap: "1rem", marginBottom: "1.75rem" }}
       >
         {data.stats.map((stat) => (
-          <StatCard key={stat.label} stat={stat} />
+          <StatCard key={stat.label} stat={stat} tone="black" />
         ))}
       </Grid>
 
       <InsightGrid>
-        <InsightCard>
-          <InsightValue>{data.pendingOrders}</InsightValue>
-          <InsightLabel>Pending orders</InsightLabel>
-        </InsightCard>
-        <InsightCard>
-          <InsightValue>{data.featuredCount}</InsightValue>
-          <InsightLabel>Featured products</InsightLabel>
-        </InsightCard>
-        <InsightCard>
-          <InsightValue>{data.bestSellerCount}</InsightValue>
-          <InsightLabel>Best sellers</InsightLabel>
-        </InsightCard>
-        <InsightCard>
-          <InsightValue>{data.lowStock.length}</InsightValue>
-          <InsightLabel>Low / out stock</InsightLabel>
-        </InsightCard>
-        <InsightCard>
-          <InsightValue>{data.reviewCount}</InsightValue>
-          <InsightLabel>Reviews</InsightLabel>
-        </InsightCard>
-        <InsightCard>
-          <InsightValue>{data.couponCount}</InsightValue>
-          <InsightLabel>Active coupons</InsightLabel>
-        </InsightCard>
+        {insights.map((item) => (
+          <InsightCard key={item.label}>
+            <InsightValue>{item.value}</InsightValue>
+            <InsightLabel>{item.label}</InsightLabel>
+          </InsightCard>
+        ))}
       </InsightGrid>
 
-      <QuickLinks>
-        <Button as={Link} href="/admin/products" variant="secondary">
-          Manage products
-        </Button>
-        <Button as={Link} href="/admin/orders" variant="secondary">
-          Fulfill orders
-        </Button>
-        <Button as={Link} href="/admin/instagram" variant="secondary">
-          Edit Instagram
-        </Button>
-        <Button as={Link} href="/admin/inventory" variant="secondary">
-          Check inventory
-        </Button>
-      </QuickLinks>
+      <Split>
+        <Panel>
+          <PanelTitle>Business snapshot</PanelTitle>
+          <MetricList>
+            <MetricRow>
+              <span>Total revenue</span>
+              <strong>{formatCurrency(data.totalRevenue)}</strong>
+            </MetricRow>
+            <MetricRow>
+              <span>Avg order value</span>
+              <strong>{formatCurrency(data.avgOrderValue)}</strong>
+            </MetricRow>
+            <MetricRow>
+              <span>Products live</span>
+              <strong>{data.productCount}</strong>
+            </MetricRow>
+            <MetricRow>
+              <span>Inventory units</span>
+              <strong>{data.inventoryUnits}</strong>
+            </MetricRow>
+            <MetricRow>
+              <span>Registered users</span>
+              <strong>{data.userCount}</strong>
+            </MetricRow>
+            <MetricRow>
+              <span>Active coupons</span>
+              <strong>{data.couponCount}</strong>
+            </MetricRow>
+            <MetricRow>
+              <span>Team members</span>
+              <strong>{data.teamCount}</strong>
+            </MetricRow>
+            <MetricRow>
+              <span>Unread alerts</span>
+              <strong>{data.unreadNotifications}</strong>
+            </MetricRow>
+          </MetricList>
+        </Panel>
+
+        <Panel $tone="black">
+          <PanelTitle $tone="black">Quick actions</PanelTitle>
+          <QuickLinks>
+            <Button as={Link} href="/admin/products" variant="secondary">
+              Products
+            </Button>
+            <Button as={Link} href="/admin/orders" variant="secondary">
+              Orders
+            </Button>
+            <Button as={Link} href="/admin/users" variant="secondary">
+              Users
+            </Button>
+            <Button as={Link} href="/admin/inventory" variant="secondary">
+              Inventory
+            </Button>
+            <Button as={Link} href="/admin/coupons" variant="secondary">
+              Coupons
+            </Button>
+            <Button as={Link} href="/admin/settings" variant="secondary">
+              Settings
+            </Button>
+          </QuickLinks>
+          <Text color="gray400" mt={5} fontSize="sm">
+            Jump into the modules your storefront depends on — catalog,
+            fulfillment, and growth tools.
+          </Text>
+        </Panel>
+      </Split>
 
       <Section>
-        <Text as="h2" variant="h3" mb={4}>
-          Recent orders
-        </Text>
+        <SectionHead>
+          <Text as="h2" variant="h3">
+            Recent orders
+          </Text>
+          <Button as={Link} href="/admin/orders" size="sm" variant="secondary">
+            View all orders
+          </Button>
+        </SectionHead>
         {data.recentOrders.length === 0 ? (
           <EmptyState title="No orders yet" description="New orders will appear here." />
         ) : (
@@ -202,35 +356,6 @@ export default function AdminDashboardPage() {
                 key: "total",
                 header: "Total",
                 render: (row) => formatCurrency(row.total),
-              },
-            ]}
-          />
-        )}
-      </Section>
-
-      <Section>
-        <Text as="h2" variant="h3" mb={4}>
-          Low stock alerts
-        </Text>
-        {data.lowStock.length === 0 ? (
-          <EmptyState
-            title="Inventory looks healthy"
-            description="No low or out-of-stock SKUs right now."
-          />
-        ) : (
-          <DataTable
-            rows={data.lowStock}
-            getRowKey={(row) => row.id}
-            columns={[
-              { key: "name", header: "Product", render: (row) => row.name },
-              { key: "sku", header: "SKU", render: (row) => row.sku },
-              { key: "stock", header: "Qty", render: (row) => row.stock },
-              {
-                key: "status",
-                header: "Status",
-                render: (row) => (
-                  <StatusPill $tone={stockTone(row.status)}>{row.status}</StatusPill>
-                ),
               },
             ]}
           />

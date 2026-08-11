@@ -1,23 +1,21 @@
 import type {
-  AdminCustomer,
   AdminSettings,
   CmsPage,
   TeamMember,
 } from "@/types/admin";
 import type { Coupon } from "@/types/cart";
-import type { Review } from "@/types/review";
 import type { OrderStatus } from "@/types/user";
+import type { SizeStock } from "@/types/product";
 import * as repo from "@/services/mock/adminRepository";
 
 export const getAdminStats = repo.repoGetStats;
 export const getAdminAnalytics = repo.repoGetAnalytics;
 export const getAdminDashboard = repo.repoGetDashboard;
 export const getAdminProducts = repo.repoGetProducts;
-export const getAdminCustomers = repo.repoGetCustomers;
+export const getAdminUsers = repo.repoGetUsers;
 export const getAdminOrders = repo.repoGetOrders;
 export const getAdminInventory = repo.repoGetInventory;
 export const getAdminCoupons = repo.repoGetCoupons;
-export const getAdminReviews = repo.repoGetReviews;
 export const getAdminNotifications = repo.repoGetNotifications;
 export const getAdminMedia = repo.repoGetMedia;
 export const getAdminCmsPages = repo.repoGetCmsPages;
@@ -42,29 +40,22 @@ export async function deleteAdminProduct(id: string) {
   return repo.repoDeleteProduct(id);
 }
 
-export async function createAdminCustomer(
-  input: Pick<AdminCustomer, "name" | "email">,
-) {
-  return repo.repoCreateCustomer(input);
-}
-
-export async function updateAdminCustomer(
+export async function updateAdminUserStatus(
   id: string,
-  input: Partial<Pick<AdminCustomer, "name" | "email">>,
+  status: "active" | "inactive",
 ) {
-  return repo.repoUpdateCustomer(id, input);
-}
-
-export async function deleteAdminCustomer(id: string) {
-  return repo.repoDeleteCustomer(id);
+  return repo.repoUpdateUserStatus(id, status);
 }
 
 export async function updateAdminOrderStatus(id: string, status: OrderStatus) {
   return repo.repoUpdateOrderStatus(id, status);
 }
 
-export async function updateAdminInventory(id: string, stock: number) {
-  return repo.repoUpdateInventory(id, stock);
+export async function updateAdminInventory(
+  id: string,
+  stockOrSizeStock: number | SizeStock,
+) {
+  return repo.repoUpdateInventory(id, stockOrSizeStock);
 }
 
 export async function createAdminCoupon(input: Coupon) {
@@ -77,17 +68,6 @@ export async function updateAdminCoupon(code: string, input: Partial<Coupon>) {
 
 export async function deleteAdminCoupon(code: string) {
   return repo.repoDeleteCoupon(code);
-}
-
-export async function updateAdminReview(
-  id: string,
-  input: Partial<Pick<Review, "title" | "body" | "rating" | "verified">>,
-) {
-  return repo.repoUpdateReview(id, input);
-}
-
-export async function deleteAdminReview(id: string) {
-  return repo.repoDeleteReview(id);
 }
 
 export async function markAdminNotificationRead(id: string) {
@@ -127,14 +107,16 @@ export async function deleteAdminNewsletter(id: string) {
 }
 
 export async function createAdminTeamMember(
-  input: Pick<TeamMember, "name" | "email" | "role">,
+  input: Pick<TeamMember, "name" | "email" | "role"> & { password: string },
 ) {
   return repo.repoCreateTeamMember(input);
 }
 
 export async function updateAdminTeamMember(
   id: string,
-  input: Partial<Pick<TeamMember, "name" | "email" | "role" | "status">>,
+  input: Partial<
+    Pick<TeamMember, "name" | "email" | "role" | "status" | "password">
+  >,
 ) {
   return repo.repoUpdateTeamMember(id, input);
 }

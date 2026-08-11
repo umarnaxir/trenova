@@ -59,6 +59,16 @@ export const Meta = styled.div`
   gap: ${({ theme }) => theme.space[1]};
 `;
 
+export const PriceRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: ${({ theme }) => theme.space[2]};
+  min-height: 2.75rem;
+  padding-right: 0.35rem;
+  padding-bottom: 0.15rem;
+`;
+
 export const TitleLink = styled.a`
   font-family: ${({ theme }) => theme.fonts.heading};
   letter-spacing: ${({ theme }) => theme.letterSpacings.wide};

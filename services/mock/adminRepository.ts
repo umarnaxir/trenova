@@ -1,5 +1,4 @@
 import type {
-  AdminCustomer,
   AdminSettings,
   AdminStat,
   AnalyticsPoint,
@@ -10,14 +9,10 @@ import type {
   TeamMember,
 } from "@/types/admin";
 import type { Coupon } from "@/types/cart";
-import type { Product, ProductColor, ProductSize } from "@/types/product";
+import type { Product, ProductColor, ProductSize, SizeStock } from "@/types/product";
 import type { Order, OrderStatus } from "@/types/user";
-import type { Review } from "@/types/review";
 import { coupons as seedCoupons } from "@/services/mock/coupons";
-import { reviews as seedReviews } from "@/services/mock/reviews";
-import { mockOrders as seedOrders } from "@/services/mock/user";
 import {
-  adminCustomers as seedCustomers,
   adminNotifications as seedNotifications,
   adminStats as seedStats,
   cmsPages as seedCms,
@@ -34,6 +29,18 @@ import {
   getSiteSettingsState,
   setSiteSettingsState,
 } from "@/services/mock/siteSettingsStore";
+import {
+  getOrdersStore,
+  listAdminUsers,
+  setUserStatus,
+  updateOrderStatusInStore,
+} from "@/services/mock/usersStore";
+import {
+  buildSizeStock,
+  normalizeProductInventory,
+  stockStatusLabel,
+  sumSizeStock,
+} from "@/utils/inventory";
 
 export type AdminProductInput = {
   name: string;
@@ -41,7 +48,8 @@ export type AdminProductInput = {
   brand?: string;
   price: number;
   compareAtPrice?: number;
-  stock: number;
+  stock?: number;
+  sizeStock?: import("@/types/product").SizeStock;
   categorySlug: string;
   shortDescription: string;
   description: string;
@@ -60,14 +68,22 @@ export type AdminProductInput = {
 export type AdminDashboardData = {
   stats: AdminStat[];
   recentOrders: Order[];
-  lowStock: InventoryRow[];
+  lowStockCount: number;
   pendingOrders: number;
   featuredCount: number;
   bestSellerCount: number;
-  reviewCount: number;
-  customerCount: number;
+  newArrivalCount: number;
+  onSaleCount: number;
+  userCount: number;
   couponCount: number;
+  teamCount: number;
   unreadNotifications: number;
+  totalRevenue: number;
+  avgOrderValue: number;
+  deliveredOrders: number;
+  cancelledOrders: number;
+  inventoryUnits: number;
+  productCount: number;
 };
 
 const delay = (ms = 220) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -77,9 +93,7 @@ function clone<T>(value: T): T {
 }
 
 function stockStatus(stock: number): InventoryRow["status"] {
-  if (stock <= 0) return "Out";
-  if (stock <= 20) return "Low";
-  return "In Stock";
+  return stockStatusLabel(stock);
 }
 
 function slugify(value: string) {
@@ -95,9 +109,6 @@ function uid(prefix: string) {
 }
 
 let coupons = clone(seedCoupons);
-let reviews = clone(seedReviews);
-const orders = clone(seedOrders);
-let customers = clone(seedCustomers);
 let notifications = clone(seedNotifications);
 let cmsPages = clone(seedCms);
 let newsletter = clone(seedNewsletter);
@@ -109,6 +120,7 @@ let team: TeamMember[] = [
     role: "Admin",
     status: "active",
     joinedAt: "2026-01-10T00:00:00.000Z",
+    password: "1122",
   },
   {
     id: "team-2",
@@ -117,6 +129,7 @@ let team: TeamMember[] = [
     role: "Manager",
     status: "active",
     joinedAt: "2026-03-15T00:00:00.000Z",
+    password: "manager123",
   },
   {
     id: "team-3",
@@ -125,9 +138,14 @@ let team: TeamMember[] = [
     role: "Editor",
     status: "invited",
     joinedAt: "2026-07-22T00:00:00.000Z",
+    password: "editor123",
   },
 ];
 
+function publicTeamMember(member: TeamMember): TeamMember {
+  const { password: _password, ...rest } = member;
+  return rest;
+}
 function rebuildMedia(): MediaItem[] {
   return getCatalogProducts().flatMap((product) =>
     (["front", "left", "right"] as const).map((angle, index) => ({
@@ -143,6 +161,7 @@ function rebuildMedia(): MediaItem[] {
 
 export async function repoGetStats(): Promise<AdminStat[]> {
   await delay();
+  const orders = getOrdersStore();
   const revenue = orders.reduce((sum, order) => sum + order.total, 0);
   return [
     {
@@ -158,8 +177,8 @@ export async function repoGetStats(): Promise<AdminStat[]> {
       trend: "up",
     },
     {
-      label: "Customers",
-      value: String(customers.length),
+      label: "Users",
+      value: String(listAdminUsers().length),
       change: seedStats[2].change,
       trend: "up",
     },
@@ -175,31 +194,37 @@ export async function repoGetStats(): Promise<AdminStat[]> {
 export async function repoGetDashboard(): Promise<AdminDashboardData> {
   await delay();
   const products = getCatalogProducts();
-  const inventory = products.map((product) => ({
-    id: product.id,
-    name: product.name,
-    sku: product.sku,
-    stock: product.stock,
-    status: stockStatus(product.stock),
-  }));
+  const orders = getOrdersStore();
+  const inventory = products.map((product) => toInventoryRow(product));
   const stats = await repoGetStats();
+  const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
   return {
     stats,
-    recentOrders: clone(orders).slice(0, 6),
-    lowStock: inventory.filter((item) => item.status !== "In Stock").slice(0, 6),
+    recentOrders: orders.slice(0, 8),
+    lowStockCount: inventory.filter((item) => item.status !== "In Stock").length,
     pendingOrders: orders.filter(
       (order) => order.status === "pending" || order.status === "confirmed",
     ).length,
     featuredCount: products.filter((item) => item.isFeatured).length,
     bestSellerCount: products.filter((item) => item.isBestSeller).length,
-    reviewCount: reviews.length,
-    customerCount: customers.length,
+    newArrivalCount: products.filter((item) => item.isNewArrival).length,
+    onSaleCount: products.filter((item) => item.isOnSale).length,
+    userCount: listAdminUsers().length,
     couponCount: coupons.length,
+    teamCount: team.length,
     unreadNotifications: notifications.filter((item) => !item.read).length,
+    totalRevenue,
+    avgOrderValue: orders.length ? Math.round(totalRevenue / orders.length) : 0,
+    deliveredOrders: orders.filter((order) => order.status === "delivered").length,
+    cancelledOrders: orders.filter((order) => order.status === "cancelled").length,
+    inventoryUnits: inventory.reduce((sum, item) => sum + item.stock, 0),
+    productCount: products.length,
   };
 }
-  export async function repoGetAnalytics(): Promise<AnalyticsPoint[]> {
+
+export async function repoGetAnalytics(): Promise<AnalyticsPoint[]> {
   await delay();
+  const orders = getOrdersStore();
   const months = ["Mar", "Apr", "May", "Jun", "Jul", "Aug"];
   return months.map((label, index) => ({
     label,
@@ -238,7 +263,13 @@ export async function repoCreateProduct(input: AdminProductInput) {
   const compareAt = input.compareAtPrice ? Number(input.compareAtPrice) : undefined;
   const price = Number(input.price);
   const slug = slugify(input.categorySlug || "men");
-  const product: Product = {
+  const sizes = input.sizes.length ? input.sizes : (["S", "M", "L", "XL"] as ProductSize[]);
+  const sizeStock = buildSizeStock(
+    sizes,
+    input.sizeStock,
+    Number(input.stock ?? 0),
+  );
+  const product = normalizeProductInventory({
     id: uid("prod"),
     slug: slugify(input.name),
     name: input.name,
@@ -250,7 +281,8 @@ export async function repoCreateProduct(input: AdminProductInput) {
     rating: Number(input.rating ?? 0),
     reviewCount: Number(input.reviewCount ?? 0),
     colors: input.colors.length ? input.colors : [{ name: "Black", hex: "#0A0A0A" }],
-    sizes: input.sizes.length ? input.sizes : ["S", "M", "L", "XL"],
+    sizes,
+    sizeStock,
     images: input.images,
     categoryId: `cat-${slug}`,
     categorySlug: input.categorySlug || "men",
@@ -261,11 +293,11 @@ export async function repoCreateProduct(input: AdminProductInput) {
     isTrending: Boolean(input.isTrending),
     isOnSale:
       Boolean(input.isOnSale) || Boolean(compareAt && compareAt > price),
-    stock: Number(input.stock),
+    stock: sumSizeStock(sizeStock),
     sku: input.sku,
     specifications: { Fabric: "Cotton", Fit: "Regular" },
     createdAt: new Date().toISOString(),
-  };
+  });
   setCatalogProducts([product, ...products]);
   return clone(product);
 }
@@ -279,7 +311,13 @@ export async function repoUpdateProduct(id: string, input: AdminProductInput) {
   const compareAt = input.compareAtPrice ? Number(input.compareAtPrice) : undefined;
   const price = Number(input.price);
   const slug = slugify(input.categorySlug || current.categorySlug);
-  const next: Product = {
+  const sizes = input.sizes.length ? input.sizes : current.sizes;
+  const sizeStock = buildSizeStock(
+    sizes,
+    input.sizeStock ?? current.sizeStock,
+    Number(input.stock ?? current.stock),
+  );
+  const next = normalizeProductInventory({
     ...current,
     name: input.name,
     sku: input.sku,
@@ -289,11 +327,12 @@ export async function repoUpdateProduct(id: string, input: AdminProductInput) {
     description: input.description || input.shortDescription,
     price,
     compareAtPrice: compareAt,
-    stock: Number(input.stock),
+    sizeStock,
+    stock: sumSizeStock(sizeStock),
     rating: Number(input.rating ?? current.rating),
     reviewCount: Number(input.reviewCount ?? current.reviewCount),
     colors: input.colors.length ? input.colors : current.colors,
-    sizes: input.sizes.length ? input.sizes : current.sizes,
+    sizes,
     images: input.images,
     categoryId: `cat-${slug}`,
     categorySlug: input.categorySlug || current.categorySlug,
@@ -304,7 +343,7 @@ export async function repoUpdateProduct(id: string, input: AdminProductInput) {
     isTrending: Boolean(input.isTrending),
     isOnSale:
       Boolean(input.isOnSale) || Boolean(compareAt && compareAt > price),
-  };
+  });
   const updated = [...products];
   updated[index] = next;
   setCatalogProducts(updated);
@@ -316,82 +355,76 @@ export async function repoDeleteProduct(id: string) {
   setCatalogProducts(getCatalogProducts().filter((item) => item.id !== id));
 }
 
-export async function repoGetCustomers() {
-  await delay();
-  return clone(customers);
-}
-
-export async function repoCreateCustomer(
-  input: Pick<AdminCustomer, "name" | "email">,
-) {
-  await delay();
-  const customer: AdminCustomer = {
-    id: uid("cust"),
-    name: input.name,
-    email: input.email,
-    orders: 0,
-    spent: 0,
-    joinedAt: new Date().toISOString(),
-  };
-  customers = [customer, ...customers];
-  return clone(customer);
-}
-
-export async function repoUpdateCustomer(
-  id: string,
-  input: Partial<Pick<AdminCustomer, "name" | "email">>,
-) {
-  await delay();
-  const index = customers.findIndex((item) => item.id === id);
-  if (index < 0) throw new Error("Customer not found");
-  customers[index] = { ...customers[index], ...input };
-  return clone(customers[index]);
-}
-
-export async function repoDeleteCustomer(id: string) {
-  await delay();
-  customers = customers.filter((item) => item.id !== id);
-}
-
 export async function repoGetOrders() {
   await delay();
-  return clone(orders);
+  return getOrdersStore();
 }
 
 export async function repoUpdateOrderStatus(id: string, status: OrderStatus) {
   await delay();
-  const index = orders.findIndex((item) => item.id === id);
-  if (index < 0) throw new Error("Order not found");
-  orders[index] = { ...orders[index], status };
-  return clone(orders[index]);
+  return updateOrderStatusInStore(id, status);
+}
+
+function toInventoryRow(product: Product): InventoryRow {
+  const normalized = normalizeProductInventory(product);
+  const sizeStock = normalized.sizeStock ?? {};
+  const sizeSummary = normalized.sizes
+    .map((size) => `${size}:${sizeStock[size] ?? 0}`)
+    .join(" · ");
+  return {
+    id: normalized.id,
+    name: normalized.name,
+    sku: normalized.sku,
+    stock: normalized.stock,
+    status: stockStatus(normalized.stock),
+    sizes: normalized.sizes,
+    sizeStock,
+    sizeSummary: sizeSummary || "—",
+  };
 }
 
 export async function repoGetInventory(): Promise<InventoryRow[]> {
   await delay();
-  return getCatalogProducts().map((product) => ({
-    id: product.id,
-    name: product.name,
-    sku: product.sku,
-    stock: product.stock,
-    status: stockStatus(product.stock),
-  }));
+  return getCatalogProducts().map((product) => toInventoryRow(product));
 }
 
-export async function repoUpdateInventory(id: string, stock: number) {
+export async function repoUpdateInventory(
+  id: string,
+  stockOrSizeStock: number | SizeStock,
+) {
   await delay();
   const products = getCatalogProducts();
   const index = products.findIndex((item) => item.id === id);
   if (index < 0) throw new Error("Product not found");
+  const current = products[index];
+
+  const sizeStock =
+    typeof stockOrSizeStock === "number"
+      ? buildSizeStock(current.sizes, undefined, stockOrSizeStock)
+      : buildSizeStock(current.sizes, stockOrSizeStock, current.stock);
+
   const updated = [...products];
-  updated[index] = { ...products[index], stock: Number(stock) };
+  updated[index] = normalizeProductInventory({
+    ...current,
+    sizeStock,
+    stock: sumSizeStock(sizeStock),
+  });
   setCatalogProducts(updated);
-  return {
-    id: updated[index].id,
-    name: updated[index].name,
-    sku: updated[index].sku,
-    stock: updated[index].stock,
-    status: stockStatus(updated[index].stock),
-  } satisfies InventoryRow;
+  return toInventoryRow(updated[index]);
+}
+
+export async function repoGetUsers() {
+  await delay();
+  return listAdminUsers();
+}
+
+export async function repoUpdateUserStatus(
+  id: string,
+  status: "active" | "inactive",
+) {
+  await delay();
+  setUserStatus(id, status);
+  return listAdminUsers().find((user) => user.id === id) ?? null;
 }
 
 export async function repoGetCoupons() {
@@ -425,10 +458,11 @@ export async function repoUpdateCoupon(code: string, input: Partial<Coupon>) {
     ...input,
     code: input.code ? input.code.toUpperCase() : coupons[index].code,
     value: input.value !== undefined ? Number(input.value) : coupons[index].value,
-    minOrder:
-      input.minOrder !== undefined
-        ? Number(input.minOrder) || undefined
-        : coupons[index].minOrder,
+    minOrder: Object.hasOwn(input, "minOrder")
+      ? input.minOrder != null && Number(input.minOrder) > 0
+        ? Number(input.minOrder)
+        : undefined
+      : coupons[index].minOrder,
   };
   return clone(coupons[index]);
 }
@@ -438,31 +472,6 @@ export async function repoDeleteCoupon(code: string) {
   coupons = coupons.filter(
     (item) => item.code.toUpperCase() !== code.toUpperCase(),
   );
-}
-
-export async function repoGetReviews() {
-  await delay();
-  return clone(reviews);
-}
-
-export async function repoUpdateReview(
-  id: string,
-  input: Partial<Pick<Review, "title" | "body" | "rating" | "verified">>,
-) {
-  await delay();
-  const index = reviews.findIndex((item) => item.id === id);
-  if (index < 0) throw new Error("Review not found");
-  reviews[index] = {
-    ...reviews[index],
-    ...input,
-    rating: input.rating !== undefined ? Number(input.rating) : reviews[index].rating,
-  };
-  return clone(reviews[index]);
-}
-
-export async function repoDeleteReview(id: string) {
-  await delay();
-  reviews = reviews.filter((item) => item.id !== id);
 }
 
 export async function repoGetNotifications() {
@@ -559,42 +568,122 @@ export async function repoDeleteNewsletter(id: string) {
 
 export async function repoGetTeam() {
   await delay();
-  return clone(team);
+  return clone(team.map(publicTeamMember));
 }
 
 export async function repoCreateTeamMember(
-  input: Pick<TeamMember, "name" | "email" | "role">,
+  input: Pick<TeamMember, "name" | "email" | "role"> & { password: string },
 ) {
   await delay();
   if (team.some((item) => item.email.toLowerCase() === input.email.toLowerCase())) {
     throw new Error("Team member already exists");
   }
+  if (!input.password || input.password.length < 4) {
+    throw new Error("Password must be at least 4 characters");
+  }
   const member: TeamMember = {
     id: uid("team"),
     name: input.name,
-    email: input.email,
+    email: input.email.trim().toLowerCase(),
     role: input.role,
-    status: "invited",
+    status: "active",
     joinedAt: new Date().toISOString(),
+    password: input.password,
   };
   team = [member, ...team];
-  return clone(member);
+  return clone(publicTeamMember(member));
 }
 
 export async function repoUpdateTeamMember(
   id: string,
-  input: Partial<Pick<TeamMember, "name" | "email" | "role" | "status">>,
+  input: Partial<Pick<TeamMember, "name" | "email" | "role" | "status" | "password">>,
 ) {
   await delay();
   const index = team.findIndex((item) => item.id === id);
   if (index < 0) throw new Error("Team member not found");
-  team[index] = { ...team[index], ...input };
-  return clone(team[index]);
+  if (input.password !== undefined && input.password.length > 0 && input.password.length < 4) {
+    throw new Error("Password must be at least 4 characters");
+  }
+  const nextPassword =
+    input.password && input.password.length > 0
+      ? input.password
+      : team[index].password;
+  team[index] = {
+    ...team[index],
+    ...input,
+    email: input.email ? input.email.trim().toLowerCase() : team[index].email,
+    password: nextPassword,
+  };
+  return clone(publicTeamMember(team[index]));
 }
 
 export async function repoDeleteTeamMember(id: string) {
   await delay();
   team = team.filter((item) => item.id !== id);
+}
+
+/** Sync auth helpers for admin login / password changes (mock). */
+export function authenticateTeamMember(
+  email: string,
+  password: string,
+): TeamMember | null {
+  const normalized = email.trim().toLowerCase();
+  const member = team.find(
+    (item) =>
+      item.email.toLowerCase() === normalized &&
+      item.password === password &&
+      item.status !== "disabled",
+  );
+  return member ? publicTeamMember(member) : null;
+}
+
+export function changeTeamPasswordByEmail(
+  email: string,
+  currentPassword: string,
+  nextPassword: string,
+): { ok: true } | { ok: false; error: string } {
+  if (!nextPassword || nextPassword.length < 4) {
+    return { ok: false, error: "New password must be at least 4 characters" };
+  }
+  const normalized = email.trim().toLowerCase();
+  const index = team.findIndex((item) => item.email.toLowerCase() === normalized);
+  if (index < 0) return { ok: false, error: "Account not found" };
+  if (team[index].password !== currentPassword) {
+    return { ok: false, error: "Current password is incorrect" };
+  }
+  team[index] = { ...team[index], password: nextPassword };
+  return { ok: true };
+}
+
+export function resetTeamPasswordByEmail(
+  email: string,
+  nextPassword: string,
+): { ok: true } | { ok: false; error: string } {
+  if (!nextPassword || nextPassword.length < 4) {
+    return { ok: false, error: "Password must be at least 4 characters" };
+  }
+  const normalized = email.trim().toLowerCase();
+  const index = team.findIndex((item) => item.email.toLowerCase() === normalized);
+  if (index < 0) return { ok: false, error: "Account not found" };
+  team[index] = { ...team[index], password: nextPassword, status: "active" };
+  return { ok: true };
+}
+
+export function updateTeamProfileByEmail(
+  email: string,
+  payload: Partial<Pick<TeamMember, "name" | "email">>,
+): TeamMember | null {
+  const normalized = email.trim().toLowerCase();
+  const index = team.findIndex((item) => item.email.toLowerCase() === normalized);
+  if (index < 0) return null;
+  team[index] = {
+    ...team[index],
+    ...payload,
+    email: payload.email
+      ? payload.email.trim().toLowerCase()
+      : team[index].email,
+  };
+  return publicTeamMember(team[index]);
 }
 
 export async function repoGetSettings() {

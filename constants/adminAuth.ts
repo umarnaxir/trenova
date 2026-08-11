@@ -1,6 +1,6 @@
 /**
- * Temporary admin credentials for frontend-only auth.
- * Replace this module with a real auth provider / API when backend is ready.
+ * Demo credentials for the seeded Admin team member.
+ * Team passwords are managed in Admin → Team / Profile.
  */
 export const TEMP_ADMIN_CREDENTIALS = {
   email: "umar@gmail.com",

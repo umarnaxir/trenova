@@ -6,11 +6,12 @@ export const Stepper = styled.div`
   display: inline-flex;
   align-items: center;
   border: 1px solid ${({ theme }) => theme.colors.gray300};
+  width: fit-content;
 `;
 
 export const StepButton = styled.button`
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   display: grid;
   place-items: center;
   transition: background ${({ theme }) => theme.transitions.fast};
@@ -26,7 +27,7 @@ export const StepButton = styled.button`
 `;
 
 export const Value = styled.span`
-  min-width: 40px;
+  min-width: 34px;
   text-align: center;
   font-size: ${({ theme }) => theme.fontSizes.sm};
 `;

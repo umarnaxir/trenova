@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { mockOrders } from "@/services/mock/user";
+import { getOrdersStore } from "@/services/mock/usersStore";
+import type { Order } from "@/types/user";
 import { Panel, StatusPillLike } from "@/features/content/TrackOrder.styles";
 import { Input } from "@/components/Input/Input";
 import { Button } from "@/components/Button/Button";
@@ -20,7 +21,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 type Result =
-  | { ok: true; order: (typeof mockOrders)[number] }
+  | { ok: true; order: Order }
   | { ok: false; message: string };
 
 export function TrackOrderForm() {
@@ -37,16 +38,17 @@ export function TrackOrderForm() {
         as="form"
         onSubmit={handleSubmit(async (values) => {
           await new Promise((resolve) => setTimeout(resolve, 450));
-          const order = mockOrders.find(
+          const order = getOrdersStore().find(
             (item) =>
               item.orderNumber.toLowerCase() ===
-              values.orderNumber.trim().toLowerCase(),
+                values.orderNumber.trim().toLowerCase() &&
+              item.userEmail?.toLowerCase() === values.email.trim().toLowerCase(),
           );
           if (!order) {
             setResult({
               ok: false,
               message:
-                "We couldn’t find that order. Check the number and try again, or contact support.",
+                "We couldn’t find that order. Check the number and email, then try again.",
             });
             return;
           }

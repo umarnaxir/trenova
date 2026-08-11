@@ -5,10 +5,14 @@ import styled from "styled-components";
 import { ImagePlus, Trash2, Upload } from "lucide-react";
 import { IconButton } from "@/components/IconButton/IconButton";
 
-const Dropzone = styled.button<{ $active?: boolean; $hasImage?: boolean }>`
+const Dropzone = styled.button<{
+  $active?: boolean;
+  $hasImage?: boolean;
+  $compact?: boolean;
+}>`
   position: relative;
   width: 100%;
-  min-height: 160px;
+  min-height: ${({ $compact }) => ($compact ? "120px" : "160px")};
   border: 1px dashed
     ${({ theme, $active }) =>
       $active ? theme.colors.gold : theme.colors.gray300};
@@ -27,28 +31,31 @@ const Dropzone = styled.button<{ $active?: boolean; $hasImage?: boolean }>`
   }
 `;
 
-const Preview = styled.img`
+const Preview = styled.img<{ $compact?: boolean }>`
   width: 100%;
-  height: 160px;
+  height: ${({ $compact }) => ($compact ? "120px" : "160px")};
   object-fit: cover;
   display: block;
 `;
 
-const Placeholder = styled.div`
+const Placeholder = styled.div<{ $compact?: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: ${({ theme }) => theme.space[2]};
-  padding: ${({ theme }) => theme.space[4]};
+  gap: ${({ theme, $compact }) => ($compact ? "0.25rem" : theme.space[2])};
+  padding: ${({ theme, $compact }) =>
+    $compact ? "0.5rem" : theme.space[4]};
   color: ${({ theme }) => theme.colors.gray500};
-  font-size: ${({ theme }) => theme.fontSizes.sm};
+  font-size: ${({ theme, $compact }) =>
+    $compact ? "0.65rem" : theme.fontSizes.sm};
   text-align: center;
+  line-height: 1.3;
 `;
 
 const Label = styled.span`
   display: block;
-  margin-bottom: ${({ theme }) => theme.space[2]};
-  font-size: ${({ theme }) => theme.fontSizes.xs};
+  margin-bottom: 0.25rem;
+  font-size: 0.65rem;
   letter-spacing: ${({ theme }) => theme.letterSpacings.wider};
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.gray600};
@@ -77,6 +84,7 @@ type ImageDropzoneProps = {
   label: string;
   value: string;
   onChange: (value: string) => void;
+  compact?: boolean;
 };
 
 function readFileAsDataUrl(file: File) {
@@ -88,7 +96,12 @@ function readFileAsDataUrl(file: File) {
   });
 }
 
-export function ImageDropzone({ label, value, onChange }: ImageDropzoneProps) {
+export function ImageDropzone({
+  label,
+  value,
+  onChange,
+  compact,
+}: ImageDropzoneProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -116,6 +129,7 @@ export function ImageDropzone({ label, value, onChange }: ImageDropzoneProps) {
         type="button"
         $active={dragging}
         $hasImage={Boolean(value)}
+        $compact={compact}
         onClick={() => inputRef.current?.click()}
         onDragEnter={(event) => {
           event.preventDefault();
@@ -137,7 +151,7 @@ export function ImageDropzone({ label, value, onChange }: ImageDropzoneProps) {
       >
         {value ? (
           <>
-            <Preview src={value} alt={label} />
+            <Preview src={value} alt={label} $compact={compact} />
             <Actions>
               <IconButton
                 label="Replace image"
@@ -146,7 +160,7 @@ export function ImageDropzone({ label, value, onChange }: ImageDropzoneProps) {
                   inputRef.current?.click();
                 }}
               >
-                <Upload size={16} />
+                <Upload size={14} />
               </IconButton>
               <IconButton
                 label="Remove image"
@@ -155,14 +169,18 @@ export function ImageDropzone({ label, value, onChange }: ImageDropzoneProps) {
                   onChange("");
                 }}
               >
-                <Trash2 size={16} />
+                <Trash2 size={14} />
               </IconButton>
             </Actions>
           </>
         ) : (
-          <Placeholder>
-            <ImagePlus size={22} />
-            <span>Drag & drop an image here, or click to upload</span>
+          <Placeholder $compact={compact}>
+            <ImagePlus size={compact ? 20 : 22} />
+            <span>
+              {compact
+                ? "Drop or click to upload"
+                : "Drag & drop an image here, or click to upload"}
+            </span>
           </Placeholder>
         )}
       </Dropzone>
