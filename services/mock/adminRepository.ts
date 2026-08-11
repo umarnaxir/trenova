@@ -355,6 +355,66 @@ export async function repoDeleteProduct(id: string) {
   setCatalogProducts(getCatalogProducts().filter((item) => item.id !== id));
 }
 
+export async function repoDeleteProducts(ids: string[]) {
+  await delay();
+  const remove = new Set(ids);
+  setCatalogProducts(
+    getCatalogProducts().filter((item) => !remove.has(item.id)),
+  );
+}
+
+export async function repoImportProducts(inputs: AdminProductInput[]) {
+  await delay();
+  if (!inputs.length) return { imported: 0 };
+  const existing = getCatalogProducts();
+  const created = inputs.map((input, index) => {
+    const compareAt = input.compareAtPrice ? Number(input.compareAtPrice) : undefined;
+    const price = Number(input.price);
+    const slug = slugify(input.categorySlug || "men");
+    const sizes = input.sizes.length
+      ? input.sizes
+      : (["S", "M", "L", "XL"] as ProductSize[]);
+    const sizeStock = buildSizeStock(
+      sizes,
+      input.sizeStock,
+      Number(input.stock ?? 0),
+    );
+    return normalizeProductInventory({
+      id: uid("prod"),
+      slug: `${slugify(input.name) || "product"}-${Date.now()}-${index}`,
+      name: input.name,
+      brand: input.brand || "Trenova",
+      description: input.description || input.shortDescription,
+      shortDescription: input.shortDescription,
+      price,
+      compareAtPrice: compareAt,
+      rating: Number(input.rating ?? 0),
+      reviewCount: Number(input.reviewCount ?? 0),
+      colors: input.colors.length
+        ? input.colors
+        : [{ name: "Black", hex: "#0A0A0A" }],
+      sizes,
+      sizeStock,
+      images: input.images,
+      categoryId: `cat-${slug}`,
+      categorySlug: input.categorySlug || "men",
+      tags: buildTags(input),
+      isFeatured: Boolean(input.isFeatured),
+      isBestSeller: Boolean(input.isBestSeller),
+      isNewArrival: Boolean(input.isNewArrival),
+      isTrending: Boolean(input.isTrending),
+      isOnSale:
+        Boolean(input.isOnSale) || Boolean(compareAt && compareAt > price),
+      stock: sumSizeStock(sizeStock),
+      sku: input.sku || `TRN-IMP-${Date.now()}-${index}`,
+      specifications: { Fabric: "Cotton", Fit: "Regular" },
+      createdAt: new Date().toISOString(),
+    });
+  });
+  setCatalogProducts([...created, ...existing]);
+  return { imported: created.length };
+}
+
 export async function repoGetOrders() {
   await delay();
   return getOrdersStore();

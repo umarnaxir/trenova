@@ -40,6 +40,16 @@ export async function deleteAdminProduct(id: string) {
   return repo.repoDeleteProduct(id);
 }
 
+export async function deleteAdminProducts(ids: string[]) {
+  return repo.repoDeleteProducts(ids);
+}
+
+export async function importAdminProducts(
+  inputs: Parameters<typeof repo.repoImportProducts>[0],
+) {
+  return repo.repoImportProducts(inputs);
+}
+
 export async function updateAdminUserStatus(
   id: string,
   status: "active" | "inactive",

@@ -1,20 +1,28 @@
 "use client";
 
-import { Pencil, Trash2, Eye } from "lucide-react";
+import { Eye, Pencil, Trash2 } from "lucide-react";
 import { RowActions } from "@/features/admin/AdminShared.styles";
 import { IconButton } from "@/components/IconButton/IconButton";
+import {
+  AdminMoreMenu,
+  type AdminMoreMenuItem,
+} from "@/features/admin/AdminMoreMenu";
 
 type AdminRowActionsProps = {
   onView?: () => void;
   onEdit?: () => void;
   onDelete?: () => void;
+  moreItems?: AdminMoreMenuItem[];
 };
 
 export function AdminRowActions({
   onView,
   onEdit,
   onDelete,
+  moreItems = [],
 }: AdminRowActionsProps) {
+  if (!onView && !onEdit && !onDelete && !moreItems.length) return null;
+
   return (
     <RowActions>
       {onView ? (
@@ -31,6 +39,9 @@ export function AdminRowActions({
         <IconButton label="Delete" onClick={onDelete}>
           <Trash2 size={16} />
         </IconButton>
+      ) : null}
+      {moreItems.length ? (
+        <AdminMoreMenu label="More actions" items={moreItems} />
       ) : null}
     </RowActions>
   );

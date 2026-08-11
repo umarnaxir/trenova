@@ -1,4 +1,5 @@
 import type { Product } from "@/types/product";
+import { dummyProducts } from "./dummyProducts";
 
 export const products: Product[] = [
   {
@@ -457,4 +458,5 @@ export const products: Product[] = [
     },
     createdAt: "2026-07-05T10:00:00.000Z",
   },
+  ...dummyProducts,
 ];

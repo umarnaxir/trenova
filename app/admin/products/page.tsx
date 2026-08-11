@@ -2,7 +2,11 @@
 
 import { useCallback } from "react";
 import type { Product } from "@/types/product";
-import { deleteAdminProduct, getAdminProducts } from "@/services/admin.service";
+import {
+  deleteAdminProduct,
+  deleteAdminProducts,
+  getAdminProducts,
+} from "@/services/admin.service";
 import { AdminPage } from "@/features/admin/AdminPage";
 import { ProductForm } from "@/features/admin/ProductForm";
 import { StatusPill } from "@/features/admin/AdminShared.styles";
@@ -14,7 +18,7 @@ export default function AdminProductsPage() {
   return (
     <AdminPage<Product>
       title="Products"
-      description="Manage catalog details, homepage rails (Featured / Best Seller), images, sizes, colors, and pricing."
+      description="Manage catalog details, homepage rails, images, sizes, colors, and pricing. Use the ··· menu in Actions for select, bulk delete, export, and import."
       load={load}
       getRowKey={(row) => row.id}
       getSearchText={(row) =>
@@ -25,6 +29,18 @@ export default function AdminProductsPage() {
       renderForm={(props) => <ProductForm {...props} />}
       onDelete={(item) => deleteAdminProduct(item.id)}
       deleteMessage={(item) => `Delete “${item.name}”? This cannot be undone.`}
+      onView={(item) => {
+        window.open(`/product/${item.slug}`, "_blank", "noopener,noreferrer");
+      }}
+      onBulkDelete={(items) =>
+        deleteAdminProducts(items.map((item) => item.id))
+      }
+      bulkDeleteMessage={(count, mode) =>
+        mode === "all"
+          ? `Delete all ${count} product(s)? This cannot be undone.`
+          : `Delete ${count} selected product(s)? This cannot be undone.`
+      }
+      enableProductTransfer
       columns={[
         { key: "name", header: "Name", render: (row) => row.name },
         {

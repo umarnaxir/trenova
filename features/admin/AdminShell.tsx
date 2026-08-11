@@ -134,12 +134,7 @@ export function AdminShell({
       />
       <Sidebar $open={mobileOpen} $collapsed={collapsed}>
         <BrandBlock $collapsed={collapsed}>
-          <Logo height={collapsed ? 28 : 36} href="/admin" />
-          {!collapsed ? (
-            <Text color="gold" variant="eyebrow">
-              Admin
-            </Text>
-          ) : null}
+          <Logo height={collapsed ? 28 : 36} href="/admin" variant="mark" />
         </BrandBlock>
 
         <Nav aria-label="Admin">

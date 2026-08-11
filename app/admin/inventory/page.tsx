@@ -6,6 +6,8 @@ import type { InventoryRow } from "@/types/admin";
 import type { ProductSize, SizeStock } from "@/types/product";
 import {
   getAdminInventory,
+  deleteAdminProduct,
+  deleteAdminProducts,
   updateAdminInventory,
 } from "@/services/admin.service";
 import { AdminPage } from "@/features/admin/AdminPage";
@@ -246,7 +248,7 @@ export default function AdminInventoryPage() {
   return (
     <AdminPage<InventoryRow>
       title="Inventory"
-      description="Adjust size-wise stock levels across SKUs."
+      description="Adjust size-wise stock levels across SKUs. Use the ··· menu in Actions for select and bulk delete."
       load={load}
       getRowKey={(row) => row.id}
       getSearchText={(row) =>
@@ -254,6 +256,18 @@ export default function AdminInventoryPage() {
       }
       formTitle={() => "Adjust size stock"}
       formSize="md"
+      onDelete={(item) => deleteAdminProduct(item.id)}
+      deleteMessage={(item) =>
+        `Delete “${item.name}” from inventory? This also removes the product.`
+      }
+      onBulkDelete={(items) =>
+        deleteAdminProducts(items.map((item) => item.id))
+      }
+      bulkDeleteMessage={(count, mode) =>
+        mode === "all"
+          ? `Delete all ${count} inventory item(s)? This also removes the products.`
+          : `Delete ${count} selected inventory item(s)? This also removes the products.`
+      }
       renderForm={(props) =>
         props.item ? (
           <InventoryForm key={props.item.id} {...props} />

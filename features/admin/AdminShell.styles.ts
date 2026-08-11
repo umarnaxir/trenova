@@ -206,6 +206,7 @@ export const TopBarLeft = styled.div`
   flex: 1;
   min-width: 0;
   align-items: center;
+  justify-content: flex-start;
 `;
 
 export const MenuToggle = styled.div`
@@ -231,12 +232,14 @@ export const ProfileTrigger = styled.button`
   display: inline-flex;
   align-items: center;
   gap: ${({ theme }) => theme.space[2]};
-  border: 1px solid ${({ theme }) => theme.colors.black};
+  min-height: 40px;
+  border: 1px solid rgba(198, 167, 94, 0.45);
   background: ${({ theme }) => theme.colors.white};
-  padding: 0.35rem 0.65rem 0.35rem 0.35rem;
-  border-radius: ${({ theme }) => theme.radii.pill};
+  padding: 0 0.75rem 0 0.35rem;
+  border-radius: 1.25rem;
   cursor: pointer;
-  max-width: min(100%, 240px);
+  max-width: min(100%, 280px);
+  box-shadow: 0 4px 14px rgba(10, 10, 10, 0.04);
   transition:
     border-color ${({ theme }) => theme.transitions.fast},
     background ${({ theme }) => theme.transitions.fast};
@@ -248,8 +251,8 @@ export const ProfileTrigger = styled.button`
 `;
 
 export const ProfileAvatar = styled.span`
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 999px;
   display: grid;
   place-items: center;
@@ -273,7 +276,7 @@ export const ProfileMeta = styled.span`
   }
 
   strong {
-    font-size: ${({ theme }) => theme.fontSizes.sm};
+    font-size: 0.8125rem;
     color: ${({ theme }) => theme.colors.black};
     white-space: nowrap;
     overflow: hidden;
@@ -282,7 +285,7 @@ export const ProfileMeta = styled.span`
   }
 
   small {
-    font-size: 0.6875rem;
+    font-size: 0.625rem;
     color: ${({ theme }) => theme.colors.gray500};
   }
 `;

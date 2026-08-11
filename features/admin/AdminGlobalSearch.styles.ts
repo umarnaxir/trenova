@@ -4,9 +4,10 @@ import styled from "styled-components";
 
 export const SearchWrap = styled.div`
   position: relative;
-  flex: 1;
   width: 100%;
+  max-width: 280px;
   min-width: 0;
+  flex: 0 1 280px;
 `;
 
 export const SearchInputShell = styled.div`
@@ -15,10 +16,10 @@ export const SearchInputShell = styled.div`
   gap: 0.5rem;
   width: 100%;
   min-height: 40px;
-  padding: 0 0.75rem;
+  padding: 0 0.9rem;
   background: ${({ theme }) => theme.colors.white};
   border: 1px solid rgba(198, 167, 94, 0.45);
-  border-radius: ${({ theme }) => theme.radii.lg};
+  border-radius: 1.25rem;
   box-shadow: 0 4px 14px rgba(10, 10, 10, 0.04);
 
   &:focus-within {
@@ -85,7 +86,7 @@ export const ResultsPanel = styled.div`
   overflow-y: auto;
   background: ${({ theme }) => theme.colors.white};
   border: 1px solid rgba(198, 167, 94, 0.35);
-  border-radius: ${({ theme }) => theme.radii.lg};
+  border-radius: 1rem;
   box-shadow: 0 12px 32px rgba(10, 10, 10, 0.12);
 `;
 

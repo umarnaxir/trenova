@@ -19,8 +19,15 @@ export const ActionGroup = styled.div`
 
 export const RowActions = styled.div`
   display: inline-flex;
-  gap: ${({ theme }) => theme.space[2]};
+  gap: 0;
   align-items: center;
+  justify-content: flex-end;
+  margin-left: auto;
+
+  button {
+    width: 28px;
+    height: 28px;
+  }
 `;
 
 export const FormActions = styled.div`
