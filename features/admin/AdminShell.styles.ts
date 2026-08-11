@@ -196,9 +196,29 @@ export const TopBar = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: ${({ theme }) => theme.space[4]};
-  margin-bottom: ${({ theme }) => theme.space[6]};
-  padding-bottom: ${({ theme }) => theme.space[4]};
+  position: sticky;
+  top: 0;
+  z-index: ${({ theme }) => theme.zIndices.sticky};
+  margin: -${({ theme }) => theme.space[5]} -${({ theme }) => theme.space[5]}
+    ${({ theme }) => theme.space[5]};
+  padding: ${({ theme }) => `${theme.space[4]} ${theme.space[5]}`};
+  background: ${({ theme }) => theme.colors.white};
   border-bottom: 1px solid ${({ theme }) => theme.colors.gray200};
+  box-shadow: 0 1px 0 rgba(10, 10, 10, 0.02);
+
+  ${({ theme }) => theme.mediaQueries.md} {
+    margin: -${({ theme }) => theme.space[8]} -${({ theme }) => theme.space[8]}
+      ${({ theme }) => theme.space[6]};
+    padding: ${({ theme }) => `${theme.space[4]} ${theme.space[8]}`};
+  }
+
+  ${({ theme }) => theme.mediaQueries.lg} {
+    position: static;
+    margin: 0 0 ${({ theme }) => theme.space[6]};
+    padding: 0 0 ${({ theme }) => theme.space[4]};
+    background: transparent;
+    box-shadow: none;
+  }
 `;
 
 export const TopBarLeft = styled.div`

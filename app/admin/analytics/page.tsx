@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import type { AdminStat, AnalyticsPoint } from "@/types/admin";
 import { AdminShell } from "@/features/admin/AdminShell";
 import { StatCard } from "@/features/admin/StatCard";
@@ -10,6 +10,26 @@ import { Loader } from "@/components/Loader/Loader";
 import { Text } from "@/components/Text/Text";
 import { EmptyState } from "@/components/EmptyState/EmptyState";
 import { getAdminAnalytics, getAdminStats } from "@/services/admin.service";
+
+const riseIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const growBar = keyframes`
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+`;
 
 const Chart = styled.div`
   border: 1px solid rgba(198, 167, 94, 0.35);
@@ -21,28 +41,71 @@ const Chart = styled.div`
   grid-template-columns: repeat(6, 1fr);
   gap: ${({ theme }) => theme.space[3]};
   box-shadow: 0 8px 24px rgba(10, 10, 10, 0.04);
+  transform: translateY(0);
+  transition:
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.28s ease,
+    border-color 0.28s ease;
+  animation: ${riseIn} 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 220ms;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: ${({ theme }) => theme.colors.gold};
+    box-shadow: 0 16px 34px rgba(10, 10, 10, 0.12);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
 `;
 
-const BarWrap = styled.div`
+const BarWrap = styled.div<{ $delay?: number }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: ${({ theme }) => theme.space[2]};
   height: 100%;
   justify-content: flex-end;
+  animation: ${riseIn} 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: ${({ $delay = 0 }) => `${$delay}ms`};
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 `;
 
-const Bar = styled.div<{ $height: number }>`
+const Bar = styled.div<{ $height: number; $delay?: number }>`
   width: 100%;
   max-width: 48px;
   height: ${({ $height }) => $height}%;
   min-height: 8px;
+  transform-origin: bottom;
   background: linear-gradient(
     180deg,
     ${({ theme }) => theme.colors.gold},
     ${({ theme }) => theme.colors.black}
   );
-  transition: height ${({ theme }) => theme.transitions.slow};
+  transition:
+    height ${({ theme }) => theme.transitions.slow},
+    filter 0.25s ease,
+    transform 0.25s ease;
+  animation: ${growBar} 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: ${({ $delay = 0 }) => `${$delay}ms`};
+
+  ${BarWrap}:hover & {
+    filter: brightness(1.12);
+    transform: scaleX(1.08);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 `;
 
 export default function AdminAnalyticsPage() {
@@ -89,17 +152,26 @@ export default function AdminAnalyticsPage() {
         gridTemplateColumns={["1fr 1fr", null, "repeat(4, 1fr)"]}
         style={{ gap: "1rem", marginBottom: "2rem" }}
       >
-        {stats.map((stat) => (
-          <StatCard key={stat.label} stat={stat} tone="black" />
+        {stats.map((stat, index) => (
+          <StatCard
+            key={stat.label}
+            stat={stat}
+            tone="black"
+            delay={index * 70}
+          />
         ))}
       </Grid>
       <Text as="h2" variant="h3" mb={4}>
         Revenue trend
       </Text>
       <Chart aria-label="Revenue chart">
-        {points.map((point) => (
-          <BarWrap key={point.label}>
-            <Bar $height={(point.value / max) * 100} title={String(point.value)} />
+        {points.map((point, index) => (
+          <BarWrap key={point.label} $delay={260 + index * 70}>
+            <Bar
+              $height={(point.value / max) * 100}
+              $delay={280 + index * 80}
+              title={String(point.value)}
+            />
             <Text color="gray500" variant="eyebrow">
               {point.label}
             </Text>

@@ -49,7 +49,7 @@ export default async function HomePage() {
       <ShopByCategory />
       <TrustBar />
       {featured.length ? (
-        <ProductRail title="Featured Collection" products={featured} />
+        <ProductRail title="Featured Collection" products={featured} showRating />
       ) : null}
       <DualPromoBanners />
       {bestSellers.length ? (

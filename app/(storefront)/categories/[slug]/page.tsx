@@ -1,8 +1,11 @@
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/PageShell/PageShell";
 import { Breadcrumb } from "@/components/Breadcrumb/Breadcrumb";
-import { Text } from "@/components/Text/Text";
 import { ShopCatalog } from "@/features/shop/ShopCatalog";
+import {
+  buildSubcategoryOptions,
+  getCategoryPageCopy,
+} from "@/features/shop/categoryPageData";
 import { getCategoryBySlug } from "@/services/category.service";
 import { getProducts } from "@/services/product.service";
 import { buildMetadata } from "@/lib/seo";
@@ -28,7 +31,9 @@ export default async function CategoryPage({ params }: Props) {
   const category = await getCategoryBySlug(slug);
   if (!category) notFound();
 
-  const { items } = await getProducts({ category: slug, pageSize: 50 });
+  const { items } = await getProducts({ category: slug, pageSize: 80 });
+  const { subtitle, banner } = getCategoryPageCopy(category);
+  const subcategories = buildSubcategoryOptions(category, items);
 
   return (
     <PageShell>
@@ -39,14 +44,12 @@ export default async function CategoryPage({ params }: Props) {
           { label: category.name },
         ]}
       />
-      <Text as="h1" variant="h1" mb={2}>
-        {category.name}
-      </Text>
-      <Text color="gray600" mb={8}>
-        {category.description || `Explore ${category.name} from Trenova.`}
-      </Text>
       <ShopCatalog
+        title={category.name}
+        subtitle={subtitle}
+        banner={banner}
         products={items}
+        subcategories={subcategories}
         initialFilters={{ category: slug }}
       />
     </PageShell>

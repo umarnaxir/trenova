@@ -29,6 +29,7 @@ type HeroSlide = {
   lines: Array<{ text: string; accent?: boolean; sameLine?: boolean }>;
   subcopy: string;
   image: string;
+  mobileImage: string;
   alt: string;
 };
 
@@ -44,6 +45,7 @@ const slides: HeroSlide[] = [
     ],
     subcopy: "Premium sportswear for Men, Women & Kids.",
     image: "/images/hero/hero-01.png",
+    mobileImage: "/images/hero/mob-hero-01.png",
     alt: "Trenova menswear lifestyle hero",
   },
   {
@@ -55,6 +57,7 @@ const slides: HeroSlide[] = [
     ],
     subcopy: "Engineered for Comfort. Designed for Everyday.",
     image: "/images/hero/hero-02.png",
+    mobileImage: "/images/hero/mob-hero-02.png",
     alt: "Trenova womenswear lifestyle hero",
   },
   {
@@ -66,6 +69,7 @@ const slides: HeroSlide[] = [
     ],
     subcopy: "Men • Women • Kids",
     image: "/images/hero/hero-03.png",
+    mobileImage: "/images/hero/mob-hero-03.png",
     alt: "Trenova kidswear lifestyle hero",
   },
 ];
@@ -134,6 +138,15 @@ export function Hero() {
             transition={{ duration: 5.8, ease: "linear" }}
           >
             <Image
+              className="hero-img-mobile"
+              src={slide.mobileImage}
+              alt={slide.alt}
+              fill
+              priority
+              sizes="100vw"
+            />
+            <Image
+              className="hero-img-desktop"
               src={slide.image}
               alt={slide.alt}
               fill

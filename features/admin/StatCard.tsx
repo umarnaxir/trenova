@@ -7,13 +7,15 @@ import { Text } from "@/components/Text/Text";
 export function StatCard({
   stat,
   tone = "white",
+  delay = 0,
 }: {
   stat: AdminStat;
   tone?: "white" | "black";
+  delay?: number;
 }) {
   const isBlack = tone === "black";
   return (
-    <Stat $tone={tone}>
+    <Stat $tone={tone} $delay={delay}>
       <Text variant="eyebrow" color="gold">
         {stat.label}
       </Text>

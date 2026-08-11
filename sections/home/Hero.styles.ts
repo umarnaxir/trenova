@@ -31,12 +31,24 @@ export const SlideMedia = styled(motion.div)`
 
   img {
     object-fit: cover;
-    object-position: right center;
+    object-position: center center;
+  }
+
+  .hero-img-mobile {
+    display: block;
+  }
+
+  .hero-img-desktop {
+    display: none;
   }
 
   ${({ theme }) => theme.mediaQueries.md} {
-    img {
-      object-position: center center;
+    .hero-img-mobile {
+      display: none;
+    }
+
+    .hero-img-desktop {
+      display: block;
     }
   }
 `;
@@ -174,16 +186,16 @@ export const Actions = styled(motion.div)`
   flex-wrap: nowrap;
   align-items: center;
   justify-content: flex-end;
-  gap: 0.4rem;
+  gap: 0.3rem;
   width: 100%;
   margin-top: 0.15rem;
 
   a {
     flex: 1 1 0;
     min-width: 0;
-    min-height: 32px;
-    padding: 0 0.35rem;
-    font-size: 0.625rem;
+    min-height: 28px;
+    padding: 0 0.3rem;
+    font-size: 0.55rem;
     letter-spacing: 0.04em;
     white-space: nowrap;
   }
@@ -191,17 +203,17 @@ export const Actions = styled(motion.div)`
   ${({ theme }) => theme.mediaQueries.md} {
     justify-content: flex-start;
     flex-wrap: wrap;
-    gap: 0.9rem;
-    margin-top: 0.5rem;
+    gap: 0.65rem;
+    margin-top: 0.4rem;
     width: auto;
 
     a {
       flex: 0 0 auto;
-      min-width: 8.5rem;
-      min-height: 52px;
-      padding: 0 ${({ theme }) => theme.space[8]};
-      font-size: ${({ theme }) => theme.fontSizes.md};
-      letter-spacing: ${({ theme }) => theme.letterSpacings.wider};
+      min-width: 7rem;
+      min-height: 40px;
+      padding: 0 ${({ theme }) => theme.space[5]};
+      font-size: 0.75rem;
+      letter-spacing: ${({ theme }) => theme.letterSpacings.wide};
     }
   }
 `;

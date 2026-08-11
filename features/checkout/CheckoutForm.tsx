@@ -7,32 +7,85 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import {
+  Building2,
+  Check,
+  Hash,
+  Headset,
+  Lock,
+  Mail,
+  Map,
+  MapPin,
+  Minus,
+  Phone,
+  Plus,
+  RotateCcw,
+  ShieldCheck,
+  ShoppingBag,
+  Tag,
+  Trash2,
+  Truck,
+  User,
+} from "lucide-react";
+import {
   CheckoutLayout,
+  CheckoutRoot,
+  CouponApply,
   CouponApplied,
+  CouponInput,
   CouponRow,
+  Field,
+  FieldError,
+  FieldLabel,
+  FormColumn,
   FormGrid,
-  FormPanel,
   FormRow,
   FormRowTriple,
+  GrandTotal,
+  IconInput,
+  LineActions,
   LineDetail,
   LineItem,
+  LineList,
   LineMeta,
   LineName,
   LinePrice,
   LineThumb,
-  PanelTitle,
+  LineTop,
+  PageIntro,
+  PageLead,
+  PageTitle,
+  PayButton,
   PaymentCopy,
+  PaymentLeft,
   PaymentOption,
   PaymentOptions,
   PaymentRadio,
+  QtyButton,
+  QtyControl,
+  QtyValue,
+  RemoveButton,
+  SectionCard,
+  SectionHeader,
+  SectionHeading,
+  SectionTitle,
   SecureNote,
+  SecurePill,
+  ShippingNote,
+  StepBadge,
+  SummaryBody,
+  SummaryHeader,
   SummaryPanel,
   TotalRow,
   Totals,
+  TrustBar,
+  TrustItem,
 } from "@/features/checkout/CheckoutForm.styles";
-import { Input } from "@/components/Input/Input";
-import { Button } from "@/components/Button/Button";
-import { Text } from "@/components/Text/Text";
+import {
+  CardBrandMarks,
+  CodBrandMarks,
+  UpiBrandMarks,
+} from "@/features/checkout/PaymentBrandMarks";
+import { Breadcrumb } from "@/components/Breadcrumb/Breadcrumb";
 import { EmptyState } from "@/components/EmptyState/EmptyState";
 import { useCartStore } from "@/hooks/stores/cartStore";
 import { useAuthStore } from "@/hooks/stores/authStore";
@@ -59,23 +112,12 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-const paymentMethods = [
-  {
-    value: "upi" as const,
-    title: "UPI (Razorpay)",
-    description: "Pay instantly with GPay, PhonePe, Paytm or any UPI app.",
-  },
-  {
-    value: "card" as const,
-    title: "Card (Razorpay)",
-    description: "Credit / debit cards secured by Razorpay.",
-  },
-  {
-    value: "cod" as const,
-    title: "Cash on Delivery",
-    description: "Pay in cash when your order arrives.",
-  },
-];
+const TRUST = [
+  { icon: Truck, title: "Free Shipping", copy: "On orders above ₹999" },
+  { icon: RotateCcw, title: "Easy Returns", copy: "14 days return policy" },
+  { icon: ShieldCheck, title: "Secure Payment", copy: "100% secure checkout" },
+  { icon: Headset, title: "24/7 Support", copy: "We're here to help" },
+] as const;
 
 export function CheckoutForm() {
   const router = useRouter();
@@ -86,6 +128,8 @@ export function CheckoutForm() {
   const coupon = useCartStore((state) => state.coupon);
   const setCoupon = useCartStore((state) => state.setCoupon);
   const clearCart = useCartStore((state) => state.clearCart);
+  const updateQuantity = useCartStore((state) => state.updateQuantity);
+  const removeItem = useCartStore((state) => state.removeItem);
   const user = useAuthStore((state) => state.user);
   const pushToast = useUiStore((state) => state.pushToast);
   const [couponCode, setCouponCode] = useState(coupon?.code ?? "");
@@ -167,7 +211,6 @@ export function CheckoutForm() {
       };
     };
 
-    // Demo fallback when keys are not configured yet
     if (createRes.status === 503 && created.demo) {
       const demoPaymentId = `demo_${values.paymentMethod}_${Date.now()}`;
       const verifyRes = await fetch("/api/razorpay/verify", {
@@ -254,233 +297,466 @@ export function CheckoutForm() {
   }
 
   return (
-    <CheckoutLayout>
-      <FormPanel
-        as="form"
-        onSubmit={handleSubmit(async (values) => {
-          try {
-            if (values.paymentMethod === "cod") {
-              await completeOrder(values);
-              return;
-            }
-            await payWithRazorpay(values);
-          } catch (err) {
-            const message =
-              err instanceof Error ? err.message : "Could not place order";
-            if (message !== "Payment cancelled") {
-              pushToast(message, "error");
-            } else {
-              pushToast("Payment cancelled", "info");
-            }
-          }
-        })}
-      >
-        <PanelTitle>Shipping details</PanelTitle>
-        <FormGrid>
-          <Input
-            placeholder="Full name"
-            aria-label="Full name"
-            error={errors.fullName?.message}
-            {...register("fullName")}
-          />
-          <FormRow>
-            <Input
-              placeholder="Email"
-              aria-label="Email"
-              type="email"
-              error={errors.email?.message}
-              {...register("email")}
-            />
-            <Input
-              placeholder="Phone"
-              aria-label="Phone"
-              error={errors.phone?.message}
-              {...register("phone")}
-            />
-          </FormRow>
-          <Input
-            placeholder="Address"
-            aria-label="Address"
-            error={errors.line1?.message}
-            {...register("line1")}
-          />
-          <FormRowTriple>
-            <Input
-              placeholder="City"
-              aria-label="City"
-              error={errors.city?.message}
-              {...register("city")}
-            />
-            <Input
-              placeholder="State"
-              aria-label="State"
-              error={errors.state?.message}
-              {...register("state")}
-            />
-            <Input
-              placeholder="PIN code"
-              aria-label="PIN code"
-              error={errors.postalCode?.message}
-              {...register("postalCode")}
-            />
-          </FormRowTriple>
-        </FormGrid>
+    <CheckoutRoot>
+      <PageIntro>
+        <Breadcrumb
+          items={[
+            { label: "Home", href: "/" },
+            { label: "Cart", href: "/cart" },
+            { label: "Checkout" },
+          ]}
+        />
+        <PageTitle>Checkout</PageTitle>
+        <PageLead>
+          Complete your purchase by providing your details and payment
+          information.
+        </PageLead>
+      </PageIntro>
 
-        <PanelTitle>Payment</PanelTitle>
-        <PaymentOptions role="radiogroup" aria-label="Payment method">
-          {paymentMethods.map((method) => {
-            const active = paymentMethod === method.value;
-            return (
-              <PaymentOption
-                key={method.value}
-                type="button"
-                $active={active}
-                role="radio"
-                aria-checked={active}
-                onClick={() =>
-                  setValue("paymentMethod", method.value, {
-                    shouldValidate: true,
-                  })
+      <CheckoutLayout>
+        <FormColumn>
+          <form
+            id="checkout-form"
+            style={{ display: "grid", gap: "1.15rem" }}
+            onSubmit={handleSubmit(async (values) => {
+              try {
+                if (values.paymentMethod === "cod") {
+                  await completeOrder(values);
+                  return;
                 }
-              >
-                <PaymentRadio $active={active} aria-hidden />
-                <PaymentCopy>
-                  <strong>{method.title}</strong>
-                  <small>{method.description}</small>
-                </PaymentCopy>
-              </PaymentOption>
-            );
-          })}
-        </PaymentOptions>
-        <input type="hidden" {...register("paymentMethod")} />
-        {errors.paymentMethod?.message ? (
-          <Text variant="small" style={{ color: "#B42318" }}>
-            {errors.paymentMethod.message}
-          </Text>
-        ) : null}
+                await payWithRazorpay(values);
+              } catch (err) {
+                const message =
+                  err instanceof Error ? err.message : "Could not place order";
+                if (message !== "Payment cancelled") {
+                  pushToast(message, "error");
+                } else {
+                  pushToast("Payment cancelled", "info");
+                }
+              }
+            })}
+          >
+            <SectionCard>
+              <SectionHeader>
+                <SectionHeading>
+                  <StepBadge>1</StepBadge>
+                  <SectionTitle>Shipping Details</SectionTitle>
+                </SectionHeading>
+                <SecurePill>
+                  <Lock size={12} aria-hidden />
+                  Secure & Confidential
+                </SecurePill>
+              </SectionHeader>
 
-        <Button type="submit" disabled={isSubmitting} fullWidth size="lg">
-          {isSubmitting
-            ? paymentMethod === "cod"
-              ? "Placing order..."
-              : "Opening Razorpay..."
-            : paymentMethod === "cod"
-              ? `Place COD order · ${formatCurrency(payable)}`
-              : `Pay with Razorpay · ${formatCurrency(payable)}`}
-        </Button>
-        <SecureNote>
-          UPI & card payments are processed securely by Razorpay. COD skips
-          online payment.
-        </SecureNote>
-      </FormPanel>
+              <FormGrid>
+                <Field>
+                  <FieldLabel>Full Name</FieldLabel>
+                  <IconInput $error={Boolean(errors.fullName)}>
+                    <User size={16} aria-hidden />
+                    <input
+                      placeholder="Enter your full name"
+                      aria-label="Full name"
+                      {...register("fullName")}
+                    />
+                  </IconInput>
+                  {errors.fullName?.message ? (
+                    <FieldError>{errors.fullName.message}</FieldError>
+                  ) : null}
+                </Field>
 
-      <SummaryPanel>
-        <PanelTitle>Order summary</PanelTitle>
+                <FormRow>
+                  <Field>
+                    <FieldLabel>Email Address</FieldLabel>
+                    <IconInput $error={Boolean(errors.email)}>
+                      <Mail size={16} aria-hidden />
+                      <input
+                        placeholder="you@email.com"
+                        aria-label="Email"
+                        type="email"
+                        {...register("email")}
+                      />
+                    </IconInput>
+                    {errors.email?.message ? (
+                      <FieldError>{errors.email.message}</FieldError>
+                    ) : null}
+                  </Field>
+                  <Field>
+                    <FieldLabel>Phone Number</FieldLabel>
+                    <IconInput $error={Boolean(errors.phone)}>
+                      <Phone size={16} aria-hidden />
+                      <input
+                        placeholder="10-digit mobile"
+                        aria-label="Phone"
+                        {...register("phone")}
+                      />
+                    </IconInput>
+                    {errors.phone?.message ? (
+                      <FieldError>{errors.phone.message}</FieldError>
+                    ) : null}
+                  </Field>
+                </FormRow>
 
-        <div>
-          {items.map((item) => (
-            <LineItem key={`${item.productId}-${item.size}-${item.color}`}>
-              <LineThumb>
-                <Image src={item.image} alt={item.name} fill sizes="72px" />
-              </LineThumb>
-              <LineMeta>
-                <LineName>{item.name}</LineName>
-                <LineDetail>
-                  Size {item.size} · {item.color}
-                </LineDetail>
-                <LineDetail>Qty {item.quantity}</LineDetail>
-              </LineMeta>
-              <LinePrice>
-                {formatCurrency(item.price * item.quantity)}
-              </LinePrice>
-            </LineItem>
-          ))}
-        </div>
+                <Field>
+                  <FieldLabel>Address</FieldLabel>
+                  <IconInput $error={Boolean(errors.line1)}>
+                    <MapPin size={16} aria-hidden />
+                    <input
+                      placeholder="House no, street, landmark"
+                      aria-label="Address"
+                      {...register("line1")}
+                    />
+                  </IconInput>
+                  {errors.line1?.message ? (
+                    <FieldError>{errors.line1.message}</FieldError>
+                  ) : null}
+                </Field>
 
-        {coupon ? (
-          <CouponApplied>
-            <div>
-              <strong>{coupon.code}</strong>
-              <small>{coupon.description}</small>
-            </div>
-            <Button
-              type="button"
-              size="sm"
-              variant="secondary"
-              onClick={() => {
-                setCoupon(null);
-                setCouponCode("");
-                pushToast("Coupon removed", "info");
-              }}
-            >
-              Remove
-            </Button>
-          </CouponApplied>
-        ) : (
-          <CouponRow>
-            <Input
-              placeholder="Coupon code"
-              aria-label="Coupon code"
-              value={couponCode}
-              onChange={(event) => setCouponCode(event.target.value)}
-            />
-            <Button
-              type="button"
-              variant="secondary"
-              disabled={applyingCoupon || !couponCode.trim()}
-              onClick={async () => {
-                setApplyingCoupon(true);
-                try {
-                  const result = await validateCoupon(couponCode, subtotal);
-                  if (!result.coupon) {
-                    pushToast(result.error ?? "Invalid coupon", "error");
-                    setCoupon(null);
-                    return;
+                <FormRowTriple>
+                  <Field>
+                    <FieldLabel>City</FieldLabel>
+                    <IconInput $error={Boolean(errors.city)}>
+                      <Building2 size={16} aria-hidden />
+                      <input
+                        placeholder="City"
+                        aria-label="City"
+                        {...register("city")}
+                      />
+                    </IconInput>
+                    {errors.city?.message ? (
+                      <FieldError>{errors.city.message}</FieldError>
+                    ) : null}
+                  </Field>
+                  <Field>
+                    <FieldLabel>State</FieldLabel>
+                    <IconInput $error={Boolean(errors.state)}>
+                      <Map size={16} aria-hidden />
+                      <input
+                        placeholder="State"
+                        aria-label="State"
+                        {...register("state")}
+                      />
+                    </IconInput>
+                    {errors.state?.message ? (
+                      <FieldError>{errors.state.message}</FieldError>
+                    ) : null}
+                  </Field>
+                  <Field>
+                    <FieldLabel>PIN Code</FieldLabel>
+                    <IconInput $error={Boolean(errors.postalCode)}>
+                      <Hash size={16} aria-hidden />
+                      <input
+                        placeholder="PIN"
+                        aria-label="PIN code"
+                        {...register("postalCode")}
+                      />
+                    </IconInput>
+                    {errors.postalCode?.message ? (
+                      <FieldError>{errors.postalCode.message}</FieldError>
+                    ) : null}
+                  </Field>
+                </FormRowTriple>
+              </FormGrid>
+            </SectionCard>
+
+            <SectionCard>
+              <SectionHeader>
+                <SectionHeading>
+                  <StepBadge>2</StepBadge>
+                  <SectionTitle>Payment Method</SectionTitle>
+                </SectionHeading>
+                <SecurePill>
+                  <Lock size={12} aria-hidden />
+                  100% Secure Payment
+                </SecurePill>
+              </SectionHeader>
+
+              <PaymentOptions role="radiogroup" aria-label="Payment method">
+                <PaymentOption
+                  type="button"
+                  $active={paymentMethod === "upi"}
+                  role="radio"
+                  aria-checked={paymentMethod === "upi"}
+                  onClick={() =>
+                    setValue("paymentMethod", "upi", { shouldValidate: true })
                   }
-                  setCoupon(result.coupon);
-                  setCouponCode(result.coupon.code);
-                  pushToast(`Coupon ${result.coupon.code} applied`);
-                } finally {
-                  setApplyingCoupon(false);
-                }
-              }}
-            >
-              {applyingCoupon ? "..." : "Apply"}
-            </Button>
-          </CouponRow>
-        )}
+                >
+                  <PaymentLeft>
+                    <PaymentRadio $active={paymentMethod === "upi"} />
+                    <PaymentCopy>
+                      <strong>
+                        UPI (Razorpay)
+                        {paymentMethod === "upi" ? (
+                          <Check
+                            size={14}
+                            style={{ marginLeft: 6, verticalAlign: "-2px" }}
+                            aria-hidden
+                          />
+                        ) : null}
+                      </strong>
+                      <small>GPay, PhonePe, Paytm & more</small>
+                    </PaymentCopy>
+                  </PaymentLeft>
+                  <UpiBrandMarks />
+                </PaymentOption>
 
-        <Totals>
-          <TotalRow>
-            <span>Subtotal</span>
-            <span>{formatCurrency(subtotal)}</span>
-          </TotalRow>
-          {discount > 0 ? (
-            <TotalRow>
-              <span>Discount{coupon ? ` (${coupon.code})` : ""}</span>
-              <span>-{formatCurrency(discount)}</span>
-            </TotalRow>
-          ) : null}
-          <TotalRow>
-            <span>Shipping</span>
-            <span>{shipping === 0 ? "Free" : formatCurrency(shipping)}</span>
-          </TotalRow>
-          {shipping === 0 ? (
-            <Text variant="small" color="gray500">
-              Free shipping on orders above ₹{FREE_SHIPPING_THRESHOLD}
-            </Text>
-          ) : (
-            <Text variant="small" color="gray500">
-              Add {formatCurrency(FREE_SHIPPING_THRESHOLD - cartTotal)} more for
-              free shipping
-            </Text>
-          )}
-          <TotalRow $strong>
-            <span>Total</span>
-            <span>{formatCurrency(payable)}</span>
-          </TotalRow>
-        </Totals>
-      </SummaryPanel>
-    </CheckoutLayout>
+                <PaymentOption
+                  type="button"
+                  $active={paymentMethod === "card"}
+                  role="radio"
+                  aria-checked={paymentMethod === "card"}
+                  onClick={() =>
+                    setValue("paymentMethod", "card", { shouldValidate: true })
+                  }
+                >
+                  <PaymentLeft>
+                    <PaymentRadio $active={paymentMethod === "card"} />
+                    <PaymentCopy>
+                      <strong>
+                        Card (Razorpay)
+                        {paymentMethod === "card" ? (
+                          <Check
+                            size={14}
+                            style={{ marginLeft: 6, verticalAlign: "-2px" }}
+                            aria-hidden
+                          />
+                        ) : null}
+                      </strong>
+                      <small>Credit & debit cards</small>
+                    </PaymentCopy>
+                  </PaymentLeft>
+                  <CardBrandMarks />
+                </PaymentOption>
+
+                <PaymentOption
+                  type="button"
+                  $active={paymentMethod === "cod"}
+                  role="radio"
+                  aria-checked={paymentMethod === "cod"}
+                  onClick={() =>
+                    setValue("paymentMethod", "cod", { shouldValidate: true })
+                  }
+                >
+                  <PaymentLeft>
+                    <PaymentRadio $active={paymentMethod === "cod"} />
+                    <PaymentCopy>
+                      <strong>
+                        Cash on Delivery
+                        {paymentMethod === "cod" ? (
+                          <Check
+                            size={14}
+                            style={{ marginLeft: 6, verticalAlign: "-2px" }}
+                            aria-hidden
+                          />
+                        ) : null}
+                      </strong>
+                      <small>Pay when your order arrives</small>
+                    </PaymentCopy>
+                  </PaymentLeft>
+                  <CodBrandMarks />
+                </PaymentOption>
+              </PaymentOptions>
+
+              <input type="hidden" {...register("paymentMethod")} />
+              {errors.paymentMethod?.message ? (
+                <FieldError>{errors.paymentMethod.message}</FieldError>
+              ) : null}
+
+              <PayButton type="submit" disabled={isSubmitting}>
+                <Lock size={15} aria-hidden />
+                {isSubmitting
+                  ? paymentMethod === "cod"
+                    ? "Placing order..."
+                    : "Opening Razorpay..."
+                  : paymentMethod === "cod"
+                    ? `Place COD Order · ${formatCurrency(payable)}`
+                    : `Pay with Razorpay · ${formatCurrency(payable)}`}
+              </PayButton>
+              <SecureNote>
+                Your payment details are secure. We do not store your card or
+                UPI information.
+              </SecureNote>
+            </SectionCard>
+          </form>
+        </FormColumn>
+
+        <SummaryPanel>
+          <SummaryHeader>
+            <ShoppingBag size={16} aria-hidden />
+            <h2>Order Summary</h2>
+          </SummaryHeader>
+
+          <SummaryBody>
+            <LineList>
+              {items.map((item) => (
+                <LineItem
+                  key={`${item.productId}-${item.size}-${item.color}`}
+                >
+                  <LineThumb>
+                    <Image src={item.image} alt={item.name} fill sizes="64px" />
+                  </LineThumb>
+                  <LineMeta>
+                    <LineTop>
+                      <LineName>{item.name}</LineName>
+                      <LinePrice>
+                        {formatCurrency(item.price * item.quantity)}
+                      </LinePrice>
+                    </LineTop>
+                    <LineDetail>
+                      Size: {item.size} · Color: {item.color} · Qty:{" "}
+                      {item.quantity}
+                    </LineDetail>
+                    <LineActions>
+                      <QtyControl>
+                        <QtyButton
+                          type="button"
+                          aria-label="Decrease quantity"
+                          disabled={item.quantity <= 1}
+                          onClick={() =>
+                            updateQuantity(
+                              item.productId,
+                              item.size,
+                              item.color,
+                              item.quantity - 1,
+                            )
+                          }
+                        >
+                          <Minus size={12} />
+                        </QtyButton>
+                        <QtyValue>{item.quantity}</QtyValue>
+                        <QtyButton
+                          type="button"
+                          aria-label="Increase quantity"
+                          disabled={item.quantity >= item.maxStock}
+                          onClick={() =>
+                            updateQuantity(
+                              item.productId,
+                              item.size,
+                              item.color,
+                              item.quantity + 1,
+                            )
+                          }
+                        >
+                          <Plus size={12} />
+                        </QtyButton>
+                      </QtyControl>
+                      <RemoveButton
+                        type="button"
+                        onClick={() => {
+                          removeItem(item.productId, item.size, item.color);
+                          pushToast("Item removed from order", "info");
+                        }}
+                      >
+                        <Trash2 size={12} aria-hidden />
+                        Remove
+                      </RemoveButton>
+                    </LineActions>
+                  </LineMeta>
+                </LineItem>
+              ))}
+            </LineList>
+
+            {coupon ? (
+              <CouponApplied>
+                <div>
+                  <strong>{coupon.code}</strong>
+                  <small>{coupon.description}</small>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCoupon(null);
+                    setCouponCode("");
+                    pushToast("Coupon removed", "info");
+                  }}
+                >
+                  Remove
+                </button>
+              </CouponApplied>
+            ) : (
+              <CouponRow>
+                <CouponInput>
+                  <Tag size={15} aria-hidden />
+                  <input
+                    placeholder="Coupon code"
+                    aria-label="Coupon code"
+                    value={couponCode}
+                    onChange={(event) => setCouponCode(event.target.value)}
+                  />
+                </CouponInput>
+                <CouponApply
+                  type="button"
+                  disabled={applyingCoupon || !couponCode.trim()}
+                  onClick={async () => {
+                    setApplyingCoupon(true);
+                    try {
+                      const result = await validateCoupon(couponCode, subtotal);
+                      if (!result.coupon) {
+                        pushToast(result.error ?? "Invalid coupon", "error");
+                        setCoupon(null);
+                        return;
+                      }
+                      setCoupon(result.coupon);
+                      setCouponCode(result.coupon.code);
+                      pushToast(`Coupon ${result.coupon.code} applied`);
+                    } finally {
+                      setApplyingCoupon(false);
+                    }
+                  }}
+                >
+                  {applyingCoupon ? "..." : "Apply"}
+                </CouponApply>
+              </CouponRow>
+            )}
+
+            <Totals>
+              <TotalRow>
+                <span>Subtotal</span>
+                <strong>{formatCurrency(subtotal)}</strong>
+              </TotalRow>
+              {discount > 0 ? (
+                <TotalRow>
+                  <span>Discount{coupon ? ` (${coupon.code})` : ""}</span>
+                  <strong>-{formatCurrency(discount)}</strong>
+                </TotalRow>
+              ) : null}
+              <TotalRow>
+                <span>Shipping</span>
+                <strong>
+                  {shipping === 0 ? "Free" : formatCurrency(shipping)}
+                </strong>
+              </TotalRow>
+              {shipping === 0 ? (
+                <ShippingNote>
+                  <Truck size={13} aria-hidden />
+                  Free shipping on orders above ₹{FREE_SHIPPING_THRESHOLD}
+                </ShippingNote>
+              ) : (
+                <ShippingNote style={{ color: "#6B6B6B" }}>
+                  <Truck size={13} aria-hidden />
+                  Add {formatCurrency(FREE_SHIPPING_THRESHOLD - cartTotal)} more
+                  for free shipping
+                </ShippingNote>
+              )}
+              <GrandTotal>
+                <span>Total</span>
+                <strong>{formatCurrency(payable)}</strong>
+              </GrandTotal>
+            </Totals>
+          </SummaryBody>
+        </SummaryPanel>
+      </CheckoutLayout>
+
+      <TrustBar>
+        {TRUST.map(({ icon: Icon, title, copy }) => (
+          <TrustItem key={title}>
+            <Icon size={16} strokeWidth={1.75} aria-hidden />
+            <div>
+              <strong>{title}</strong>
+              <span>{copy}</span>
+            </div>
+          </TrustItem>
+        ))}
+      </TrustBar>
+    </CheckoutRoot>
   );
 }

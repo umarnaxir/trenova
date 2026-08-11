@@ -10,6 +10,7 @@ import {
   Watch,
 } from "lucide-react";
 import { Container } from "@/components/Container/Container";
+import { CATEGORY_IMAGES } from "@/constants/categoryImages";
 import {
   CardContent,
   CardOverlay,
@@ -26,37 +27,37 @@ const homeCategories = [
   {
     name: "Men",
     href: "/categories/men",
-    image: "/products/category-men.jpg",
+    image: CATEGORY_IMAGES.men,
     icon: User,
   },
   {
     name: "Women",
     href: "/categories/women",
-    image: "/products/category-women.jpg",
+    image: CATEGORY_IMAGES.women,
     icon: UserRound,
   },
   {
     name: "Kids",
     href: "/categories/kids",
-    image: "/products/category-kids.jpg",
+    image: CATEGORY_IMAGES.kids,
     icon: Baby,
   },
   {
     name: "Sports",
     href: "/categories/women-activewear",
-    image: "/products/women-active-front.jpg",
+    image: CATEGORY_IMAGES.sports,
     icon: Dumbbell,
   },
   {
     name: "Accessories",
     href: "/categories/accessories",
-    image: "/products/category-accessories.jpg",
+    image: CATEGORY_IMAGES.accessories,
     icon: Watch,
   },
   {
     name: "Bags",
     href: "/categories/bags",
-    image: "/products/category-accessories.jpg",
+    image: CATEGORY_IMAGES.bags,
     icon: ShoppingBag,
   },
 ] as const;
@@ -78,7 +79,7 @@ export function ShopByCategory() {
                   src={category.image}
                   alt={category.name}
                   fill
-                  sizes="(max-width: 768px) 50vw, 16vw"
+                  sizes="(max-width: 1024px) 33vw, 16vw"
                 />
                 <CardOverlay />
                 <CardContent>

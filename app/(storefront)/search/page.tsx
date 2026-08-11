@@ -1,6 +1,5 @@
 import { PageShell } from "@/components/PageShell/PageShell";
 import { Breadcrumb } from "@/components/Breadcrumb/Breadcrumb";
-import { Text } from "@/components/Text/Text";
 import { ShopCatalog } from "@/features/shop/ShopCatalog";
 import { EmptyState } from "@/components/EmptyState/EmptyState";
 import { searchProducts } from "@/services/product.service";
@@ -31,14 +30,19 @@ export default async function SearchPage({ searchParams }: Props) {
           { label: "Search" },
         ]}
       />
-      <Text as="h1" variant="h1" mb={2}>
-        Search
-      </Text>
-      <Text color="gray600" mb={8}>
-        {q ? `Results for “${q}”` : "Enter a query to find products."}
-      </Text>
       {q && products.length ? (
-        <ShopCatalog products={products} initialFilters={{ q }} />
+        <ShopCatalog
+          title={q}
+          subtitle={`Search results for “${q}”.`}
+          banner={{
+            image: "/images/hero/cover-02.png",
+            eyebrow: "Search",
+            headline: "Find Your Fit.",
+            href: "/shop",
+          }}
+          products={products}
+          initialFilters={{ q }}
+        />
       ) : (
         <EmptyState
           title={q ? "No matches found" : "Start searching"}

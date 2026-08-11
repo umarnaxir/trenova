@@ -1,8 +1,5 @@
 import { PageShell } from "@/components/PageShell/PageShell";
-import { Breadcrumb } from "@/components/Breadcrumb/Breadcrumb";
-import { Text } from "@/components/Text/Text";
-import { Grid } from "@/components/Grid/Grid";
-import { CategoryCard } from "@/components/CategoryCard/CategoryCard";
+import { CategoriesIndex } from "@/features/shop/CategoriesIndex";
 import { getCategories } from "@/services/category.service";
 import { buildMetadata } from "@/lib/seo";
 
@@ -12,31 +9,26 @@ export const metadata = buildMetadata({
   path: "/categories",
 });
 
+const CATEGORY_ORDER = [
+  "men",
+  "women",
+  "kids",
+  "accessories",
+  "best-sellers",
+  "new-arrivals",
+] as const;
+
 export default async function CategoriesPage() {
   const categories = await getCategories();
+  const visible = CATEGORY_ORDER.map((slug) =>
+    categories.find((category) => category.slug === slug),
+  ).filter((category): category is NonNullable<typeof category> =>
+    Boolean(category),
+  );
 
   return (
     <PageShell>
-      <Breadcrumb
-        items={[
-          { label: "Home", href: "/" },
-          { label: "Categories" },
-        ]}
-      />
-      <Text as="h1" variant="h1" mb={2}>
-        Categories
-      </Text>
-      <Text color="gray600" mb={8}>
-        Navigate the full Trenova wardrobe architecture.
-      </Text>
-      <Grid
-        gridTemplateColumns={["1fr", "1fr 1fr", "repeat(3, 1fr)"]}
-        style={{ gap: "1rem" }}
-      >
-        {categories.map((category) => (
-          <CategoryCard key={category.id} category={category} />
-        ))}
-      </Grid>
+      <CategoriesIndex categories={visible} />
     </PageShell>
   );
 }

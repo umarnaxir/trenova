@@ -4,7 +4,6 @@ import { SafeImage } from "@/components/SafeImage/SafeImage";
 import { Heart, Star } from "lucide-react";
 import type { Product } from "@/types/product";
 import { Container } from "@/components/Container/Container";
-import { DiscountBadge } from "@/components/DiscountBadge/DiscountBadge";
 import { useWishlistStore } from "@/hooks/stores/wishlistStore";
 import { useCartStore } from "@/hooks/stores/cartStore";
 import { useUiStore } from "@/hooks/stores/uiStore";
@@ -15,6 +14,7 @@ import {
   AddToCartButton,
   CategoryLabel,
   NewBadge,
+  OffBadge,
   PriceRow,
   PriceText,
   ProductCardFooter,
@@ -137,7 +137,7 @@ export function ProductRail({
                       product.compareAtPrice > product.price ? (
                         <span
                           style={{
-                            marginLeft: 8,
+                            marginLeft: 6,
                             color: "#6B6B6B",
                             textDecoration: "line-through",
                             fontWeight: 400,
@@ -148,7 +148,7 @@ export function ProductRail({
                         </span>
                       ) : null}
                     </PriceText>
-                    {discount ? <DiscountBadge percent={discount} /> : null}
+                    {discount ? <OffBadge>{discount}% OFF</OffBadge> : null}
                   </PriceRow>
                   <AddToCartButton
                     type="button"

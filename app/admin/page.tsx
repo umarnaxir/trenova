@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import type { AdminDashboardData } from "@/services/mock/adminRepository";
 import type { Order } from "@/types/user";
 import { AdminShell } from "@/features/admin/AdminShell";
@@ -16,6 +16,17 @@ import { EmptyState } from "@/components/EmptyState/EmptyState";
 import { Button } from "@/components/Button/Button";
 import { getAdminDashboard } from "@/services/admin.service";
 import { formatCurrency, formatDate } from "@/utils/format";
+
+const riseIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 const Section = styled.section`
   margin-bottom: ${({ theme }) => theme.space[7]};
@@ -52,7 +63,7 @@ const InsightGrid = styled.div`
   }
 `;
 
-const InsightCard = styled.div`
+const InsightCard = styled.div<{ $delay?: number }>`
   position: relative;
   overflow: hidden;
   border: 1px solid ${({ theme }) => theme.colors.black};
@@ -64,6 +75,13 @@ const InsightCard = styled.div`
   color: ${({ theme }) => theme.colors.white};
   padding: ${({ theme }) => theme.space[4]};
   box-shadow: 0 8px 24px rgba(10, 10, 10, 0.12);
+  transform: translateY(0);
+  transition:
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.28s ease,
+    border-color 0.28s ease;
+  animation: ${riseIn} 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: ${({ $delay = 0 }) => `${$delay}ms`};
 
   &::after {
     content: "";
@@ -73,6 +91,27 @@ const InsightCard = styled.div`
     height: 80px;
     border-radius: 999px;
     background: rgba(198, 167, 94, 0.16);
+    transition: transform 0.35s ease, background 0.35s ease;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: ${({ theme }) => theme.colors.gold};
+    box-shadow: 0 16px 32px rgba(10, 10, 10, 0.22);
+
+    &::after {
+      transform: scale(1.4);
+      background: rgba(198, 167, 94, 0.28);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
   }
 `;
 
@@ -97,7 +136,7 @@ const InsightLabel = styled.p`
   z-index: 1;
 `;
 
-const Panel = styled.div<{ $tone?: "white" | "black" }>`
+const Panel = styled.div<{ $tone?: "white" | "black"; $delay?: number }>`
   border: 1px solid
     ${({ theme, $tone }) =>
       $tone === "black" ? theme.colors.black : "rgba(198, 167, 94, 0.35)"};
@@ -110,6 +149,28 @@ const Panel = styled.div<{ $tone?: "white" | "black" }>`
   padding: ${({ theme }) => theme.space[5]};
   min-height: 100%;
   box-shadow: 0 8px 24px rgba(10, 10, 10, 0.08);
+  transform: translateY(0);
+  transition:
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.28s ease,
+    border-color 0.28s ease;
+  animation: ${riseIn} 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: ${({ $delay = 0 }) => `${$delay}ms`};
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: ${({ theme }) => theme.colors.gold};
+    box-shadow: 0 16px 34px rgba(10, 10, 10, 0.14);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
 `;
 
 const PanelTitle = styled.h3<{ $tone?: "white" | "black" }>`
@@ -232,14 +293,19 @@ export default function AdminDashboardPage() {
         gridTemplateColumns={["1fr 1fr", null, "repeat(4, 1fr)"]}
         style={{ gap: "1rem", marginBottom: "1.75rem" }}
       >
-        {data.stats.map((stat) => (
-          <StatCard key={stat.label} stat={stat} tone="black" />
+        {data.stats.map((stat, index) => (
+          <StatCard
+            key={stat.label}
+            stat={stat}
+            tone="black"
+            delay={index * 70}
+          />
         ))}
       </Grid>
 
       <InsightGrid>
-        {insights.map((item) => (
-          <InsightCard key={item.label}>
+        {insights.map((item, index) => (
+          <InsightCard key={item.label} $delay={180 + index * 60}>
             <InsightValue>{item.value}</InsightValue>
             <InsightLabel>{item.label}</InsightLabel>
           </InsightCard>
@@ -247,7 +313,7 @@ export default function AdminDashboardPage() {
       </InsightGrid>
 
       <Split>
-        <Panel>
+        <Panel $delay={320}>
           <PanelTitle>Business snapshot</PanelTitle>
           <MetricList>
             <MetricRow>
@@ -285,7 +351,7 @@ export default function AdminDashboardPage() {
           </MetricList>
         </Panel>
 
-        <Panel $tone="black">
+        <Panel $tone="black" $delay={380}>
           <PanelTitle $tone="black">Quick actions</PanelTitle>
           <QuickLinks>
             <Button as={Link} href="/admin/products" variant="secondary">

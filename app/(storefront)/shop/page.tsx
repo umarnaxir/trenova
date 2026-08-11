@@ -1,6 +1,5 @@
 import { PageShell } from "@/components/PageShell/PageShell";
 import { Breadcrumb } from "@/components/Breadcrumb/Breadcrumb";
-import { Text } from "@/components/Text/Text";
 import { ShopCatalog } from "@/features/shop/ShopCatalog";
 import { getProducts } from "@/services/product.service";
 import { buildMetadata } from "@/lib/seo";
@@ -14,7 +13,7 @@ export const metadata = buildMetadata({
 });
 
 export default async function ShopPage() {
-  const { items } = await getProducts({ pageSize: 50 });
+  const { items } = await getProducts({ pageSize: 80 });
 
   return (
     <PageShell>
@@ -24,13 +23,17 @@ export default async function ShopPage() {
           { label: "Shop" },
         ]}
       />
-      <Text as="h1" variant="h1" mb={2}>
-        Shop
-      </Text>
-      <Text color="gray600" mb={8}>
-        Premium apparel and lifestyle essentials, ready to wear.
-      </Text>
-      <ShopCatalog products={items} />
+      <ShopCatalog
+        title="Shop"
+        subtitle="Premium apparel and lifestyle essentials, ready to wear."
+        banner={{
+          image: "/images/hero/cover-01.png",
+          eyebrow: "Full Collection",
+          headline: "Premium Style. Everyday.",
+          href: "/shop",
+        }}
+        products={items}
+      />
     </PageShell>
   );
 }
