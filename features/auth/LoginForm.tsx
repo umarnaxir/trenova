@@ -18,6 +18,7 @@ export function LoginForm() {
   const router = useRouter();
   const login = useAuthStore((state) => state.login);
   const pushToast = useUiStore((state) => state.pushToast);
+  const openAuthModal = useUiStore((state) => state.openAuthModal);
   const {
     register,
     handleSubmit,
@@ -59,7 +60,15 @@ export function LoginForm() {
         {isSubmitting ? "Signing in..." : "Sign in"}
       </Button>
       <AuthLinks>
-        <a href="/register">Create account</a>
+        <a
+          href="/register"
+          onClick={(event) => {
+            event.preventDefault();
+            openAuthModal("register");
+          }}
+        >
+          Create account
+        </a>
         <a href="/forgot-password">Forgot password</a>
       </AuthLinks>
     </AuthCard>

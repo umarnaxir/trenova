@@ -86,10 +86,16 @@ export const useAuthStore = create<AuthState>()(
         return true;
       },
       register: ({ firstName, lastName, email, phone, password }) => {
+        const normalized = email.trim().toLowerCase();
+        const existing = getRegisteredUsers().find(
+          (user) => user.email.trim().toLowerCase() === normalized,
+        );
+        if (existing) return false;
+
         const registered = upsertRegisteredUser({
           firstName,
           lastName,
-          email,
+          email: normalized,
           phone,
           password,
           addresses: [],

@@ -6,6 +6,7 @@ export const AuthCard = styled.div`
   width: min(440px, 100%);
   margin-inline: auto;
   border: 1px solid ${({ theme }) => theme.colors.gray200};
+  border-radius: 20px;
   padding: ${({ theme }) => theme.space[6]};
   display: grid;
   gap: ${({ theme }) => theme.space[4]};

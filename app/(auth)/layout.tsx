@@ -1,22 +1,23 @@
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar/AnnouncementBar";
-import { Logo } from "@/components/Logo/Logo";
+import { Navbar } from "@/components/layout/Navbar/Navbar";
 import { PageShell } from "@/components/PageShell/PageShell";
-import { Flex } from "@/components/Flex/Flex";
+import { StorefrontShell } from "@/components/layout/StorefrontShell/StorefrontShell";
+import { getMegaMenuCategories } from "@/services/category.service";
 
-export default function AuthLayout({
+export default async function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const categories = await getMegaMenuCategories();
+
   return (
-    <>
+    <StorefrontShell>
       <AnnouncementBar />
-      <PageShell>
-        <Flex justifyContent="center" mb={6}>
-          <Logo height={40} />
-        </Flex>
-        {children}
-      </PageShell>
-    </>
+      <Navbar categories={categories} />
+      <main id="main-content">
+        <PageShell>{children}</PageShell>
+      </main>
+    </StorefrontShell>
   );
 }

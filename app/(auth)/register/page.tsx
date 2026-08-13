@@ -1,5 +1,5 @@
-import { RegisterForm } from "@/features/auth/RegisterForm";
 import { buildMetadata } from "@/lib/seo";
+import { RegisterPageClient } from "@/features/auth/RegisterPageClient";
 
 export const metadata = buildMetadata({
   title: "Register",
@@ -9,5 +9,5 @@ export const metadata = buildMetadata({
 });
 
 export default function RegisterPage() {
-  return <RegisterForm />;
+  return <RegisterPageClient />;
 }
