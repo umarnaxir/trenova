@@ -316,6 +316,7 @@ export const PolicyBlock = styled.article`
     border-color: ${({ theme }) => theme.colors.gold};
   }
 
+  h2,
   h3 {
     margin: 0;
     font-family: ${({ theme }) => theme.fonts.heading};

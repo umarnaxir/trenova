@@ -18,7 +18,8 @@ export function CategoryCard({ category, href }: CategoryCardProps) {
     <CategoryLink href={href ?? `/categories/${category.slug}`}>
       <Image
         src={category.image}
-        alt={category.name}
+        alt={`${category.name} fashion at Trenova`}
+        title={`Shop ${category.name}`}
         fill
         sizes="(max-width: 768px) 100vw, 33vw"
       />

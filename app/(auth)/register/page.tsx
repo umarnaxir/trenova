@@ -1,12 +1,7 @@
-import { buildMetadata } from "@/lib/seo";
 import { RegisterPageClient } from "@/features/auth/RegisterPageClient";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = buildMetadata({
-  title: "Register",
-  description: "Create your Trenova account.",
-  path: "/register",
-  noIndex: true,
-});
+export const metadata = pageMetadata("register");
 
 export default function RegisterPage() {
   return <RegisterPageClient />;

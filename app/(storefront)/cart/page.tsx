@@ -2,18 +2,16 @@ import { PageShell } from "@/components/PageShell/PageShell";
 import { Breadcrumb } from "@/components/Breadcrumb/Breadcrumb";
 import { Text } from "@/components/Text/Text";
 import { CartView } from "@/features/cart/CartView";
-import { buildMetadata } from "@/lib/seo";
+import { pageGraph, pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { SEO_PAGES } from "@/constants/seoPages";
 
-export const metadata = buildMetadata({
-  title: "Shopping Cart",
-  description: "Review your Trenova cart and proceed to checkout.",
-  path: "/cart",
-  noIndex: true,
-});
+export const metadata = pageMetadata("cart");
 
 export default function CartPage() {
   return (
     <PageShell>
+      <JsonLd data={pageGraph("cart")} />
       <Breadcrumb
         items={[
           { label: "Home", href: "/" },
@@ -21,7 +19,7 @@ export default function CartPage() {
         ]}
       />
       <Text as="h1" variant="h1" mb={6}>
-        Shopping cart
+        {SEO_PAGES.cart.h1}
       </Text>
       <CartView />
     </PageShell>

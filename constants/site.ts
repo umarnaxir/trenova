@@ -4,9 +4,9 @@ export const SITE = {
   legalName: "Trenova Retail Private Limited",
   tagline: "Trusted Quality. Affordable Style.",
   seoTitle:
-    "Trenova - Premium Fashion, Activewear & Lifestyle Essentials",
+    "Trenova | Premium Fashion & Activewear Online India",
   description:
-    "Trenova for premium fashion, activewear & lifestyle essentials for men, women & kids. Discover trusted quality clothing at affordable prices in India.",
+    "Shop Trenova premium fashion, activewear & lifestyle essentials for men, women & kids. Trusted quality clothing at affordable prices. Shop India-wide now.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://shoptrenova.in",
   domain: "shoptrenova.in",
   locale: "en_IN",

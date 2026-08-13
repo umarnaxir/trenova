@@ -136,7 +136,7 @@ export const Eyebrow = styled(motion.p)`
   }
 `;
 
-export const Headline = styled(motion.h1)`
+export const Headline = styled(motion.p)`
   margin: 0;
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: clamp(1.55rem, 7vw, 2.15rem);

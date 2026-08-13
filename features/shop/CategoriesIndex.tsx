@@ -53,7 +53,7 @@ const benefits = [
   {
     icon: RotateCcw,
     title: "Easy Returns",
-    copy: "14 days return policy",
+    copy: "7-day return policy",
   },
   {
     icon: ShieldCheck,
@@ -81,9 +81,9 @@ export function CategoriesIndex({ categories }: CategoriesIndexProps) {
             { label: "Categories" },
           ]}
         />
-        <PageTitle>Categories</PageTitle>
+        <PageTitle>Fashion categories</PageTitle>
         <PageLead>
-          Navigate the full Trenova wardrobe architecture.
+          Shop men, women, kids, accessories, best sellers and new arrivals.
         </PageLead>
       </PageHeader>
 
@@ -97,7 +97,8 @@ export function CategoriesIndex({ categories }: CategoriesIndexProps) {
             >
               <Image
                 src={category.image}
-                alt={category.name}
+                alt={`${category.name} fashion category at Trenova`}
+                title={`Shop ${category.name} at Trenova`}
                 fill
                 sizes="(max-width: 768px) 50vw, 33vw"
               />

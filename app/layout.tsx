@@ -29,6 +29,10 @@ export const metadata: Metadata = {
     default: SITE.seoTitle,
     template: `%s | ${SITE.name}`,
   },
+  icons: {
+    icon: [{ url: "/favicon.ico" }, { url: "/logo/logo.png", type: "image/png" }],
+    apple: "/logo/logo.png",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -39,7 +43,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+          }}
         />
         <AppProviders>{children}</AppProviders>
       </body>

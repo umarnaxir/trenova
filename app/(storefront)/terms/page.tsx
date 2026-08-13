@@ -9,13 +9,11 @@ import {
 import { Button } from "@/components/Button/Button";
 import { Text } from "@/components/Text/Text";
 import { SITE } from "@/constants/site";
-import { buildMetadata } from "@/lib/seo";
+import { SEO_PAGES } from "@/constants/seoPages";
+import { pageGraph, pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 
-export const metadata = buildMetadata({
-  title: "Terms & Conditions",
-  description: "Terms governing use of the Trenova website, accounts, and purchases.",
-  path: "/terms",
-});
+export const metadata = pageMetadata("terms");
 
 const sections = [
   {
@@ -62,10 +60,16 @@ const sections = [
 
 export default function TermsPage() {
   return (
+    <>
+    <JsonLd data={pageGraph("terms")} />
     <ContentPage
       eyebrow="Legal"
-      title="Terms & conditions"
+      title={SEO_PAGES.terms.h1}
       lead={`Rules for using ${SITE.domain}, placing orders, and holding a Trenova account.`}
+      breadcrumbs={[
+        { label: "Home", href: "/" },
+        { label: "Terms & Conditions" },
+      ]}
     >
       <Section>
         <Prose>
@@ -83,7 +87,7 @@ export default function TermsPage() {
         <PolicyStack>
           {sections.map((section) => (
             <PolicyBlock key={section.title}>
-              <h3>{section.title}</h3>
+              <h2>{section.title}</h2>
               <p>{section.body}</p>
             </PolicyBlock>
           ))}
@@ -102,5 +106,6 @@ export default function TermsPage() {
         </Button>
       </CtaBand>
     </ContentPage>
+    </>
   );
 }

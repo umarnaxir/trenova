@@ -96,7 +96,7 @@ const ANGLES: Angle[] = ["front", "left", "right"];
 
 const TRUST = [
   { icon: Truck, title: "Free Shipping", copy: "Orders above ₹999" },
-  { icon: RotateCcw, title: "Easy Returns", copy: "14-day returns" },
+  { icon: RotateCcw, title: "Easy Returns", copy: "7-day returns" },
   { icon: ShieldCheck, title: "Secure Payment", copy: "100% protected" },
   { icon: BadgeCheck, title: "Quality Assured", copy: "Premium materials" },
 ] as const;
@@ -308,7 +308,8 @@ export function ProductDetails({
               >
                 <Image
                   src={product.images[key]}
-                  alt={`${product.name} ${key}`}
+                  alt={`${product.name} by Trenova — ${key} view`}
+                  title={`${product.name} ${key} view`}
                   fill
                   sizes="80px"
                 />
@@ -321,7 +322,8 @@ export function ProductDetails({
               <Image
                 key={angle}
                 src={product.images[angle]}
-                alt={`${product.name} ${angle} view`}
+                alt={`${product.name} by Trenova — ${angle} view`}
+                title={`${product.name} ${angle} view`}
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 48vw"
@@ -622,8 +624,8 @@ export function ProductDetails({
           <TabPanel role="tabpanel">
             <TabCopy>
               Free shipping on orders above ₹999. Standard delivery typically
-              takes 3–7 business days depending on your location. Easy returns
-              are available within 14 days of delivery for unused items with
+              takes 3–7 business days depending on your location.               Easy returns
+              are available within 7 days of delivery for unused items with
               original tags.
             </TabCopy>
           </TabPanel>

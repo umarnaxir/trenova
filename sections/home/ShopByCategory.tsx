@@ -77,7 +77,8 @@ export function ShopByCategory() {
               <CategoryCardItem key={category.name} href={category.href}>
                 <Image
                   src={category.image}
-                  alt={category.name}
+                  alt={`${category.name} fashion at Trenova`}
+                  title={`Shop ${category.name} at Trenova`}
                   fill
                   sizes="(max-width: 1024px) 33vw, 16vw"
                 />

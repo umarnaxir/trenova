@@ -1,17 +1,14 @@
 import { PageShell } from "@/components/PageShell/PageShell";
 import { CheckoutForm } from "@/features/checkout/CheckoutForm";
-import { buildMetadata } from "@/lib/seo";
+import { pageGraph, pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 
-export const metadata = buildMetadata({
-  title: "Checkout",
-  description: "Secure checkout for your Trenova order.",
-  path: "/checkout",
-  noIndex: true,
-});
+export const metadata = pageMetadata("checkout");
 
 export default function CheckoutPage() {
   return (
     <PageShell>
+      <JsonLd data={pageGraph("checkout")} />
       <CheckoutForm />
     </PageShell>
   );

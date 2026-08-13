@@ -41,7 +41,8 @@ export function Logo({
       <LogoImageWrap $height={resolvedHeight} $aspect={aspect}>
         <Image
           src={src}
-          alt={SITE.name}
+          alt={`${SITE.name} logo — premium fashion brand`}
+          title={SITE.name}
           width={width}
           height={resolvedHeight}
           priority

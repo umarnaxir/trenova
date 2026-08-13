@@ -46,7 +46,8 @@ export function CategoryHero({ title, subtitle, banner }: CategoryHeroProps) {
       <PromoBanner href={banner.href}>
         <Image
           src={banner.image}
-          alt=""
+          alt={`${title} collection at Trenova`}
+          title={`${title} | Trenova`}
           fill
           sizes="(max-width: 1024px) 100vw, 48vw"
           priority

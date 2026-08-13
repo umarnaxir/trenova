@@ -7,6 +7,9 @@ import { PageShell } from "@/components/PageShell/PageShell";
 import { AccountShell } from "@/features/account/AccountNav";
 import { AccountGate } from "@/features/account/AccountGate";
 import { getMegaMenuCategories } from "@/services/category.service";
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata = pageMetadata("account");
 
 export default async function AccountLayout({
   children,

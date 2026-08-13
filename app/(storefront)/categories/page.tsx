@@ -1,13 +1,12 @@
 import { PageShell } from "@/components/PageShell/PageShell";
 import { CategoriesIndex } from "@/features/shop/CategoriesIndex";
+import { PageFaqs } from "@/features/content/PageFaqs";
 import { getCategories } from "@/services/category.service";
-import { buildMetadata } from "@/lib/seo";
+import { pageGraph, pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { SEO_PAGES } from "@/constants/seoPages";
 
-export const metadata = buildMetadata({
-  title: "Categories",
-  description: "Explore Trenova categories across men, women, kids, and accessories.",
-  path: "/categories",
-});
+export const metadata = pageMetadata("categories");
 
 const CATEGORY_ORDER = [
   "men",
@@ -28,7 +27,9 @@ export default async function CategoriesPage() {
 
   return (
     <PageShell>
+      <JsonLd data={pageGraph("categories")} />
       <CategoriesIndex categories={visible} />
+      <PageFaqs items={SEO_PAGES.categories.faqs} />
     </PageShell>
   );
 }

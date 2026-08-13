@@ -5,6 +5,7 @@ import Image from "next/image";
 type SafeImageProps = {
   src: string;
   alt: string;
+  title?: string;
   fill?: boolean;
   width?: number;
   height?: number;
@@ -26,6 +27,7 @@ function isRemoteOrData(src: string) {
 export function SafeImage({
   src,
   alt,
+  title,
   fill,
   width,
   height,
@@ -41,6 +43,7 @@ export function SafeImage({
       <img
         src={src}
         alt={alt}
+        title={title}
         className={className}
         style={{
           ...style,
@@ -64,6 +67,7 @@ export function SafeImage({
     <Image
       src={src}
       alt={alt}
+      title={title}
       fill={fill}
       width={fill ? undefined : width}
       height={fill ? undefined : height}

@@ -9,13 +9,11 @@ import {
 import { Button } from "@/components/Button/Button";
 import { Text } from "@/components/Text/Text";
 import { SITE } from "@/constants/site";
-import { buildMetadata } from "@/lib/seo";
+import { SEO_PAGES } from "@/constants/seoPages";
+import { pageGraph, pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 
-export const metadata = buildMetadata({
-  title: "Privacy Policy",
-  description: "How Trenova collects, uses, stores, and protects your personal information.",
-  path: "/privacy-policy",
-});
+export const metadata = pageMetadata("privacy");
 
 const sections = [
   {
@@ -62,10 +60,16 @@ const sections = [
 
 export default function PrivacyPolicyPage() {
   return (
+    <>
+    <JsonLd data={pageGraph("privacy")} />
     <ContentPage
       eyebrow="Legal"
-      title="Privacy policy"
+      title={SEO_PAGES.privacy.h1}
       lead="How Trenova collects, uses, and protects your personal information — written clearly so you know exactly where you stand."
+      breadcrumbs={[
+        { label: "Home", href: "/" },
+        { label: "Privacy Policy" },
+      ]}
     >
       <Section>
         <Prose>
@@ -79,7 +83,7 @@ export default function PrivacyPolicyPage() {
         <PolicyStack>
           {sections.map((section) => (
             <PolicyBlock key={section.title}>
-              <h3>{section.title}</h3>
+              <h2>{section.title}</h2>
               <p>{section.body}</p>
             </PolicyBlock>
           ))}
@@ -100,5 +104,6 @@ export default function PrivacyPolicyPage() {
         </Button>
       </CtaBand>
     </ContentPage>
+    </>
   );
 }

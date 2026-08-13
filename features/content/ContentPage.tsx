@@ -1,5 +1,9 @@
 import { Container } from "@/components/Container/Container";
 import {
+  Breadcrumb,
+  type Crumb,
+} from "@/components/Breadcrumb/Breadcrumb";
+import {
   Body,
   Eyebrow,
   Hero,
@@ -14,6 +18,7 @@ type ContentPageProps = {
   eyebrow?: string;
   title: string;
   lead: string;
+  breadcrumbs?: Crumb[];
   children: React.ReactNode;
 };
 
@@ -21,6 +26,7 @@ export function ContentPage({
   eyebrow = "Trenova",
   title,
   lead,
+  breadcrumbs,
   children,
 }: ContentPageProps) {
   return (
@@ -37,6 +43,7 @@ export function ContentPage({
 
       <Body>
         <Container>
+          {breadcrumbs?.length ? <Breadcrumb items={breadcrumbs} /> : null}
           <Main>{children}</Main>
         </Container>
       </Body>

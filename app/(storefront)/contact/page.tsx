@@ -1,12 +1,14 @@
 import { ContactPageClient } from "@/features/content/ContactPageClient";
-import { buildMetadata } from "@/lib/seo";
+import { pageGraph, pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 
-export const metadata = buildMetadata({
-  title: "Contact Us",
-  description: "Contact Trenova for support, partnerships, or product questions.",
-  path: "/contact",
-});
+export const metadata = pageMetadata("contact");
 
 export default function ContactPage() {
-  return <ContactPageClient />;
+  return (
+    <>
+      <JsonLd data={pageGraph("contact")} />
+      <ContactPageClient />
+    </>
+  );
 }

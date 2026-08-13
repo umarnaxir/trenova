@@ -101,7 +101,8 @@ export function ProductRail({
                   </WishlistIconButton>
                   <SafeImage
                     src={product.images.front}
-                    alt={product.name}
+                    alt={`${product.name} by Trenova`}
+                    title={product.name}
                     fill
                     sizes="(max-width: 768px) 50vw, 16vw"
                   />

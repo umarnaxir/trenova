@@ -46,7 +46,7 @@ const slides: HeroSlide[] = [
     subcopy: "Premium sportswear for Men, Women & Kids.",
     image: "/images/hero/hero-01.png",
     mobileImage: "/images/hero/mob-hero-01.png",
-    alt: "Trenova menswear lifestyle hero",
+    alt: "Trenova men's premium fashion and activewear lifestyle",
   },
   {
     id: "hero-2",
@@ -58,7 +58,7 @@ const slides: HeroSlide[] = [
     subcopy: "Engineered for Comfort. Designed for Everyday.",
     image: "/images/hero/hero-02.png",
     mobileImage: "/images/hero/mob-hero-02.png",
-    alt: "Trenova womenswear lifestyle hero",
+    alt: "Trenova women's premium fashion and activewear lifestyle",
   },
   {
     id: "hero-3",
@@ -70,7 +70,7 @@ const slides: HeroSlide[] = [
     subcopy: "Men • Women • Kids",
     image: "/images/hero/hero-03.png",
     mobileImage: "/images/hero/mob-hero-03.png",
-    alt: "Trenova kidswear lifestyle hero",
+    alt: "Trenova kids' premium fashion and activewear lifestyle",
   },
 ];
 
@@ -141,6 +141,7 @@ export function Hero() {
               className="hero-img-mobile"
               src={slide.mobileImage}
               alt={slide.alt}
+              title={slide.alt}
               fill
               priority
               sizes="100vw"
@@ -149,6 +150,7 @@ export function Hero() {
               className="hero-img-desktop"
               src={slide.image}
               alt={slide.alt}
+              title={slide.alt}
               fill
               priority
               sizes="100vw"

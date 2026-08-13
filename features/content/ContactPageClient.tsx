@@ -19,6 +19,8 @@ import { ContactForm } from "@/features/contact/ContactForm";
 import { Button } from "@/components/Button/Button";
 import { Text } from "@/components/Text/Text";
 import { useSiteSettings } from "@/hooks/stores/siteSettingsStore";
+import { PageFaqs } from "@/features/content/PageFaqs";
+import { CONTACT_FAQS } from "@/constants/seoPages";
 
 const socialsMeta = [
   {
@@ -70,6 +72,10 @@ export function ContactPageClient() {
       eyebrow="Support"
       title="Contact us"
       lead="Questions about orders, sizing, partnerships, or press — we typically reply within one business day."
+      breadcrumbs={[
+        { label: "Home", href: "/" },
+        { label: "Contact Us" },
+      ]}
     >
       <ContentCards
         cards={[
@@ -192,6 +198,8 @@ export function ContactPageClient() {
           ))}
         </SocialGrid>
       </Section>
+
+      <PageFaqs items={CONTACT_FAQS} />
 
       <CtaBand>
         <div>

@@ -10,22 +10,19 @@ import {
 } from "@/services/product.service";
 import { getHomeInstagramShots } from "@/services/instagram.service";
 import {
-  buildMetadata,
+  pageMetadata,
+  pageGraph,
   storeJsonLd,
   websiteJsonLd,
+  serviceJsonLd,
 } from "@/lib/seo";
-import { SITE } from "@/constants/site";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { VisuallyHidden } from "@/components/VisuallyHidden/VisuallyHidden";
+import { SEO_PAGES } from "@/constants/seoPages";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = buildMetadata({
-  title: SITE.seoTitle,
-  description: SITE.description,
-  path: "/",
-  image: SITE.ogImage,
-  keywords: SITE.keywords,
-  absoluteTitle: true,
-});
+export const metadata = pageMetadata("home");
 
 export default async function HomePage() {
   const [featured, bestSellers, instagramShots] = await Promise.all([
@@ -34,17 +31,16 @@ export default async function HomePage() {
     getHomeInstagramShots(),
   ]);
 
-  const structuredData = [websiteJsonLd(), storeJsonLd()];
-
   return (
     <>
-      {structuredData.map((data, index) => (
-        <script
-          key={index}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-        />
-      ))}
+      <JsonLd
+        data={pageGraph("home", [
+          websiteJsonLd(),
+          storeJsonLd(),
+          serviceJsonLd(),
+        ])}
+      />
+      <VisuallyHidden as="h1">{SEO_PAGES.home.h1}</VisuallyHidden>
       <Hero />
       <ShopByCategory />
       <TrustBar />

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Container } from "@/components/Container/Container";
+import { VisuallyHidden } from "@/components/VisuallyHidden/VisuallyHidden";
 import {
   BannerCard,
   BannerCopy,
@@ -21,7 +22,7 @@ const banners = [
     href: "/categories/women",
     label: "Woman",
     image: "/images/hero/hero-02.png",
-    alt: "Trenova women performance wear",
+    alt: "Trenova women's performance wear and activewear",
   },
   {
     id: "men",
@@ -30,7 +31,7 @@ const banners = [
     href: "/categories/men",
     label: "Man",
     image: "/images/hero/hero-01.png",
-    alt: "Trenova men lifestyle essentials",
+    alt: "Trenova men's lifestyle essentials and new arrivals",
   },
   {
     id: "kids",
@@ -39,14 +40,17 @@ const banners = [
     href: "/categories/kids",
     label: "Kids",
     image: "/images/hero/hero-03.png",
-    alt: "Trenova kidswear lifestyle cover",
+    alt: "Trenova kids' clothing and comfort-first styles",
   },
 ] as const;
 
 export function DualPromoBanners() {
   return (
-    <DualPromoRoot aria-label="Featured promotions">
+    <DualPromoRoot aria-labelledby="featured-collections-heading">
       <Container>
+        <VisuallyHidden as="h2" id="featured-collections-heading">
+          Featured fashion collections for men, women and kids
+        </VisuallyHidden>
         <BannerGrid>
           {banners.map((banner) => (
             <BannerCard key={banner.id} href={banner.href}>
@@ -54,6 +58,7 @@ export function DualPromoBanners() {
                 <Image
                   src={banner.image}
                   alt={banner.alt}
+                  title={banner.alt}
                   fill
                   sizes="(max-width: 768px) 86vw, 48vw"
                 />

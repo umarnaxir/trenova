@@ -63,6 +63,7 @@ export function InstagramGallery({ shots }: { shots: InstagramShot[] }) {
               <SafeImage
                 src={shot.src}
                 alt={shot.alt}
+                title={shot.alt}
                 fill
                 sizes="(max-width: 768px) 33vw, 11vw"
               />

@@ -78,7 +78,8 @@ export function ProductCard({ product }: ProductCardProps) {
       <Media href={`/product/${product.slug}`}>
         <Image
           src={product.images.front}
-          alt={`${product.name} front view`}
+          alt={`${product.name} by Trenova — front view`}
+          title={product.name}
           fill
           sizes="(max-width: 768px) 50vw, 25vw"
         />
