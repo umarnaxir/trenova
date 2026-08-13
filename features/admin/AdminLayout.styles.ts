@@ -43,8 +43,6 @@ export const SmartCard = styled.section`
   }
 `;
 
-export const SmartCardGold = styled(SmartCard)``;
-
 export const SmartCardDark = styled(SmartCard)`
   background: linear-gradient(
     145deg,

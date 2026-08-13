@@ -271,14 +271,6 @@ export function setUserStatus(id: string, status: UserStatus): RegisteredUser {
   return clone(users[index]);
 }
 
-export function deleteRegisteredUser(id: string): void {
-  ensureHydrated();
-  const index = users.findIndex((user) => user.id === id);
-  if (index < 0) throw new Error("User not found");
-  users = users.filter((user) => user.id !== id);
-  persistUsers();
-}
-
 export function appendOrder(order: Order): Order {
   ensureHydrated();
   orders = [order, ...orders];
@@ -348,10 +340,4 @@ export function listAdminUsers(): AdminUser[] {
       (a, b) =>
         new Date(b.lastLoginAt).getTime() - new Date(a.lastLoginAt).getTime(),
     );
-}
-
-export function getAdminUserById(id: string): AdminUser | null {
-  ensureHydrated();
-  const user = users.find((item) => item.id === id);
-  return user ? toAdminUser(user) : null;
 }

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import styled, { keyframes } from "styled-components";
-import type { AdminDashboardData } from "@/services/mock/adminRepository";
+import type { AdminDashboardData } from "@/services/admin.service";
 import type { Order } from "@/types/user";
 import { AdminShell } from "@/features/admin/AdminShell";
 import { StatCard } from "@/features/admin/StatCard";

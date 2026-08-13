@@ -145,14 +145,3 @@ export async function getFeaturedProducts(limit = 6): Promise<Product[]> {
     .slice(0, limit);
 }
 
-export async function getNewArrivals(limit = 6): Promise<Product[]> {
-  return getCatalogProducts()
-    .filter((item) => Boolean(item.isNewArrival))
-    .slice(0, limit);
-}
-
-export async function getTrendingProducts(limit = 6): Promise<Product[]> {
-  return getCatalogProducts()
-    .filter((item) => Boolean(item.isTrending))
-    .slice(0, limit);
-}

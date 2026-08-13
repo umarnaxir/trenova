@@ -142,35 +142,6 @@ export const DesktopOnlyAction = styled.span`
   }
 `;
 
-export const LoginButton = styled.button`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 34px;
-  padding: 0 ${({ theme }) => theme.space[3]};
-  margin-left: ${({ theme }) => theme.space[1]};
-  border: 1px solid ${({ theme }) => theme.colors.gold};
-  color: ${({ theme }) => theme.colors.gold};
-  font-size: 10px;
-  letter-spacing: ${({ theme }) => theme.letterSpacings.wider};
-  text-transform: uppercase;
-  white-space: nowrap;
-  transition:
-    background ${({ theme }) => theme.transitions.fast},
-    color ${({ theme }) => theme.transitions.fast};
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.gold};
-    color: ${({ theme }) => theme.colors.black};
-  }
-
-  ${({ theme }) => theme.mediaQueries.md} {
-    min-height: 38px;
-    padding: 0 ${({ theme }) => theme.space[4]};
-    font-size: ${({ theme }) => theme.fontSizes.xs};
-  }
-`;
-
 export const CountDot = styled.span`
   position: absolute;
   top: 4px;

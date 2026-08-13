@@ -256,5 +256,3 @@ export function CodBrandMarks() {
     </Marks>
   );
 }
-
-export const PaymentBrandMark = Mark;

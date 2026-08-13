@@ -98,45 +98,6 @@ export const BrandText = styled.p`
   line-height: ${({ theme }) => theme.lineHeights.relaxed};
 `;
 
-export const ContactList = styled.div`
-  display: grid;
-  gap: ${({ theme }) => theme.space[3]};
-  margin-top: ${({ theme }) => theme.space[2]};
-`;
-
-export const ContactItem = styled.div`
-  display: grid;
-  gap: 2px;
-  color: ${({ theme }) => theme.colors.gray300};
-  font-size: ${({ theme }) => theme.fontSizes.sm};
-
-  span {
-    color: ${({ theme }) => theme.colors.gold};
-    font-size: 10px;
-    letter-spacing: ${({ theme }) => theme.letterSpacings.wider};
-    text-transform: uppercase;
-  }
-`;
-
-export const ContactLink = styled.a`
-  display: grid;
-  gap: 2px;
-  color: ${({ theme }) => theme.colors.gray300};
-  font-size: ${({ theme }) => theme.fontSizes.sm};
-  transition: color ${({ theme }) => theme.transitions.fast};
-
-  span {
-    color: ${({ theme }) => theme.colors.gold};
-    font-size: 10px;
-    letter-spacing: ${({ theme }) => theme.letterSpacings.wider};
-    text-transform: uppercase;
-  }
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.white};
-  }
-`;
-
 export const FooterCol = styled.div`
   display: flex;
   flex-direction: column;

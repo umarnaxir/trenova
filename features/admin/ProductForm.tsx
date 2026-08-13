@@ -108,7 +108,8 @@ export function ProductForm({
         if (checked) {
           return { ...stock, [size]: stock[size] ?? 0 };
         }
-        const { [size]: _removed, ...rest } = stock;
+        const rest = { ...stock };
+        delete rest[size];
         return rest;
       });
       return next;

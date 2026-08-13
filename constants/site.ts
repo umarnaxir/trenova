@@ -11,7 +11,6 @@ export const SITE = {
   domain: "shoptrenova.in",
   locale: "en_IN",
   currency: "INR",
-  currencySymbol: "₹",
   email: "NovaBrands.2026@gmail.com",
   phone: "+91 60062 16695",
   phoneSecondary: "+91 95966 56950",

@@ -7,7 +7,6 @@ import type { Product } from "@/types/product";
 type RecentlyViewedState = {
   items: Product[];
   add: (product: Product) => void;
-  clear: () => void;
 };
 
 export const useRecentlyViewedStore = create<RecentlyViewedState>()(
@@ -20,7 +19,6 @@ export const useRecentlyViewedStore = create<RecentlyViewedState>()(
           return { items: [product, ...filtered].slice(0, 8) };
         });
       },
-      clear: () => set({ items: [] }),
     }),
     { name: "trenova-recently-viewed" },
   ),

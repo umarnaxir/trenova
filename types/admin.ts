@@ -5,13 +5,6 @@ export type AdminStat = {
   trend: "up" | "down" | "neutral";
 };
 
-export type AdminBrand = {
-  id: string;
-  name: string;
-  slug: string;
-  productCount: number;
-};
-
 export type AdminUserOrderSummary = {
   id: string;
   orderNumber: string;

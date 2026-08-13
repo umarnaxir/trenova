@@ -9,7 +9,6 @@ type WishlistState = {
   toggle: (product: Product) => void;
   remove: (productId: string) => void;
   has: (productId: string) => boolean;
-  clear: () => void;
 };
 
 export const useWishlistStore = create<WishlistState>()(
@@ -32,7 +31,6 @@ export const useWishlistStore = create<WishlistState>()(
         }));
       },
       has: (productId) => get().items.some((item) => item.id === productId),
-      clear: () => set({ items: [] }),
     }),
     { name: "trenova-wishlist" },
   ),

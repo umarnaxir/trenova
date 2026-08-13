@@ -53,9 +53,9 @@ export const InstructCard = styled.section<{ $danger?: boolean }>`
   padding: 1.15rem 1.2rem;
   border-radius: 14px;
   border: 1px solid
-    ${({ theme, $danger }) =>
+    ${({ $danger }) =>
       $danger ? "rgba(180, 35, 24, 0.28)" : "rgba(198, 167, 94, 0.35)"};
-  background: ${({ theme, $danger }) =>
+  background: ${({ $danger }) =>
     $danger
       ? "linear-gradient(180deg, rgba(180, 35, 24, 0.05), #fff)"
       : "linear-gradient(180deg, rgba(198, 167, 94, 0.1), #fff)"};

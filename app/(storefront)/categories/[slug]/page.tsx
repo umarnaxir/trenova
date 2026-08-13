@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import { PageShell } from "@/components/PageShell/PageShell";
 import { Breadcrumb } from "@/components/Breadcrumb/Breadcrumb";
 import { ShopCatalog } from "@/features/shop/ShopCatalog";
@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function CategoryPage({ params }: Props) {
   const { slug } = await params;
   const category = await getCategoryBySlug(slug);
-  if (!category) notFound();
+  if (!category) redirect("/");
 
   const parent = category.parentSlug
     ? await getCategoryBySlug(category.parentSlug)

@@ -1,5 +1,5 @@
 import type { Product, ProductColor, ProductSize, SizeStock } from "@/types/product";
-import type { AdminProductInput } from "@/services/mock/adminRepository";
+import type { AdminProductInput } from "@/services/admin.service";
 
 const PRODUCT_SIZES: ProductSize[] = [
   "XS",

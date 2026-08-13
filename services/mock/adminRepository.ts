@@ -143,7 +143,8 @@ let team: TeamMember[] = [
 ];
 
 function publicTeamMember(member: TeamMember): TeamMember {
-  const { password: _password, ...rest } = member;
+  const rest = { ...member };
+  delete rest.password;
   return rest;
 }
 function rebuildMedia(): MediaItem[] {
@@ -554,14 +555,6 @@ export async function repoDeleteNotification(id: string) {
 export async function repoGetMedia() {
   await delay();
   return clone(rebuildMedia());
-}
-
-export async function repoDeleteMedia(id: string) {
-  await delay();
-  // Media is derived from product images — mark by clearing matching product angle if needed.
-  // Soft-delete: filter from a session overlay would be ideal; for mock, no-op delete from view
-  // is handled by filtering client-side after toast. Keep products intact.
-  void id;
 }
 
 export async function repoGetCmsPages() {
