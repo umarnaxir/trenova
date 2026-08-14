@@ -8,7 +8,7 @@ import {
   countActiveFilters,
   type SubcategoryOption,
 } from "@/features/shop/ShopFilters";
-import { CategoryHero } from "@/features/shop/CategoryHero";
+import { CategoryHero, type CategoryHeroBanner } from "@/features/shop/CategoryHero";
 import {
   ApplyFiltersButton,
   CatalogLayout,
@@ -33,18 +33,11 @@ import { Pagination } from "@/components/Pagination/Pagination";
 import { EmptyState } from "@/components/EmptyState/EmptyState";
 import { Text } from "@/components/Text/Text";
 
-export type ShopCatalogBanner = {
-  image: string;
-  eyebrow: string;
-  headline: string;
-  href: string;
-};
-
 type ShopCatalogProps = {
   products: Product[];
   title: string;
   subtitle: string;
-  banner: ShopCatalogBanner;
+  banner: CategoryHeroBanner;
   subcategories?: SubcategoryOption[];
   initialFilters?: ProductFilters;
 };

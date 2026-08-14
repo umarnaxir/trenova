@@ -1,17 +1,30 @@
 import type { Category } from "@/types/category";
 import type { Product } from "@/types/product";
-import type { ShopCatalogBanner } from "@/features/shop/ShopCatalog";
+import type { CategoryHeroBanner } from "@/features/shop/CategoryHero";
 import type { SubcategoryOption } from "@/features/shop/ShopFilters";
-import { CATEGORY_IMAGES } from "@/constants/categoryImages";
+
+const HERO_IMAGES = {
+  men: "/images/hero/hero-01.png",
+  women: "/images/hero/hero-02.png",
+  kids: "/images/hero/hero-03.png",
+} as const;
+
+function heroImageForSlug(slug: string) {
+  if (slug === "men" || slug.startsWith("men-")) return HERO_IMAGES.men;
+  if (slug === "women" || slug.startsWith("women-")) return HERO_IMAGES.women;
+  if (slug === "kids" || slug.startsWith("kids-")) return HERO_IMAGES.kids;
+  if (slug === "new-arrivals" || slug === "accessories") return HERO_IMAGES.women;
+  if (slug === "sale") return HERO_IMAGES.kids;
+  return HERO_IMAGES.men;
+}
 
 const COPY: Record<
   string,
-  { subtitle: string; banner: Omit<ShopCatalogBanner, "href"> }
+  { subtitle: string; banner: Omit<CategoryHeroBanner, "href" | "image"> }
 > = {
   men: {
     subtitle: "Style wears confidence. Explore the latest trends for men.",
     banner: {
-      image: CATEGORY_IMAGES.men,
       eyebrow: "Men's Fashion",
       headline: "Premium Style. Everyday.",
     },
@@ -19,7 +32,6 @@ const COPY: Record<
   women: {
     subtitle: "Elevated looks for every move. Discover women’s essentials.",
     banner: {
-      image: CATEGORY_IMAGES.women,
       eyebrow: "Women's Fashion",
       headline: "Soft Power. Everyday.",
     },
@@ -27,7 +39,6 @@ const COPY: Record<
   kids: {
     subtitle: "Comfort-first styles made for growing explorers.",
     banner: {
-      image: CATEGORY_IMAGES.kids,
       eyebrow: "Kids' Fashion",
       headline: "Play Ready. Everyday.",
     },
@@ -35,7 +46,6 @@ const COPY: Record<
   accessories: {
     subtitle: "Finishing pieces that complete every Trenova look.",
     banner: {
-      image: CATEGORY_IMAGES.accessories,
       eyebrow: "Accessories",
       headline: "Details That Matter.",
     },
@@ -43,7 +53,6 @@ const COPY: Record<
   sale: {
     subtitle: "Selected pieces at exceptional value. Limited time offers.",
     banner: {
-      image: CATEGORY_IMAGES.sale,
       eyebrow: "Sale",
       headline: "Better Prices. Same Quality.",
     },
@@ -51,7 +60,6 @@ const COPY: Record<
   "best-sellers": {
     subtitle: "Most loved by the Trenova community right now.",
     banner: {
-      image: CATEGORY_IMAGES["best-sellers"],
       eyebrow: "Best Sellers",
       headline: "Crowd Favorites.",
     },
@@ -59,7 +67,6 @@ const COPY: Record<
   "new-arrivals": {
     subtitle: "Fresh drops, just in. Be first to wear what’s next.",
     banner: {
-      image: CATEGORY_IMAGES["new-arrivals"],
       eyebrow: "New Arrivals",
       headline: "Just Dropped.",
     },
@@ -68,17 +75,18 @@ const COPY: Record<
 
 export function getCategoryPageCopy(category: Category) {
   const preset = COPY[category.slug];
+  const parentSlug = category.parentSlug ?? "";
   return {
     subtitle:
       preset?.subtitle ??
       category.description ??
       `Explore ${category.name} from Trenova.`,
     banner: {
-      image: preset?.banner.image ?? category.image,
+      image: heroImageForSlug(category.slug || parentSlug),
       eyebrow: preset?.banner.eyebrow ?? `${category.name} Fashion`,
       headline: preset?.banner.headline ?? "Premium Style. Everyday.",
       href: `/categories/${category.slug}`,
-    } satisfies ShopCatalogBanner,
+    } satisfies CategoryHeroBanner,
   };
 }
 

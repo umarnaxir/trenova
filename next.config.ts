@@ -13,7 +13,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // Allow LAN access during local development (e.g. http://192.168.1.4:3000)
   allowedDevOrigins: ["192.168.1.11", "172.20.10.11"],
 };
 

@@ -18,15 +18,17 @@ import {
   TitleStack,
 } from "@/features/shop/CategoryHero.styles";
 
+export type CategoryHeroBanner = {
+  image: string;
+  eyebrow: string;
+  headline: string;
+  href: string;
+};
+
 export type CategoryHeroProps = {
   title: string;
   subtitle: string;
-  banner: {
-    image: string;
-    eyebrow: string;
-    headline: string;
-    href: string;
-  };
+  banner: CategoryHeroBanner;
 };
 
 export function CategoryHero({ title, subtitle, banner }: CategoryHeroProps) {

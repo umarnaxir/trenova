@@ -87,6 +87,7 @@ export const PromoBanner = styled.a`
 
   img {
     object-fit: cover;
+    object-position: center top;
     transition: transform ${({ theme }) => theme.transitions.slow};
   }
 

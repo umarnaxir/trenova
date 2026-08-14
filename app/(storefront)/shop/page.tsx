@@ -36,7 +36,7 @@ export default async function ShopPage() {
         title={seo.h1}
         subtitle="Premium apparel, activewear and lifestyle essentials — ready to wear."
         banner={{
-          image: "/images/hero/cover-01.png",
+          image: "/images/hero/hero-01.png",
           eyebrow: "Full Collection",
           headline: "Premium Style. Everyday.",
           href: "/shop",

@@ -68,7 +68,7 @@ export default async function SearchPage({ searchParams }: Props) {
           title={q}
           subtitle={`Search results for “${q}”.`}
           banner={{
-            image: "/images/hero/cover-02.png",
+            image: "/images/hero/hero-02.png",
             eyebrow: "Search",
             headline: "Find Your Fit.",
             href: "/shop",

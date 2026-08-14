@@ -145,3 +145,70 @@ export async function getFeaturedProducts(limit = 6): Promise<Product[]> {
     .slice(0, limit);
 }
 
+const ACCESSORY_SLUGS = new Set([
+  "accessories",
+  "caps",
+  "bags",
+  "backpacks",
+  "sunglasses",
+  "water-bottles",
+  "socks",
+  "wallets",
+  "belts",
+]);
+
+function isAccessoryProduct(product: Product) {
+  return (
+    ACCESSORY_SLUGS.has(product.categorySlug) ||
+    product.categorySlug.startsWith("accessories")
+  );
+}
+
+/** Last-stop cart add-ons: accessories first, then trending and bestsellers. */
+export async function getCartSuggestions(limit = 8): Promise<Product[]> {
+  const products = getCatalogProducts().filter((item) => item.stock > 0);
+  const accessories = products.filter(isAccessoryProduct);
+  const trending = products.filter(
+    (item) =>
+      !isAccessoryProduct(item) &&
+      (item.isTrending || item.tags.includes("trending")),
+  );
+  const bestSellers = products.filter(
+    (item) =>
+      !isAccessoryProduct(item) &&
+      item.isBestSeller &&
+      !item.isTrending &&
+      !item.tags.includes("trending"),
+  );
+
+  const mixed: Product[] = [];
+  const seen = new Set<string>();
+  const push = (item?: Product) => {
+    if (!item || seen.has(item.id)) return;
+    seen.add(item.id);
+    mixed.push(item);
+  };
+
+  const rounds = Math.max(
+    accessories.length,
+    trending.length,
+    bestSellers.length,
+  );
+  for (let i = 0; i < rounds && mixed.length < limit; i += 1) {
+    push(accessories[i]);
+    if (mixed.length >= limit) break;
+    push(trending[i]);
+    if (mixed.length >= limit) break;
+    push(bestSellers[i]);
+  }
+
+  if (mixed.length < limit) {
+    for (const item of products) {
+      if (mixed.length >= limit) break;
+      push(item);
+    }
+  }
+
+  return mixed.slice(0, limit);
+}
+
