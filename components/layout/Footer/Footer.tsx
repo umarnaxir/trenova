@@ -31,7 +31,6 @@ import {
   MidLabel,
   SocialButton,
   SocialRow,
-  TopRule,
 } from "@/components/layout/Footer/Footer.styles";
 
 const shopLinks = [
@@ -78,8 +77,6 @@ export function Footer() {
   return (
     <FooterRoot>
       <Container>
-        <TopRule />
-
         <FooterGrid>
           <BrandCol>
             <BrandIdentity>

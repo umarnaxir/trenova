@@ -3,26 +3,13 @@
 import styled from "styled-components";
 
 export const FooterRoot = styled.footer`
-  background:
-    radial-gradient(circle at top left, rgba(198, 167, 94, 0.12), transparent 36%),
-    ${({ theme }) => theme.colors.black};
+  background: #000000;
   color: ${({ theme }) => theme.colors.white};
   padding-block: 1.75rem 1.25rem;
   border-top: 1px solid ${({ theme }) => theme.colors.gray700};
 
   ${({ theme }) => theme.mediaQueries.md} {
     padding-block: 2.5rem 1.5rem;
-  }
-`;
-
-export const TopRule = styled.div`
-  width: 64px;
-  height: 2px;
-  background: ${({ theme }) => theme.colors.gold};
-  margin-bottom: 1.25rem;
-
-  ${({ theme }) => theme.mediaQueries.md} {
-    margin-bottom: 1.5rem;
   }
 `;
 
