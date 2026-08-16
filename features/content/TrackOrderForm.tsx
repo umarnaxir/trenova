@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { getOrdersStore } from "@/services/mock/usersStore";
 import type { Order, OrderStatus } from "@/types/user";
+import { SITE } from "@/constants/site";
 import { Breadcrumb } from "@/components/Breadcrumb/Breadcrumb";
 import { Input } from "@/components/Input/Input";
 import { formatCurrency, formatDate } from "@/utils/format";
@@ -269,7 +270,7 @@ export function TrackOrderForm() {
               <Headphones size={14} aria-hidden />
               Contact support
             </SideLink>
-            <SideLink href="mailto:hello@trenova.in">
+            <SideLink href={`mailto:${SITE.email}`}>
               <Mail size={14} aria-hidden />
               Email us
             </SideLink>
