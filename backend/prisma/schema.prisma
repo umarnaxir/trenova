@@ -1,0 +1,306 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  firstName String?
+  lastName  String?
+  phone     String?  @unique
+  addresses Address[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model OtpCode {
+  id        String    @id @default(uuid())
+  phone     String
+  codeHash  String
+  attempts  Int       @default(0)
+  usedAt    DateTime?
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+
+  @@index([phone])
+}
+
+model Address {
+  id             String   @id @default(uuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label          String
+  fullName       String
+  phone          String
+  alternatePhone String?
+  line1          String
+  line2          String?
+  city           String
+  state          String
+  postalCode     String
+  country        String   @default("India")
+  isDefault      Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([userId])
+}
+
+enum CouponType {
+  PERCENT
+  FIXED
+}
+
+model Coupon {
+  id                String             @id @default(uuid())
+  code              String             @unique
+  description       String?
+  type              CouponType
+  value             Decimal
+  minOrder          Decimal            @default(0)
+  maxDiscountAmount Decimal?
+  isActive          Boolean            @default(true)
+  maxUses           Int?
+  usedCount         Int                @default(0)
+  expiresAt         DateTime?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  redemptions       CouponRedemption[]
+}
+
+model CouponRedemption {
+  id              String   @id @default(uuid())
+  couponId        String
+  coupon          Coupon   @relation(fields: [couponId], references: [id], onDelete: Cascade)
+  orderId         String
+  userId          String?
+  discountApplied Decimal
+  createdAt       DateTime @default(now())
+
+  @@index([couponId])
+  @@index([orderId])
+}
+
+enum AdminRole {
+  SUPERADMIN
+  MANAGER
+  SUPPORT
+}
+
+model Admin {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      AdminRole @default(MANAGER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id          String     @id @default(uuid())
+  slug        String     @unique
+  name        String
+  description String
+  image       String
+  parentSlug  String?
+  parent      Category?  @relation("SubCategories", fields: [parentSlug], references: [slug])
+  children    Category[] @relation("SubCategories")
+  products    Product[]
+  
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([slug])
+  @@index([parentSlug])
+}
+
+model Product {
+  id               String   @id @default(uuid())
+  slug             String   @unique
+  name             String
+  brand            String
+  description      String
+  shortDescription String
+  price            Float
+  compareAtPrice   Float?
+  rating           Float    @default(0)
+  reviewCount      Int      @default(0)
+  
+  // JSON fields for complex structures
+  colors           Json     // [{ name: "Red", hex: "#FF0000" }]
+  images           Json     // { front: "", left: "", right: "" }
+  sizeStock        Json     // { "S": 10, "M": 15 }
+  specifications   Json     // { "Material": "Cotton" }
+  
+  // Array fields for efficient filtering in Postgres
+  sizes            String[]
+  tags             String[]
+  
+  // Flags for filtering
+  isFeatured       Boolean  @default(false)
+  isBestSeller     Boolean  @default(false)
+  isNewArrival     Boolean  @default(false)
+  isTrending       Boolean  @default(false)
+  isOnSale         Boolean  @default(false)
+  
+  stock            Int      @default(0)
+  sku              String   @unique
+  
+  categoryId       String
+  categorySlug     String
+  category         Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Performance Indexes for high traffic querying
+  @@index([slug])
+  @@index([categoryId])
+  @@index([categorySlug])
+  @@index([price])
+  @@index([isFeatured])
+  @@index([isBestSeller])
+  @@index([isNewArrival])
+  @@index([isTrending])
+  @@index([isOnSale])
+  reviews          Review[]
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Review {
+  id        String       @id @default(uuid())
+  productId String
+  product   Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId    String
+  rating    Int
+  comment   String?
+  status    ReviewStatus @default(PENDING)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@unique([userId, productId])
+  @@index([productId])
+  @@index([userId])
+  @@index([status])
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PAID
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  COD
+  RAZORPAY
+}
+
+model Order {
+  id            String      @id @default(uuid())
+  orderNumber   String      @unique
+  
+  // User info (optional userId for guest checkout)
+  userId        String?
+  userEmail     String
+  fullName      String
+  phone         String
+  
+  // Shipping Address
+  line1         String
+  city          String?
+  state         String?
+  postalCode    String?
+  country       String      @default("India")
+  
+  // Financials
+  total         Float
+  discount      Float       @default(0)
+  
+  // Status
+  razorpayOrderId   String?     @unique
+  razorpayPaymentId String?
+  razorpaySignature String?
+  status        OrderStatus @default(PENDING)
+  paymentMethod PaymentMethod @default(COD)
+  paymentId     String?
+  
+  items         OrderItem[]
+  
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([orderNumber])
+  @@index([userEmail])
+}
+
+model OrderItem {
+  id            String   @id @default(uuid())
+  orderId       String
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  productId     String
+  productName   String
+  productSlug   String
+  productImage  String
+  
+  size          String
+  color         String
+  price         Float
+  quantity      Int
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([orderId])
+}
+
+// CMS & Site Settings
+model SiteSetting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+model CmsPage {
+  id        String   @id @default(uuid())
+  slug      String   @unique
+  title     String
+  content   String   @db.Text
+  status    String   @default("draft") // "published" | "draft"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+}
+
+model TeamMember {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  role      String   @default("Editor")
+  status    String   @default("active")
+  password  String
+  joinedAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
