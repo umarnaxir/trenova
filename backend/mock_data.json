@@ -1,0 +1,3651 @@
+{
+  "categories": [
+    {
+      "id": "cat-men",
+      "slug": "men",
+      "name": "Men",
+      "description": "Refined essentials for the modern wardrobe.",
+      "image": "/images/category/men.png",
+      "parentSlug": null
+    },
+    {
+      "id": "cat-men-tees",
+      "slug": "men-t-shirts",
+      "name": "T-Shirts",
+      "description": "",
+      "image": "/images/category/men.png",
+      "parentSlug": "men"
+    },
+    {
+      "id": "cat-men-polo",
+      "slug": "men-polo-shirts",
+      "name": "Polo Shirts",
+      "description": "",
+      "image": "/images/category/men.png",
+      "parentSlug": "men"
+    },
+    {
+      "id": "cat-men-hoodies",
+      "slug": "men-hoodies",
+      "name": "Hoodies",
+      "description": "",
+      "image": "/images/category/men.png",
+      "parentSlug": "men"
+    },
+    {
+      "id": "cat-men-sweat",
+      "slug": "men-sweatshirts",
+      "name": "Sweatshirts",
+      "description": "",
+      "image": "/images/category/men.png",
+      "parentSlug": "men"
+    },
+    {
+      "id": "cat-men-joggers",
+      "slug": "men-joggers",
+      "name": "Joggers",
+      "description": "",
+      "image": "/images/category/men.png",
+      "parentSlug": "men"
+    },
+    {
+      "id": "cat-men-shorts",
+      "slug": "men-shorts",
+      "name": "Shorts",
+      "description": "",
+      "image": "/images/category/men.png",
+      "parentSlug": "men"
+    },
+    {
+      "id": "cat-men-tracks",
+      "slug": "men-tracksuits",
+      "name": "Tracksuits",
+      "description": "",
+      "image": "/images/category/men.png",
+      "parentSlug": "men"
+    },
+    {
+      "id": "cat-men-jackets",
+      "slug": "men-jackets",
+      "name": "Jackets",
+      "description": "",
+      "image": "/images/category/men.png",
+      "parentSlug": "men"
+    },
+    {
+      "id": "cat-women",
+      "slug": "women",
+      "name": "Women",
+      "description": "Elevated silhouettes with everyday ease.",
+      "image": "/images/category/women.png",
+      "parentSlug": null
+    },
+    {
+      "id": "cat-women-tees",
+      "slug": "women-t-shirts",
+      "name": "T-Shirts",
+      "description": "",
+      "image": "/images/category/women.png",
+      "parentSlug": "women"
+    },
+    {
+      "id": "cat-women-crop",
+      "slug": "women-crop-tops",
+      "name": "Crop Tops",
+      "description": "",
+      "image": "/images/category/women.png",
+      "parentSlug": "women"
+    },
+    {
+      "id": "cat-women-hoodies",
+      "slug": "women-hoodies",
+      "name": "Hoodies",
+      "description": "",
+      "image": "/images/category/women.png",
+      "parentSlug": "women"
+    },
+    {
+      "id": "cat-women-active",
+      "slug": "women-activewear",
+      "name": "Activewear",
+      "description": "",
+      "image": "/images/category/sports.png",
+      "parentSlug": "women"
+    },
+    {
+      "id": "cat-women-leggings",
+      "slug": "women-leggings",
+      "name": "Leggings",
+      "description": "",
+      "image": "/images/category/women.png",
+      "parentSlug": "women"
+    },
+    {
+      "id": "cat-women-dresses",
+      "slug": "women-dresses",
+      "name": "Dresses & Jumpsuits",
+      "description": "",
+      "image": "/images/category/women.png",
+      "parentSlug": "women"
+    },
+    {
+      "id": "cat-women-tracks",
+      "slug": "women-tracksuits",
+      "name": "Tracksuits",
+      "description": "",
+      "image": "/images/category/women.png",
+      "parentSlug": "women"
+    },
+    {
+      "id": "cat-women-jackets",
+      "slug": "women-jackets",
+      "name": "Jackets",
+      "description": "",
+      "image": "/images/category/women.png",
+      "parentSlug": "women"
+    },
+    {
+      "id": "cat-kids",
+      "slug": "kids",
+      "name": "Kids",
+      "description": "Comfort-first styles for growing explorers.",
+      "image": "/images/category/kids.png",
+      "parentSlug": null
+    },
+    {
+      "id": "cat-kids-boys",
+      "slug": "kids-boys",
+      "name": "Boys",
+      "description": "",
+      "image": "/images/category/kids.png",
+      "parentSlug": "kids"
+    },
+    {
+      "id": "cat-kids-girls",
+      "slug": "kids-girls",
+      "name": "Girls",
+      "description": "",
+      "image": "/images/category/kids.png",
+      "parentSlug": "kids"
+    },
+    {
+      "id": "cat-kids-tees",
+      "slug": "kids-t-shirts",
+      "name": "T-Shirts",
+      "description": "",
+      "image": "/images/category/kids.png",
+      "parentSlug": "kids"
+    },
+    {
+      "id": "cat-kids-hoodies",
+      "slug": "kids-hoodies",
+      "name": "Hoodies",
+      "description": "",
+      "image": "/images/category/kids.png",
+      "parentSlug": "kids"
+    },
+    {
+      "id": "cat-kids-coord",
+      "slug": "kids-co-ord-sets",
+      "name": "Co-ord Sets",
+      "description": "",
+      "image": "/images/category/kids.png",
+      "parentSlug": "kids"
+    },
+    {
+      "id": "cat-kids-sweatpants",
+      "slug": "kids-sweatpants",
+      "name": "Sweatpants",
+      "description": "",
+      "image": "/images/category/kids.png",
+      "parentSlug": "kids"
+    },
+    {
+      "id": "cat-kids-active",
+      "slug": "kids-activewear",
+      "name": "Activewear",
+      "description": "",
+      "image": "/images/category/kids.png",
+      "parentSlug": "kids"
+    },
+    {
+      "id": "cat-kids-jackets",
+      "slug": "kids-jackets",
+      "name": "Jackets",
+      "description": "",
+      "image": "/images/category/kids.png",
+      "parentSlug": "kids"
+    },
+    {
+      "id": "cat-accessories",
+      "slug": "accessories",
+      "name": "Accessories",
+      "description": "Finishing pieces that complete the look.",
+      "image": "/images/category/accessories.png",
+      "parentSlug": null
+    },
+    {
+      "id": "cat-acc-caps",
+      "slug": "caps",
+      "name": "Caps",
+      "description": "",
+      "image": "/images/category/accessories.png",
+      "parentSlug": "accessories"
+    },
+    {
+      "id": "cat-acc-bags",
+      "slug": "bags",
+      "name": "Bags",
+      "description": "",
+      "image": "/images/category/bags.png",
+      "parentSlug": "accessories"
+    },
+    {
+      "id": "cat-acc-backpacks",
+      "slug": "backpacks",
+      "name": "Backpacks",
+      "description": "",
+      "image": "/images/category/accessories.png",
+      "parentSlug": "accessories"
+    },
+    {
+      "id": "cat-acc-sunglasses",
+      "slug": "sunglasses",
+      "name": "Sunglasses",
+      "description": "",
+      "image": "/images/category/accessories.png",
+      "parentSlug": "accessories"
+    },
+    {
+      "id": "cat-acc-bottles",
+      "slug": "water-bottles",
+      "name": "Water Bottles",
+      "description": "",
+      "image": "/images/category/accessories.png",
+      "parentSlug": "accessories"
+    },
+    {
+      "id": "cat-acc-socks",
+      "slug": "socks",
+      "name": "Socks",
+      "description": "",
+      "image": "/images/category/accessories.png",
+      "parentSlug": "accessories"
+    },
+    {
+      "id": "cat-acc-wallets",
+      "slug": "wallets",
+      "name": "Wallets",
+      "description": "",
+      "image": "/images/category/accessories.png",
+      "parentSlug": "accessories"
+    },
+    {
+      "id": "cat-acc-belts",
+      "slug": "belts",
+      "name": "Belts",
+      "description": "",
+      "image": "/images/category/accessories.png",
+      "parentSlug": "accessories"
+    },
+    {
+      "id": "cat-sale",
+      "slug": "sale",
+      "name": "Sale",
+      "description": "Selected pieces at exceptional value.",
+      "image": "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=1400&q=80",
+      "parentSlug": null
+    },
+    {
+      "id": "cat-best",
+      "slug": "best-sellers",
+      "name": "Best Sellers",
+      "description": "Most loved by the Trenova community.",
+      "image": "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1400&q=80",
+      "parentSlug": null
+    },
+    {
+      "id": "cat-new",
+      "slug": "new-arrivals",
+      "name": "New Arrivals",
+      "description": "Fresh drops, just in.",
+      "image": "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=1400&q=80",
+      "parentSlug": null
+    }
+  ],
+  "products": [
+    {
+      "id": "prod-essential-hoodie",
+      "slug": "trenova-essential-hoodie",
+      "name": "Trenova ESSENTIAL HOODIE",
+      "brand": "Trenova",
+      "shortDescription": "Minimal hoodie with brushed fleece and refined structure.",
+      "description": "The Trenova Essential Hoodie balances softness and structure. Brushed fleece interior, clean kangaroo pocket, and understated hardware deliver a premium everyday layer.",
+      "price": 1699,
+      "compareAtPrice": 2199,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Noir",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "images": {
+        "front": "/products/hoodie-front.jpg",
+        "left": "/products/hoodie-left.jpg",
+        "right": "/products/hoodie-right.jpg"
+      },
+      "categoryId": "cat-men-hoodies",
+      "categorySlug": "men-hoodies",
+      "tags": [
+        "best-seller",
+        "new-arrival",
+        "trending"
+      ],
+      "isBestSeller": true,
+      "isTrending": true,
+      "isOnSale": true,
+      "isNewArrival": true,
+      "stock": 32,
+      "sku": "TRN-ESS-HD-001",
+      "specifications": {
+        "Fabric": "Cotton Fleece",
+        "Fit": "Relaxed",
+        "Care": "Gentle machine wash"
+      },
+      "createdAt": "2026-08-05T10:00:00.000Z",
+      "sizeStock": {
+        "S": 7,
+        "M": 7,
+        "L": 6,
+        "XL": 6,
+        "XXL": 6
+      },
+      "isFeatured": true
+    },
+    {
+      "id": "prod-dryfit-tshirt",
+      "slug": "trenova-dryfit-t-shirt",
+      "name": "Trenova DRY-FIT T-SHIRT",
+      "brand": "Trenova",
+      "shortDescription": "Breathable performance dry-fit tee.",
+      "description": "Engineered with lightweight dry-fit fabric for moisture management and maximum comfort during workout and daily activities.",
+      "price": 899,
+      "compareAtPrice": 1199,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "images": {
+        "front": "/products/tee-front.jpg",
+        "left": "/products/tee-left.jpg",
+        "right": "/products/tee-right.jpg"
+      },
+      "categoryId": "cat-men-tees",
+      "categorySlug": "men-t-shirts",
+      "tags": [
+        "new-arrival",
+        "trending"
+      ],
+      "isBestSeller": false,
+      "isTrending": true,
+      "isOnSale": true,
+      "isNewArrival": true,
+      "stock": 45,
+      "sku": "TRN-DRY-TSH-002",
+      "specifications": {
+        "Fabric": "Dry-Fit Polyester Blend",
+        "Fit": "Athletic"
+      },
+      "createdAt": "2026-08-04T10:00:00.000Z",
+      "sizeStock": {
+        "S": 12,
+        "M": 11,
+        "L": 11,
+        "XL": 11
+      },
+      "isFeatured": true
+    },
+    {
+      "id": "prod-joggers-premium",
+      "slug": "trenova-joggers-premium",
+      "name": "Trenova JOGGERS PREMIUM",
+      "brand": "Trenova",
+      "shortDescription": "Tapered premium stretch joggers.",
+      "description": "Crafted with soft stretch cotton fabric, deep zipped pockets, and custom tapered fit.",
+      "price": 1299,
+      "compareAtPrice": 1699,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "images": {
+        "front": "/products/joggers-front.jpg",
+        "left": "/products/joggers-left.jpg",
+        "right": "/products/joggers-right.jpg"
+      },
+      "categoryId": "cat-men-joggers",
+      "categorySlug": "men-joggers",
+      "tags": [
+        "new-arrival",
+        "best-seller"
+      ],
+      "isBestSeller": true,
+      "isTrending": true,
+      "isOnSale": true,
+      "isNewArrival": true,
+      "stock": 60,
+      "sku": "TRN-JOG-PRM-003",
+      "specifications": {
+        "Fabric": "Cotton Stretch",
+        "Fit": "Tapered"
+      },
+      "createdAt": "2026-08-03T10:00:00.000Z",
+      "sizeStock": {
+        "S": 12,
+        "M": 12,
+        "L": 12,
+        "XL": 12,
+        "XXL": 12
+      },
+      "isFeatured": true
+    },
+    {
+      "id": "prod-active-crop-top",
+      "slug": "trenova-active-crop-top",
+      "name": "Trenova ACTIVE CROP TOP",
+      "brand": "Trenova",
+      "shortDescription": "Seamless supportive active crop top.",
+      "description": "Seamless design engineered for active lifestyles with high flexibility and breathable knit texture.",
+      "price": 849,
+      "compareAtPrice": 1099,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "images": {
+        "front": "/products/women-active-front.jpg",
+        "left": "/products/women-active-left.jpg",
+        "right": "/products/women-active-right.jpg"
+      },
+      "categoryId": "cat-women-active",
+      "categorySlug": "women-activewear",
+      "tags": [
+        "new-arrival"
+      ],
+      "isBestSeller": false,
+      "isTrending": true,
+      "isOnSale": true,
+      "isNewArrival": true,
+      "stock": 40,
+      "sku": "TRN-ACT-CRP-004",
+      "specifications": {
+        "Fabric": "Nylon Elastane",
+        "Fit": "Fitted"
+      },
+      "createdAt": "2026-08-02T10:00:00.000Z",
+      "sizeStock": {
+        "XS": 10,
+        "S": 10,
+        "M": 10,
+        "L": 10
+      },
+      "isFeatured": true
+    },
+    {
+      "id": "prod-premium-cap",
+      "slug": "trenova-premium-cap",
+      "name": "Trenova PREMIUM CAP",
+      "brand": "Trenova",
+      "shortDescription": "Structured luxury cotton cap with gold embroidery.",
+      "description": "Structured 6-panel strapback cap featuring high-density gold metallic Trenova emblem.",
+      "price": 499,
+      "compareAtPrice": 699,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        }
+      ],
+      "sizes": [
+        "ONE SIZE"
+      ],
+      "images": {
+        "front": "/products/jacket-front.jpg",
+        "left": "/products/jacket-left.jpg",
+        "right": "/products/jacket-right.jpg"
+      },
+      "categoryId": "cat-acc-caps",
+      "categorySlug": "accessories",
+      "tags": [
+        "new-arrival",
+        "best-seller"
+      ],
+      "isBestSeller": true,
+      "isTrending": true,
+      "isOnSale": true,
+      "isNewArrival": true,
+      "stock": 80,
+      "sku": "TRN-PRM-CAP-005",
+      "specifications": {
+        "Fabric": "100% Cotton",
+        "Fit": "Adjustable"
+      },
+      "createdAt": "2026-08-01T10:00:00.000Z",
+      "sizeStock": {
+        "ONE SIZE": 80
+      },
+      "isFeatured": true
+    },
+    {
+      "id": "prod-sports-socks",
+      "slug": "trenova-sports-socks",
+      "name": "Trenova SPORTS SOCKS (PACK OF 3)",
+      "brand": "Trenova",
+      "shortDescription": "Cushioned arch support performance crew socks.",
+      "description": "Reinforced heel and toe with ribbed arch support for high performance and luxury everyday wear.",
+      "price": 399,
+      "compareAtPrice": 499,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "White",
+          "hex": "#FFFFFF"
+        }
+      ],
+      "sizes": [
+        "FREE SIZE"
+      ],
+      "images": {
+        "front": "/products/women-tee-front.jpg",
+        "left": "/products/women-tee-left.jpg",
+        "right": "/products/women-tee-right.jpg"
+      },
+      "categoryId": "cat-acc-socks",
+      "categorySlug": "accessories",
+      "tags": [
+        "new-arrival"
+      ],
+      "isBestSeller": false,
+      "isTrending": false,
+      "isOnSale": true,
+      "isNewArrival": true,
+      "stock": 100,
+      "sku": "TRN-SPT-SCK-006",
+      "specifications": {
+        "Fabric": "Cotton Poly Blend",
+        "Fit": "Crew"
+      },
+      "createdAt": "2026-07-31T10:00:00.000Z",
+      "sizeStock": {
+        "FREE SIZE": 100
+      },
+      "isFeatured": true
+    },
+    {
+      "id": "prod-lumen-polo",
+      "slug": "lumen-classic-polo",
+      "name": "Lumen Classic Polo",
+      "brand": "Trenova",
+      "shortDescription": "Crisp polo with a clean collar and premium piqué knit.",
+      "description": "The Lumen Classic Polo is built for elevated everyday wear. Soft piqué cotton, a precise collar, and a tailored yet comfortable fit make it ideal from desk to weekend.",
+      "price": 2299,
+      "compareAtPrice": 2799,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "White",
+          "hex": "#FFFFFF"
+        },
+        {
+          "name": "Navy",
+          "hex": "#1C2430"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "images": {
+        "front": "/products/polo-front.jpg",
+        "left": "/products/polo-left.jpg",
+        "right": "/products/polo-right.jpg"
+      },
+      "categoryId": "cat-men-polo",
+      "categorySlug": "men-polo-shirts",
+      "tags": [
+        "best-seller",
+        "new-arrival",
+        "trending"
+      ],
+      "isBestSeller": true,
+      "isNewArrival": true,
+      "isOnSale": true,
+      "isTrending": true,
+      "stock": 40,
+      "sku": "TRN-LUM-POLO-001",
+      "specifications": {
+        "Fabric": "100% Cotton Piqué",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India",
+        "Weight": "220 GSM"
+      },
+      "createdAt": "2026-07-28T10:00:00.000Z",
+      "sizeStock": {
+        "S": 8,
+        "M": 8,
+        "L": 8,
+        "XL": 8,
+        "XXL": 8
+      },
+      "isFeatured": false
+    },
+    {
+      "id": "prod-aero-jacket",
+      "slug": "aero-utility-jacket",
+      "name": "Aero Utility Jacket",
+      "brand": "Trenova",
+      "shortDescription": "Lightweight utility jacket with clean modern lines.",
+      "description": "The Aero Utility Jacket layers easily over tees and hoodies. Lightweight shell, functional pockets, and a minimal silhouette keep it sharp without feeling heavy.",
+      "price": 4999,
+      "compareAtPrice": 5999,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Olive",
+          "hex": "#556B2F"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "images": {
+        "front": "/products/jacket-front.jpg",
+        "left": "/products/jacket-left.jpg",
+        "right": "/products/jacket-right.jpg"
+      },
+      "categoryId": "cat-men-jackets",
+      "categorySlug": "men-jackets",
+      "tags": [
+        "best-seller",
+        "new-arrival",
+        "trending"
+      ],
+      "isTrending": true,
+      "isNewArrival": true,
+      "isOnSale": true,
+      "isBestSeller": true,
+      "stock": 22,
+      "sku": "TRN-AERO-JKT-001",
+      "specifications": {
+        "Fabric": "Nylon Blend",
+        "Fit": "Regular",
+        "Care": "Gentle wash",
+        "Origin": "India",
+        "Weight": "Lightweight"
+      },
+      "createdAt": "2026-08-01T10:00:00.000Z",
+      "sizeStock": {
+        "S": 6,
+        "M": 6,
+        "L": 5,
+        "XL": 5
+      },
+      "isFeatured": false
+    },
+    {
+      "id": "prod-stride-joggers",
+      "slug": "stride-tapered-joggers",
+      "name": "Stride Tapered Joggers",
+      "brand": "Trenova",
+      "shortDescription": "Tapered joggers engineered for movement and ease.",
+      "description": "Stride Tapered Joggers combine soft stretch fabric with a clean tapered silhouette. Perfect for travel, training recovery, and elevated lounge wear.",
+      "price": 2499,
+      "compareAtPrice": 2999,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Charcoal",
+          "hex": "#2E2E2E"
+        },
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "images": {
+        "front": "/products/joggers-front.jpg",
+        "left": "/products/joggers-left.jpg",
+        "right": "/products/joggers-right.jpg"
+      },
+      "categoryId": "cat-men-joggers",
+      "categorySlug": "men-joggers",
+      "tags": [
+        "best-seller",
+        "new-arrival",
+        "trending"
+      ],
+      "isBestSeller": true,
+      "isTrending": true,
+      "isOnSale": true,
+      "isNewArrival": true,
+      "stock": 55,
+      "sku": "TRN-STR-JOG-001",
+      "specifications": {
+        "Fabric": "Cotton Stretch",
+        "Fit": "Tapered",
+        "Care": "Machine wash cold",
+        "Origin": "India",
+        "Weight": "280 GSM"
+      },
+      "createdAt": "2026-06-08T10:00:00.000Z",
+      "sizeStock": {
+        "S": 11,
+        "M": 11,
+        "L": 11,
+        "XL": 11,
+        "XXL": 11
+      },
+      "isFeatured": false
+    },
+    {
+      "id": "prod-coast-shorts",
+      "slug": "coast-everyday-shorts",
+      "name": "Coast Everyday Shorts",
+      "brand": "Trenova",
+      "shortDescription": "Breathable shorts with a clean tailored casual cut.",
+      "description": "Coast Everyday Shorts are cut for warm days and easy movement. Soft fabric, refined length, and a versatile silhouette that works from city walks to travel.",
+      "price": 1799,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Sand",
+          "hex": "#C8B89A"
+        },
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "images": {
+        "front": "/products/shorts-front.jpg",
+        "left": "/products/shorts-left.jpg",
+        "right": "/products/shorts-right.jpg"
+      },
+      "categoryId": "cat-men-shorts",
+      "categorySlug": "men-shorts",
+      "tags": [
+        "best-seller",
+        "new-arrival",
+        "trending"
+      ],
+      "isNewArrival": true,
+      "isBestSeller": true,
+      "isTrending": true,
+      "stock": 36,
+      "sku": "TRN-CST-SHT-001",
+      "specifications": {
+        "Fabric": "Cotton Twill",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India",
+        "Length": "Above knee"
+      },
+      "createdAt": "2026-07-30T10:00:00.000Z",
+      "sizeStock": {
+        "S": 9,
+        "M": 9,
+        "L": 9,
+        "XL": 9
+      },
+      "isFeatured": false,
+      "isOnSale": false
+    },
+    {
+      "id": "prod-velvet-women-tee",
+      "slug": "velvet-soft-tee",
+      "name": "Velvet Soft Tee",
+      "brand": "Trenova",
+      "shortDescription": "Women's soft tee with an elegant everyday drape.",
+      "description": "The Velvet Soft Tee is designed for elevated comfort. Soft hand-feel, flattering cut, and a minimal finish that pairs with denim, skirts, and layered looks.",
+      "price": 1599,
+      "compareAtPrice": 1999,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Ivory",
+          "hex": "#F7F5F2"
+        },
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "images": {
+        "front": "/products/women-tee-front.jpg",
+        "left": "/products/women-tee-left.jpg",
+        "right": "/products/women-tee-right.jpg"
+      },
+      "categoryId": "cat-women-tees",
+      "categorySlug": "women-t-shirts",
+      "tags": [
+        "best-seller",
+        "new-arrival",
+        "trending"
+      ],
+      "isBestSeller": true,
+      "isTrending": true,
+      "isNewArrival": true,
+      "isOnSale": true,
+      "stock": 60,
+      "sku": "TRN-VLT-TEE-001",
+      "specifications": {
+        "Fabric": "Organic Cotton",
+        "Fit": "Relaxed",
+        "Care": "Machine wash cold",
+        "Origin": "India",
+        "Weight": "160 GSM"
+      },
+      "createdAt": "2026-07-18T10:00:00.000Z",
+      "sizeStock": {
+        "XS": 12,
+        "S": 12,
+        "M": 12,
+        "L": 12,
+        "XL": 12
+      },
+      "isFeatured": false
+    },
+    {
+      "id": "prod-pulse-active",
+      "slug": "pulse-active-set",
+      "name": "Pulse Active Set",
+      "brand": "Trenova",
+      "shortDescription": "Performance activewear built for studio and street.",
+      "description": "The Pulse Active Set blends stretch, support, and a sleek silhouette. Designed for training sessions and polished athleisure styling outside the gym.",
+      "price": 3999,
+      "compareAtPrice": 4599,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "images": {
+        "front": "/products/women-active-front.jpg",
+        "left": "/products/women-active-left.jpg",
+        "right": "/products/women-active-right.jpg"
+      },
+      "categoryId": "cat-women-active",
+      "categorySlug": "women-activewear",
+      "tags": [
+        "best-seller",
+        "new-arrival",
+        "trending"
+      ],
+      "isBestSeller": true,
+      "isTrending": true,
+      "isOnSale": true,
+      "isNewArrival": true,
+      "stock": 28,
+      "sku": "TRN-PLS-ACT-001",
+      "specifications": {
+        "Fabric": "Performance Stretch Blend",
+        "Fit": "Athletic",
+        "Care": "Gentle machine wash",
+        "Origin": "India",
+        "Support": "Medium"
+      },
+      "createdAt": "2026-07-05T10:00:00.000Z",
+      "sizeStock": {
+        "XS": 7,
+        "S": 7,
+        "M": 7,
+        "L": 7
+      },
+      "isFeatured": false
+    },
+    {
+      "id": "prod-apex-crew-tee",
+      "slug": "apex-crew-tee",
+      "name": "Apex Crew Tee",
+      "brand": "Trenova",
+      "shortDescription": "Apex Crew Tee — dummy inventory for admin testing.",
+      "description": "Apex Crew Tee is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 999,
+      "compareAtPrice": 1299,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "S": 12,
+        "M": 12,
+        "L": 12,
+        "XL": 12
+      },
+      "images": {
+        "front": "/products/tee-front.jpg",
+        "left": "/products/tee-left.jpg",
+        "right": "/products/tee-right.jpg"
+      },
+      "categoryId": "cat-men-tees",
+      "categorySlug": "men-t-shirts",
+      "tags": [
+        "new-arrival"
+      ],
+      "isNewArrival": true,
+      "isOnSale": true,
+      "stock": 48,
+      "sku": "TRN-DMY-100",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-01T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-noir-soft-tee",
+      "slug": "noir-soft-tee",
+      "name": "Noir Soft Tee",
+      "brand": "Trenova",
+      "shortDescription": "Noir Soft Tee — dummy inventory for admin testing.",
+      "description": "Noir Soft Tee is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 899,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "S": 3,
+        "M": 3,
+        "L": 3,
+        "XL": 3
+      },
+      "images": {
+        "front": "/products/tee-front.jpg",
+        "left": "/products/tee-left.jpg",
+        "right": "/products/tee-right.jpg"
+      },
+      "categoryId": "cat-men-tees",
+      "categorySlug": "men-t-shirts",
+      "tags": [
+        "trending"
+      ],
+      "isTrending": true,
+      "isOnSale": false,
+      "stock": 12,
+      "sku": "TRN-DMY-101",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-02T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-summit-polo",
+      "slug": "summit-polo",
+      "name": "Summit Classic Polo",
+      "brand": "Trenova",
+      "shortDescription": "Summit Classic Polo — dummy inventory for admin testing.",
+      "description": "Summit Classic Polo is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1499,
+      "compareAtPrice": 1899,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "S": 9,
+        "M": 9,
+        "L": 9,
+        "XL": 9
+      },
+      "images": {
+        "front": "/products/polo-front.jpg",
+        "left": "/products/polo-left.jpg",
+        "right": "/products/polo-right.jpg"
+      },
+      "categoryId": "cat-men-polo",
+      "categorySlug": "men-polo-shirts",
+      "tags": [
+        "best-seller"
+      ],
+      "isBestSeller": true,
+      "isOnSale": true,
+      "stock": 36,
+      "sku": "TRN-DMY-102",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-03T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-harbor-polo",
+      "slug": "harbor-polo",
+      "name": "Harbor Pique Polo",
+      "brand": "Trenova",
+      "shortDescription": "Harbor Pique Polo — dummy inventory for admin testing.",
+      "description": "Harbor Pique Polo is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1399,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "S": 0,
+        "M": 0,
+        "L": 0,
+        "XL": 0
+      },
+      "images": {
+        "front": "/products/polo-front.jpg",
+        "left": "/products/polo-left.jpg",
+        "right": "/products/polo-right.jpg"
+      },
+      "categoryId": "cat-men-polo",
+      "categorySlug": "men-polo-shirts",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 0,
+      "sku": "TRN-DMY-103",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-04T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-forge-hoodie",
+      "slug": "forge-hoodie",
+      "name": "Forge Fleece Hoodie",
+      "brand": "Trenova",
+      "shortDescription": "Forge Fleece Hoodie — dummy inventory for admin testing.",
+      "description": "Forge Fleece Hoodie is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 2199,
+      "compareAtPrice": 2699,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "sizeStock": {
+        "S": 11,
+        "M": 11,
+        "L": 11,
+        "XL": 11,
+        "XXL": 11
+      },
+      "images": {
+        "front": "/products/hoodie-front.jpg",
+        "left": "/products/hoodie-left.jpg",
+        "right": "/products/hoodie-right.jpg"
+      },
+      "categoryId": "cat-men-hoodies",
+      "categorySlug": "men-hoodies",
+      "tags": [
+        "best-seller",
+        "trending"
+      ],
+      "isBestSeller": true,
+      "isTrending": true,
+      "isOnSale": true,
+      "stock": 55,
+      "sku": "TRN-DMY-104",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-05T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-drift-hoodie",
+      "slug": "drift-hoodie",
+      "name": "Drift Everyday Hoodie",
+      "brand": "Trenova",
+      "shortDescription": "Drift Everyday Hoodie — dummy inventory for admin testing.",
+      "description": "Drift Everyday Hoodie is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1899,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "S": 2,
+        "M": 2,
+        "L": 2,
+        "XL": 2
+      },
+      "images": {
+        "front": "/products/hoodie-front.jpg",
+        "left": "/products/hoodie-left.jpg",
+        "right": "/products/hoodie-right.jpg"
+      },
+      "categoryId": "cat-men-hoodies",
+      "categorySlug": "men-hoodies",
+      "tags": [
+        "new-arrival"
+      ],
+      "isNewArrival": true,
+      "isOnSale": false,
+      "stock": 8,
+      "sku": "TRN-DMY-105",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-06T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-metro-sweatshirt",
+      "slug": "metro-sweatshirt",
+      "name": "Metro Crew Sweatshirt",
+      "brand": "Trenova",
+      "shortDescription": "Metro Crew Sweatshirt — dummy inventory for admin testing.",
+      "description": "Metro Crew Sweatshirt is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1799,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "S": 11,
+        "M": 11,
+        "L": 10,
+        "XL": 10
+      },
+      "images": {
+        "front": "/products/hoodie-front.jpg",
+        "left": "/products/hoodie-left.jpg",
+        "right": "/products/hoodie-right.jpg"
+      },
+      "categoryId": "cat-men-sweat",
+      "categorySlug": "men-sweatshirts",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 42,
+      "sku": "TRN-DMY-106",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-07T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-orbit-sweatshirt",
+      "slug": "orbit-sweatshirt",
+      "name": "Orbit Soft Sweatshirt",
+      "brand": "Trenova",
+      "shortDescription": "Orbit Soft Sweatshirt — dummy inventory for admin testing.",
+      "description": "Orbit Soft Sweatshirt is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1699,
+      "compareAtPrice": 2099,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "S": 5,
+        "M": 5,
+        "L": 4,
+        "XL": 4
+      },
+      "images": {
+        "front": "/products/hoodie-front.jpg",
+        "left": "/products/hoodie-left.jpg",
+        "right": "/products/hoodie-right.jpg"
+      },
+      "categoryId": "cat-men-sweat",
+      "categorySlug": "men-sweatshirts",
+      "tags": [
+        "sale"
+      ],
+      "isOnSale": true,
+      "stock": 18,
+      "sku": "TRN-DMY-107",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-08T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-relay-joggers",
+      "slug": "relay-joggers",
+      "name": "Relay Taper Joggers",
+      "brand": "Trenova",
+      "shortDescription": "Relay Taper Joggers — dummy inventory for admin testing.",
+      "description": "Relay Taper Joggers is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1999,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "S": 16,
+        "M": 16,
+        "L": 16,
+        "XL": 16
+      },
+      "images": {
+        "front": "/products/joggers-front.jpg",
+        "left": "/products/joggers-left.jpg",
+        "right": "/products/joggers-right.jpg"
+      },
+      "categoryId": "cat-men-joggers",
+      "categorySlug": "men-joggers",
+      "tags": [
+        "best-seller"
+      ],
+      "isBestSeller": true,
+      "isOnSale": false,
+      "stock": 64,
+      "sku": "TRN-DMY-108",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-09T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-night-joggers",
+      "slug": "night-joggers",
+      "name": "Night Run Joggers",
+      "brand": "Trenova",
+      "shortDescription": "Night Run Joggers — dummy inventory for admin testing.",
+      "description": "Night Run Joggers is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1899,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "S": 2,
+        "M": 1,
+        "L": 1,
+        "XL": 1
+      },
+      "images": {
+        "front": "/products/joggers-front.jpg",
+        "left": "/products/joggers-left.jpg",
+        "right": "/products/joggers-right.jpg"
+      },
+      "categoryId": "cat-men-joggers",
+      "categorySlug": "men-joggers",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 5,
+      "sku": "TRN-DMY-109",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-10T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-coast-lined-shorts",
+      "slug": "coast-lined-shorts",
+      "name": "Coast Lined Shorts",
+      "brand": "Trenova",
+      "shortDescription": "Coast Lined Shorts — dummy inventory for admin testing.",
+      "description": "Coast Lined Shorts is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1299,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "S": 10,
+        "M": 10,
+        "L": 10,
+        "XL": 10
+      },
+      "images": {
+        "front": "/products/shorts-front.jpg",
+        "left": "/products/shorts-left.jpg",
+        "right": "/products/shorts-right.jpg"
+      },
+      "categoryId": "cat-men-shorts",
+      "categorySlug": "men-shorts",
+      "tags": [
+        "new-arrival"
+      ],
+      "isNewArrival": true,
+      "isOnSale": false,
+      "stock": 40,
+      "sku": "TRN-DMY-110",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-11T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-sprint-shorts",
+      "slug": "sprint-shorts",
+      "name": "Sprint Training Shorts",
+      "brand": "Trenova",
+      "shortDescription": "Sprint Training Shorts — dummy inventory for admin testing.",
+      "description": "Sprint Training Shorts is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1199,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "S": 0,
+        "M": 0,
+        "L": 0,
+        "XL": 0
+      },
+      "images": {
+        "front": "/products/shorts-front.jpg",
+        "left": "/products/shorts-left.jpg",
+        "right": "/products/shorts-right.jpg"
+      },
+      "categoryId": "cat-men-shorts",
+      "categorySlug": "men-shorts",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 0,
+      "sku": "TRN-DMY-111",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-12T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-track-motion-set",
+      "slug": "track-motion-set",
+      "name": "Track Motion Set",
+      "brand": "Trenova",
+      "shortDescription": "Track Motion Set — dummy inventory for admin testing.",
+      "description": "Track Motion Set is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 3499,
+      "compareAtPrice": 3999,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "S": 7,
+        "M": 7,
+        "L": 7,
+        "XL": 6
+      },
+      "images": {
+        "front": "/products/joggers-front.jpg",
+        "left": "/products/joggers-left.jpg",
+        "right": "/products/joggers-right.jpg"
+      },
+      "categoryId": "cat-men-tracks",
+      "categorySlug": "men-tracksuits",
+      "tags": [
+        "trending"
+      ],
+      "isTrending": true,
+      "isOnSale": true,
+      "stock": 27,
+      "sku": "TRN-DMY-112",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-13T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-urban-shell-jacket",
+      "slug": "urban-shell-jacket",
+      "name": "Urban Shell Jacket",
+      "brand": "Trenova",
+      "shortDescription": "Urban Shell Jacket — dummy inventory for admin testing.",
+      "description": "Urban Shell Jacket is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 3999,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "S": 6,
+        "M": 6,
+        "L": 5,
+        "XL": 5
+      },
+      "images": {
+        "front": "/products/jacket-front.jpg",
+        "left": "/products/jacket-left.jpg",
+        "right": "/products/jacket-right.jpg"
+      },
+      "categoryId": "cat-men-jackets",
+      "categorySlug": "men-jackets",
+      "tags": [
+        "new-arrival",
+        "trending"
+      ],
+      "isNewArrival": true,
+      "isTrending": true,
+      "isOnSale": false,
+      "stock": 22,
+      "sku": "TRN-DMY-113",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-14T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-vapor-windbreaker",
+      "slug": "vapor-windbreaker",
+      "name": "Vapor Windbreaker",
+      "brand": "Trenova",
+      "shortDescription": "Vapor Windbreaker — dummy inventory for admin testing.",
+      "description": "Vapor Windbreaker is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 3299,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "S": 4,
+        "M": 4,
+        "L": 3,
+        "XL": 3
+      },
+      "images": {
+        "front": "/products/jacket-front.jpg",
+        "left": "/products/jacket-left.jpg",
+        "right": "/products/jacket-right.jpg"
+      },
+      "categoryId": "cat-men-jackets",
+      "categorySlug": "men-jackets",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 14,
+      "sku": "TRN-DMY-114",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-15T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-luxe-soft-tee",
+      "slug": "luxe-soft-tee",
+      "name": "Luxe Soft Tee",
+      "brand": "Trenova",
+      "shortDescription": "Luxe Soft Tee — dummy inventory for admin testing.",
+      "description": "Luxe Soft Tee is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1199,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "XS": 11,
+        "S": 11,
+        "M": 10,
+        "L": 10,
+        "XL": 10
+      },
+      "images": {
+        "front": "/products/women-tee-front.jpg",
+        "left": "/products/women-tee-left.jpg",
+        "right": "/products/women-tee-right.jpg"
+      },
+      "categoryId": "cat-women-tees",
+      "categorySlug": "women-t-shirts",
+      "tags": [
+        "best-seller"
+      ],
+      "isBestSeller": true,
+      "isOnSale": false,
+      "stock": 52,
+      "sku": "TRN-DMY-115",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-16T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-petal-daily-tee",
+      "slug": "petal-daily-tee",
+      "name": "Petal Daily Tee",
+      "brand": "Trenova",
+      "shortDescription": "Petal Daily Tee — dummy inventory for admin testing.",
+      "description": "Petal Daily Tee is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 999,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "XS": 2,
+        "S": 2,
+        "M": 2,
+        "L": 2,
+        "XL": 1
+      },
+      "images": {
+        "front": "/products/women-tee-front.jpg",
+        "left": "/products/women-tee-left.jpg",
+        "right": "/products/women-tee-right.jpg"
+      },
+      "categoryId": "cat-women-tees",
+      "categorySlug": "women-t-shirts",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 9,
+      "sku": "TRN-DMY-116",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-17T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-flare-crop-top",
+      "slug": "flare-crop-top",
+      "name": "Flare Crop Top",
+      "brand": "Trenova",
+      "shortDescription": "Flare Crop Top — dummy inventory for admin testing.",
+      "description": "Flare Crop Top is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1099,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "XS": 7,
+        "S": 7,
+        "M": 7,
+        "L": 6,
+        "XL": 6
+      },
+      "images": {
+        "front": "/products/women-active-front.jpg",
+        "left": "/products/women-active-left.jpg",
+        "right": "/products/women-active-right.jpg"
+      },
+      "categoryId": "cat-women-crop",
+      "categorySlug": "women-crop-tops",
+      "tags": [
+        "new-arrival"
+      ],
+      "isNewArrival": true,
+      "isOnSale": false,
+      "stock": 33,
+      "sku": "TRN-DMY-117",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-18T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-studio-crop",
+      "slug": "studio-crop",
+      "name": "Studio Crop",
+      "brand": "Trenova",
+      "shortDescription": "Studio Crop — dummy inventory for admin testing.",
+      "description": "Studio Crop is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 999,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "XS": 0,
+        "S": 0,
+        "M": 0,
+        "L": 0,
+        "XL": 0
+      },
+      "images": {
+        "front": "/products/women-active-front.jpg",
+        "left": "/products/women-active-left.jpg",
+        "right": "/products/women-active-right.jpg"
+      },
+      "categoryId": "cat-women-crop",
+      "categorySlug": "women-crop-tops",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 0,
+      "sku": "TRN-DMY-118",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-19T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-cloud-hoodie",
+      "slug": "cloud-hoodie",
+      "name": "Cloud Soft Hoodie",
+      "brand": "Trenova",
+      "shortDescription": "Cloud Soft Hoodie — dummy inventory for admin testing.",
+      "description": "Cloud Soft Hoodie is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 2299,
+      "compareAtPrice": 2799,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "XS": 9,
+        "S": 8,
+        "M": 8,
+        "L": 8,
+        "XL": 8
+      },
+      "images": {
+        "front": "/products/hoodie-front.jpg",
+        "left": "/products/hoodie-left.jpg",
+        "right": "/products/hoodie-right.jpg"
+      },
+      "categoryId": "cat-women-hoodies",
+      "categorySlug": "women-hoodies",
+      "tags": [
+        "sale",
+        "trending"
+      ],
+      "isTrending": true,
+      "isOnSale": true,
+      "stock": 41,
+      "sku": "TRN-DMY-119",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-20T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-ember-hoodie",
+      "slug": "ember-hoodie",
+      "name": "Ember Zip Hoodie",
+      "brand": "Trenova",
+      "shortDescription": "Ember Zip Hoodie — dummy inventory for admin testing.",
+      "description": "Ember Zip Hoodie is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 2499,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "XS": 4,
+        "S": 3,
+        "M": 3,
+        "L": 3,
+        "XL": 3
+      },
+      "images": {
+        "front": "/products/hoodie-front.jpg",
+        "left": "/products/hoodie-left.jpg",
+        "right": "/products/hoodie-right.jpg"
+      },
+      "categoryId": "cat-women-hoodies",
+      "categorySlug": "women-hoodies",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 16,
+      "sku": "TRN-DMY-120",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-21T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-flex-active-set",
+      "slug": "flex-active-set",
+      "name": "Flex Active Set",
+      "brand": "Trenova",
+      "shortDescription": "Flex Active Set — dummy inventory for admin testing.",
+      "description": "Flex Active Set is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 3799,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "XS": 6,
+        "S": 6,
+        "M": 6,
+        "L": 6,
+        "XL": 5
+      },
+      "images": {
+        "front": "/products/women-active-front.jpg",
+        "left": "/products/women-active-left.jpg",
+        "right": "/products/women-active-right.jpg"
+      },
+      "categoryId": "cat-women-active",
+      "categorySlug": "women-activewear",
+      "tags": [
+        "best-seller",
+        "new-arrival"
+      ],
+      "isBestSeller": true,
+      "isNewArrival": true,
+      "isOnSale": false,
+      "stock": 29,
+      "sku": "TRN-DMY-121",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-22T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-glide-leggings",
+      "slug": "glide-leggings",
+      "name": "Glide Training Leggings",
+      "brand": "Trenova",
+      "shortDescription": "Glide Training Leggings — dummy inventory for admin testing.",
+      "description": "Glide Training Leggings is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1899,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "XS": 12,
+        "S": 12,
+        "M": 12,
+        "L": 11,
+        "XL": 11
+      },
+      "images": {
+        "front": "/products/women-active-front.jpg",
+        "left": "/products/women-active-left.jpg",
+        "right": "/products/women-active-right.jpg"
+      },
+      "categoryId": "cat-women-leggings",
+      "categorySlug": "women-leggings",
+      "tags": [
+        "best-seller"
+      ],
+      "isBestSeller": true,
+      "isOnSale": false,
+      "stock": 58,
+      "sku": "TRN-DMY-122",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-23T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-sculpt-leggings",
+      "slug": "sculpt-leggings",
+      "name": "Sculpt High-Rise Leggings",
+      "brand": "Trenova",
+      "shortDescription": "Sculpt High-Rise Leggings — dummy inventory for admin testing.",
+      "description": "Sculpt High-Rise Leggings is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1999,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "XS": 2,
+        "S": 2,
+        "M": 1,
+        "L": 1,
+        "XL": 1
+      },
+      "images": {
+        "front": "/products/women-active-front.jpg",
+        "left": "/products/women-active-left.jpg",
+        "right": "/products/women-active-right.jpg"
+      },
+      "categoryId": "cat-women-leggings",
+      "categorySlug": "women-leggings",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 7,
+      "sku": "TRN-DMY-123",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-24T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-flow-jumpsuit",
+      "slug": "flow-jumpsuit",
+      "name": "Flow Soft Jumpsuit",
+      "brand": "Trenova",
+      "shortDescription": "Flow Soft Jumpsuit — dummy inventory for admin testing.",
+      "description": "Flow Soft Jumpsuit is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 2999,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "XS": 5,
+        "S": 5,
+        "M": 5,
+        "L": 5,
+        "XL": 4
+      },
+      "images": {
+        "front": "/products/collection-women.jpg",
+        "left": "/products/women-tee-left.jpg",
+        "right": "/products/women-tee-right.jpg"
+      },
+      "categoryId": "cat-women-dresses",
+      "categorySlug": "women-dresses",
+      "tags": [
+        "new-arrival"
+      ],
+      "isNewArrival": true,
+      "isOnSale": false,
+      "stock": 24,
+      "sku": "TRN-DMY-124",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-25T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-city-track-set",
+      "slug": "city-track-set",
+      "name": "City Track Set",
+      "brand": "Trenova",
+      "shortDescription": "City Track Set — dummy inventory for admin testing.",
+      "description": "City Track Set is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 3599,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "XS": 4,
+        "S": 4,
+        "M": 4,
+        "L": 4,
+        "XL": 3
+      },
+      "images": {
+        "front": "/products/joggers-front.jpg",
+        "left": "/products/joggers-left.jpg",
+        "right": "/products/joggers-right.jpg"
+      },
+      "categoryId": "cat-women-tracks",
+      "categorySlug": "women-tracksuits",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 19,
+      "sku": "TRN-DMY-125",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-26T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-breeze-jacket",
+      "slug": "breeze-jacket",
+      "name": "Breeze Softshell Jacket",
+      "brand": "Trenova",
+      "shortDescription": "Breeze Softshell Jacket — dummy inventory for admin testing.",
+      "description": "Breeze Softshell Jacket is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 3699,
+      "compareAtPrice": 4199,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "XS": 7,
+        "S": 6,
+        "M": 6,
+        "L": 6,
+        "XL": 6
+      },
+      "images": {
+        "front": "/products/jacket-front.jpg",
+        "left": "/products/jacket-left.jpg",
+        "right": "/products/jacket-right.jpg"
+      },
+      "categoryId": "cat-women-jackets",
+      "categorySlug": "women-jackets",
+      "tags": [
+        "sale"
+      ],
+      "isOnSale": true,
+      "stock": 31,
+      "sku": "TRN-DMY-126",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-27T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-junior-crew-tee",
+      "slug": "junior-crew-tee",
+      "name": "Junior Crew Tee",
+      "brand": "Trenova",
+      "shortDescription": "Junior Crew Tee — dummy inventory for admin testing.",
+      "description": "Junior Crew Tee is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 699,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "sizeStock": {
+        "S": 24,
+        "M": 23,
+        "L": 23
+      },
+      "images": {
+        "front": "/products/tee-front.jpg",
+        "left": "/products/tee-left.jpg",
+        "right": "/products/tee-right.jpg"
+      },
+      "categoryId": "cat-kids-tees",
+      "categorySlug": "kids-t-shirts",
+      "tags": [
+        "new-arrival"
+      ],
+      "isNewArrival": true,
+      "isOnSale": false,
+      "stock": 70,
+      "sku": "TRN-DMY-127",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-28T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-playday-tee",
+      "slug": "playday-tee",
+      "name": "Playday Tee",
+      "brand": "Trenova",
+      "shortDescription": "Playday Tee — dummy inventory for admin testing.",
+      "description": "Playday Tee is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 649,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "sizeStock": {
+        "S": 4,
+        "M": 4,
+        "L": 3
+      },
+      "images": {
+        "front": "/products/tee-front.jpg",
+        "left": "/products/tee-left.jpg",
+        "right": "/products/tee-right.jpg"
+      },
+      "categoryId": "cat-kids-tees",
+      "categorySlug": "kids-t-shirts",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 11,
+      "sku": "TRN-DMY-128",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-01T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-explorer-hoodie",
+      "slug": "explorer-hoodie",
+      "name": "Explorer Kids Hoodie",
+      "brand": "Trenova",
+      "shortDescription": "Explorer Kids Hoodie — dummy inventory for admin testing.",
+      "description": "Explorer Kids Hoodie is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1299,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "sizeStock": {
+        "S": 13,
+        "M": 13,
+        "L": 12
+      },
+      "images": {
+        "front": "/products/hoodie-front.jpg",
+        "left": "/products/hoodie-left.jpg",
+        "right": "/products/hoodie-right.jpg"
+      },
+      "categoryId": "cat-kids-hoodies",
+      "categorySlug": "kids-hoodies",
+      "tags": [
+        "best-seller"
+      ],
+      "isBestSeller": true,
+      "isOnSale": false,
+      "stock": 38,
+      "sku": "TRN-DMY-129",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-02T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-cozy-kids-hoodie",
+      "slug": "cozy-kids-hoodie",
+      "name": "Cozy Kids Hoodie",
+      "brand": "Trenova",
+      "shortDescription": "Cozy Kids Hoodie — dummy inventory for admin testing.",
+      "description": "Cozy Kids Hoodie is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1199,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "sizeStock": {
+        "S": 0,
+        "M": 0,
+        "L": 0
+      },
+      "images": {
+        "front": "/products/hoodie-front.jpg",
+        "left": "/products/hoodie-left.jpg",
+        "right": "/products/hoodie-right.jpg"
+      },
+      "categoryId": "cat-kids-hoodies",
+      "categorySlug": "kids-hoodies",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 0,
+      "sku": "TRN-DMY-130",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-03T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-twin-coord-set",
+      "slug": "twin-coord-set",
+      "name": "Twin Co-ord Set",
+      "brand": "Trenova",
+      "shortDescription": "Twin Co-ord Set — dummy inventory for admin testing.",
+      "description": "Twin Co-ord Set is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1599,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "sizeStock": {
+        "S": 9,
+        "M": 9,
+        "L": 8
+      },
+      "images": {
+        "front": "/products/collection-essentials.jpg",
+        "left": "/products/tee-left.jpg",
+        "right": "/products/tee-right.jpg"
+      },
+      "categoryId": "cat-kids-coord",
+      "categorySlug": "kids-co-ord-sets",
+      "tags": [
+        "trending"
+      ],
+      "isTrending": true,
+      "isOnSale": false,
+      "stock": 26,
+      "sku": "TRN-DMY-131",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-04T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-soft-kids-sweats",
+      "slug": "soft-kids-sweats",
+      "name": "Soft Kids Sweatpants",
+      "brand": "Trenova",
+      "shortDescription": "Soft Kids Sweatpants — dummy inventory for admin testing.",
+      "description": "Soft Kids Sweatpants is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 999,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "sizeStock": {
+        "S": 15,
+        "M": 15,
+        "L": 15
+      },
+      "images": {
+        "front": "/products/joggers-front.jpg",
+        "left": "/products/joggers-left.jpg",
+        "right": "/products/joggers-right.jpg"
+      },
+      "categoryId": "cat-kids-sweatpants",
+      "categorySlug": "kids-sweatpants",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 45,
+      "sku": "TRN-DMY-132",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-05T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-rally-kids-active",
+      "slug": "rally-kids-active",
+      "name": "Rally Kids Active Set",
+      "brand": "Trenova",
+      "shortDescription": "Rally Kids Active Set — dummy inventory for admin testing.",
+      "description": "Rally Kids Active Set is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1499,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "sizeStock": {
+        "S": 7,
+        "M": 7,
+        "L": 7
+      },
+      "images": {
+        "front": "/products/women-active-front.jpg",
+        "left": "/products/women-active-left.jpg",
+        "right": "/products/women-active-right.jpg"
+      },
+      "categoryId": "cat-kids-active",
+      "categorySlug": "kids-activewear",
+      "tags": [
+        "new-arrival"
+      ],
+      "isNewArrival": true,
+      "isOnSale": false,
+      "stock": 21,
+      "sku": "TRN-DMY-133",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-06T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-trail-kids-jacket",
+      "slug": "trail-kids-jacket",
+      "name": "Trail Kids Jacket",
+      "brand": "Trenova",
+      "shortDescription": "Trail Kids Jacket — dummy inventory for admin testing.",
+      "description": "Trail Kids Jacket is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1799,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "sizeStock": {
+        "S": 5,
+        "M": 5,
+        "L": 5
+      },
+      "images": {
+        "front": "/products/jacket-front.jpg",
+        "left": "/products/jacket-left.jpg",
+        "right": "/products/jacket-right.jpg"
+      },
+      "categoryId": "cat-kids-jackets",
+      "categorySlug": "kids-jackets",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 15,
+      "sku": "TRN-DMY-134",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-07T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-boys-everyday-tee",
+      "slug": "boys-everyday-tee",
+      "name": "Boys Everyday Tee",
+      "brand": "Trenova",
+      "shortDescription": "Boys Everyday Tee — dummy inventory for admin testing.",
+      "description": "Boys Everyday Tee is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 749,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "sizeStock": {
+        "S": 12,
+        "M": 11,
+        "L": 11
+      },
+      "images": {
+        "front": "/products/tee-front.jpg",
+        "left": "/products/tee-left.jpg",
+        "right": "/products/tee-right.jpg"
+      },
+      "categoryId": "cat-kids-boys",
+      "categorySlug": "kids-boys",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 34,
+      "sku": "TRN-DMY-135",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-08T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-girls-soft-tee",
+      "slug": "girls-soft-tee",
+      "name": "Girls Soft Tee",
+      "brand": "Trenova",
+      "shortDescription": "Girls Soft Tee — dummy inventory for admin testing.",
+      "description": "Girls Soft Tee is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 749,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "sizeStock": {
+        "S": 13,
+        "M": 12,
+        "L": 12
+      },
+      "images": {
+        "front": "/products/women-tee-front.jpg",
+        "left": "/products/women-tee-left.jpg",
+        "right": "/products/women-tee-right.jpg"
+      },
+      "categoryId": "cat-kids-girls",
+      "categorySlug": "kids-girls",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 37,
+      "sku": "TRN-DMY-136",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-09T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-crest-cap",
+      "slug": "crest-cap",
+      "name": "Crest Structured Cap",
+      "brand": "Trenova",
+      "shortDescription": "Crest Structured Cap — dummy inventory for admin testing.",
+      "description": "Crest Structured Cap is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 799,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "ONE SIZE"
+      ],
+      "sizeStock": {
+        "ONE SIZE": 80
+      },
+      "images": {
+        "front": "/products/instagram-1.jpg",
+        "left": "/products/instagram-2.jpg",
+        "right": "/products/instagram-3.jpg"
+      },
+      "categoryId": "cat-acc-caps",
+      "categorySlug": "caps",
+      "tags": [
+        "best-seller"
+      ],
+      "isBestSeller": true,
+      "isOnSale": false,
+      "stock": 80,
+      "sku": "TRN-DMY-137",
+      "specifications": {
+        "Fabric": "Mixed materials",
+        "Fit": "One size",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-10T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-shade-cap",
+      "slug": "shade-cap",
+      "name": "Shade Daily Cap",
+      "brand": "Trenova",
+      "shortDescription": "Shade Daily Cap — dummy inventory for admin testing.",
+      "description": "Shade Daily Cap is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 699,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "ONE SIZE"
+      ],
+      "sizeStock": {
+        "ONE SIZE": 4
+      },
+      "images": {
+        "front": "/products/instagram-2.jpg",
+        "left": "/products/instagram-3.jpg",
+        "right": "/products/instagram-4.jpg"
+      },
+      "categoryId": "cat-acc-caps",
+      "categorySlug": "caps",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 4,
+      "sku": "TRN-DMY-138",
+      "specifications": {
+        "Fabric": "Mixed materials",
+        "Fit": "One size",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-11T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-carry-day-bag",
+      "slug": "carry-day-bag",
+      "name": "Carry Day Bag",
+      "brand": "Trenova",
+      "shortDescription": "Carry Day Bag — dummy inventory for admin testing.",
+      "description": "Carry Day Bag is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 2499,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "ONE SIZE"
+      ],
+      "sizeStock": {
+        "ONE SIZE": 28
+      },
+      "images": {
+        "front": "/products/instagram-3.jpg",
+        "left": "/products/instagram-4.jpg",
+        "right": "/products/instagram-5.jpg"
+      },
+      "categoryId": "cat-acc-bags",
+      "categorySlug": "bags",
+      "tags": [
+        "new-arrival"
+      ],
+      "isNewArrival": true,
+      "isOnSale": false,
+      "stock": 28,
+      "sku": "TRN-DMY-139",
+      "specifications": {
+        "Fabric": "Mixed materials",
+        "Fit": "One size",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-12T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-trek-backpack",
+      "slug": "trek-backpack",
+      "name": "Trek Everyday Backpack",
+      "brand": "Trenova",
+      "shortDescription": "Trek Everyday Backpack — dummy inventory for admin testing.",
+      "description": "Trek Everyday Backpack is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 2999,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "ONE SIZE"
+      ],
+      "sizeStock": {
+        "ONE SIZE": 33
+      },
+      "images": {
+        "front": "/products/instagram-4.jpg",
+        "left": "/products/instagram-5.jpg",
+        "right": "/products/instagram-6.jpg"
+      },
+      "categoryId": "cat-acc-backpacks",
+      "categorySlug": "backpacks",
+      "tags": [
+        "trending"
+      ],
+      "isTrending": true,
+      "isOnSale": false,
+      "stock": 33,
+      "sku": "TRN-DMY-140",
+      "specifications": {
+        "Fabric": "Mixed materials",
+        "Fit": "One size",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-13T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-horizon-sunglasses",
+      "slug": "horizon-sunglasses",
+      "name": "Horizon Sunglasses",
+      "brand": "Trenova",
+      "shortDescription": "Horizon Sunglasses — dummy inventory for admin testing.",
+      "description": "Horizon Sunglasses is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1599,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "ONE SIZE"
+      ],
+      "sizeStock": {
+        "ONE SIZE": 0
+      },
+      "images": {
+        "front": "/products/instagram-5.jpg",
+        "left": "/products/instagram-6.jpg",
+        "right": "/products/instagram-1.jpg"
+      },
+      "categoryId": "cat-acc-sunglasses",
+      "categorySlug": "sunglasses",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 0,
+      "sku": "TRN-DMY-141",
+      "specifications": {
+        "Fabric": "Mixed materials",
+        "Fit": "One size",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-14T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-hydrate-bottle",
+      "slug": "hydrate-bottle",
+      "name": "Hydrate Steel Bottle",
+      "brand": "Trenova",
+      "shortDescription": "Hydrate Steel Bottle — dummy inventory for admin testing.",
+      "description": "Hydrate Steel Bottle is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 999,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "ONE SIZE"
+      ],
+      "sizeStock": {
+        "ONE SIZE": 90
+      },
+      "images": {
+        "front": "/products/instagram-6.jpg",
+        "left": "/products/instagram-1.jpg",
+        "right": "/products/instagram-2.jpg"
+      },
+      "categoryId": "cat-acc-bottles",
+      "categorySlug": "water-bottles",
+      "tags": [
+        "best-seller"
+      ],
+      "isBestSeller": true,
+      "isOnSale": false,
+      "stock": 90,
+      "sku": "TRN-DMY-142",
+      "specifications": {
+        "Fabric": "Mixed materials",
+        "Fit": "One size",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-15T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-stride-socks",
+      "slug": "stride-socks",
+      "name": "Stride Performance Socks",
+      "brand": "Trenova",
+      "shortDescription": "Stride Performance Socks — dummy inventory for admin testing.",
+      "description": "Stride Performance Socks is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 499,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "sizeStock": {
+        "S": 40,
+        "M": 40,
+        "L": 40
+      },
+      "images": {
+        "front": "/products/instagram-1.jpg",
+        "left": "/products/instagram-2.jpg",
+        "right": "/products/instagram-3.jpg"
+      },
+      "categoryId": "cat-acc-socks",
+      "categorySlug": "socks",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 120,
+      "sku": "TRN-DMY-143",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-16T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-fold-wallet",
+      "slug": "fold-wallet",
+      "name": "Fold Minimal Wallet",
+      "brand": "Trenova",
+      "shortDescription": "Fold Minimal Wallet — dummy inventory for admin testing.",
+      "description": "Fold Minimal Wallet is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1299,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "ONE SIZE"
+      ],
+      "sizeStock": {
+        "ONE SIZE": 17
+      },
+      "images": {
+        "front": "/products/instagram-2.jpg",
+        "left": "/products/instagram-3.jpg",
+        "right": "/products/instagram-4.jpg"
+      },
+      "categoryId": "cat-acc-wallets",
+      "categorySlug": "wallets",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 17,
+      "sku": "TRN-DMY-144",
+      "specifications": {
+        "Fabric": "Mixed materials",
+        "Fit": "One size",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-17T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-edge-belt",
+      "slug": "edge-belt",
+      "name": "Edge Everyday Belt",
+      "brand": "Trenova",
+      "shortDescription": "Edge Everyday Belt — dummy inventory for admin testing.",
+      "description": "Edge Everyday Belt is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1099,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "ONE SIZE"
+      ],
+      "sizeStock": {
+        "ONE SIZE": 23
+      },
+      "images": {
+        "front": "/products/instagram-3.jpg",
+        "left": "/products/instagram-4.jpg",
+        "right": "/products/instagram-5.jpg"
+      },
+      "categoryId": "cat-acc-belts",
+      "categorySlug": "belts",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 23,
+      "sku": "TRN-DMY-145",
+      "specifications": {
+        "Fabric": "Mixed materials",
+        "Fit": "One size",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-18T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-alpha-layer-tee",
+      "slug": "alpha-layer-tee",
+      "name": "Alpha Layer Tee",
+      "brand": "Trenova",
+      "shortDescription": "Alpha Layer Tee — dummy inventory for admin testing.",
+      "description": "Alpha Layer Tee is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1099,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "S": 16,
+        "M": 15,
+        "L": 15,
+        "XL": 15
+      },
+      "images": {
+        "front": "/products/tee-front.jpg",
+        "left": "/products/tee-left.jpg",
+        "right": "/products/tee-right.jpg"
+      },
+      "categoryId": "cat-men-tees",
+      "categorySlug": "men-t-shirts",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 61,
+      "sku": "TRN-DMY-146",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-19T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-mirror-polo",
+      "slug": "mirror-polo",
+      "name": "Mirror Slim Polo",
+      "brand": "Trenova",
+      "shortDescription": "Mirror Slim Polo — dummy inventory for admin testing.",
+      "description": "Mirror Slim Polo is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1599,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "S": 4,
+        "M": 3,
+        "L": 3,
+        "XL": 3
+      },
+      "images": {
+        "front": "/products/polo-front.jpg",
+        "left": "/products/polo-left.jpg",
+        "right": "/products/polo-right.jpg"
+      },
+      "categoryId": "cat-men-polo",
+      "categorySlug": "men-polo-shirts",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 13,
+      "sku": "TRN-DMY-147",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-20T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-ridge-hoodie",
+      "slug": "ridge-hoodie",
+      "name": "Ridge Heavy Hoodie",
+      "brand": "Trenova",
+      "shortDescription": "Ridge Heavy Hoodie — dummy inventory for admin testing.",
+      "description": "Ridge Heavy Hoodie is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 2399,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "S": 1,
+        "M": 1,
+        "L": 1,
+        "XL": 0
+      },
+      "images": {
+        "front": "/products/hoodie-front.jpg",
+        "left": "/products/hoodie-left.jpg",
+        "right": "/products/hoodie-right.jpg"
+      },
+      "categoryId": "cat-men-hoodies",
+      "categorySlug": "men-hoodies",
+      "tags": [],
+      "isOnSale": false,
+      "stock": 3,
+      "sku": "TRN-DMY-148",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-21T10:00:00.000Z",
+      "isFeatured": false
+    },
+    {
+      "id": "prod-atelier-tee",
+      "slug": "atelier-tee",
+      "name": "Atelier Soft Tee",
+      "brand": "Trenova",
+      "shortDescription": "Atelier Soft Tee — dummy inventory for admin testing.",
+      "description": "Atelier Soft Tee is part of the expanded Trenova mock catalog used to exercise admin products, inventory, search, and pagination.",
+      "price": 1299,
+      "rating": 0,
+      "reviewCount": 0,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#0A0A0A"
+        },
+        {
+          "name": "Stone",
+          "hex": "#D0D0D0"
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizeStock": {
+        "XS": 9,
+        "S": 9,
+        "M": 9,
+        "L": 9,
+        "XL": 8
+      },
+      "images": {
+        "front": "/products/women-tee-front.jpg",
+        "left": "/products/women-tee-left.jpg",
+        "right": "/products/women-tee-right.jpg"
+      },
+      "categoryId": "cat-women-tees",
+      "categorySlug": "women-t-shirts",
+      "tags": [
+        "trending"
+      ],
+      "isTrending": true,
+      "isOnSale": false,
+      "stock": 44,
+      "sku": "TRN-DMY-149",
+      "specifications": {
+        "Fabric": "Cotton blend",
+        "Fit": "Regular",
+        "Care": "Machine wash cold",
+        "Origin": "India"
+      },
+      "createdAt": "2026-06-22T10:00:00.000Z",
+      "isFeatured": false
+    }
+  ]
+}
