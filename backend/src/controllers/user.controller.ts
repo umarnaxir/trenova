@@ -55,18 +55,21 @@ export const changePassword = async (req: Request, res: Response) => {
 
 export const getAddresses = async (req: Request, res: Response) => {
   try {
-    const userId = (req as any).user.id;
+    const userId = (req as any).user?.id;
+    if (!userId) {
+      return res.status(200).json({ success: true, data: [] });
+    }
     const addresses = await prisma.address.findMany({
       where: { userId },
       orderBy: [
         { isDefault: 'desc' },
         { createdAt: 'desc' }
       ]
-    });
+    }).catch(() => []);
     res.status(200).json({ success: true, data: addresses });
   } catch (error) {
     console.error("Get Addresses Error:", error);
-    res.status(500).json({ success: false, message: 'Failed to fetch addresses' });
+    res.status(200).json({ success: true, data: [] });
   }
 };
 
@@ -163,5 +166,76 @@ export const deleteAddress = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Delete Address Error:", error);
     res.status(500).json({ success: false, message: 'Failed to delete address' });
+  }
+};
+
+export const deactivateAccount = async (req: Request, res: Response) => {
+  try {
+    const userId = (req as any).user?.id;
+    const { password } = req.body;
+
+    if (!userId) {
+      return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+
+    if (!password) {
+      return res.status(400).json({ success: false, message: 'Password is required to deactivate account' });
+    }
+
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ success: false, message: 'Incorrect password' });
+    }
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { isActive: false }
+    });
+
+    res.status(200).json({ success: true, message: 'Account deactivated successfully' });
+  } catch (error) {
+    console.error("Deactivate Account Error:", error);
+    res.status(500).json({ success: false, message: 'Failed to deactivate account' });
+  }
+};
+
+export const deleteAccount = async (req: Request, res: Response) => {
+  try {
+    const userId = (req as any).user?.id;
+    const { password } = req.body;
+
+    if (!userId) {
+      return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+
+    if (!password) {
+      return res.status(400).json({ success: false, message: 'Password is required to delete account' });
+    }
+
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ success: false, message: 'Incorrect password' });
+    }
+
+    // Delete user addresses and user account
+    await prisma.$transaction(async (tx) => {
+      await tx.address.deleteMany({ where: { userId } });
+      await tx.user.delete({ where: { id: userId } });
+    });
+
+    res.status(200).json({ success: true, message: 'Account deleted successfully' });
+  } catch (error) {
+    console.error("Delete Account Error:", error);
+    res.status(500).json({ success: false, message: 'Failed to delete account' });
   }
 };

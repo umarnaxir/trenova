@@ -37,6 +37,15 @@ export const getTeamMembers = async (req: Request, res: Response) => {
   }
 };
 
+function normalizeRole(role?: string): 'Admin' | 'Editor' {
+  if (!role) return 'Editor';
+  const upper = String(role).trim().toUpperCase();
+  if (upper === 'ADMIN' || upper === 'SUPERADMIN' || upper === 'MANAGER') {
+    return 'Admin';
+  }
+  return 'Editor';
+}
+
 export const createTeamMember = async (req: Request, res: Response) => {
   try {
     const { name, email, role, password, status } = req.body;
@@ -51,11 +60,13 @@ export const createTeamMember = async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, message: 'Team member email already exists' });
     }
 
+    const assignedRole = normalizeRole(role);
+
     const member = await prisma.teamMember.create({
       data: {
         name: name.trim(),
         email: email.trim().toLowerCase(),
-        role: role || 'Editor',
+        role: assignedRole,
         status: status || 'active',
         password,
       },
@@ -91,7 +102,7 @@ export const updateTeamMember = async (req: Request, res: Response) => {
     const updateData: any = {};
     if (name) updateData.name = name.trim();
     if (email) updateData.email = email.trim().toLowerCase();
-    if (role) updateData.role = role;
+    if (role !== undefined) updateData.role = normalizeRole(role);
     if (status) updateData.status = status;
     if (password && password.length >= 4) updateData.password = password;
 

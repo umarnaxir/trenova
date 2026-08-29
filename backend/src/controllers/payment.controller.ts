@@ -62,8 +62,8 @@ export const createOrder = async (req: Request, res: Response) => {
       finalTotal = validation.finalTotal;
     }
 
-    // Shipping threshold
-    const shipping = finalTotal >= 999 || items.length === 0 ? 0 : 79;
+    // Shipping threshold (Free shipping on orders ₹500 and above, otherwise ₹79)
+    const shipping = finalTotal >= 500 || items.length === 0 ? 0 : 79;
     const payableTotal = finalTotal + shipping;
 
     const options = {
@@ -188,7 +188,7 @@ export async function placeRazorpayOrder(params: {
       }
     }
 
-    const shipping = finalTotal >= 999 || items.length === 0 ? 0 : 79;
+    const shipping = finalTotal >= 500 || items.length === 0 ? 0 : 79;
     const payableTotal = finalTotal + shipping;
 
     const newOrder = await tx.order.create({
@@ -203,8 +203,11 @@ export async function placeRazorpayOrder(params: {
         state,
         postalCode,
         country: country || 'India',
-        total: payableTotal,
+        subtotal: calculatedTotal,
         discount: appliedDiscount,
+        shipping,
+        total: payableTotal,
+        couponCode: couponCode ? String(couponCode).trim().toUpperCase() : null,
         paymentMethod: 'RAZORPAY',
         status: 'CONFIRMED',
         razorpayOrderId,

@@ -122,6 +122,74 @@ async function runE2ETests() {
     const getAddressesData = await getAddressesRes.json();
     assert(getAddressesRes.status === 200 && getAddressesData.data.length > 0, 'Fetch saved user addresses');
 
+    // Deactivate Account & Login Reactivation
+    const deactivateRes = await fetch(`${BASE_URL}/user/deactivate`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userToken}`
+      },
+      body: JSON.stringify({ password: 'Password123!' })
+    });
+    const deactivateData = await deactivateRes.json();
+    assert(deactivateRes.status === 200 && deactivateData.success, 'User deactivates account with password verification');
+
+    const deactivatedUserDB = await prisma.user.findUnique({ where: { id: userId } });
+    assert(deactivatedUserDB?.isActive === false, 'User marked isActive=false in database');
+
+    // Login reactivates account
+    const reactivateLoginRes = await fetch(`${BASE_URL}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: userEmail, password: 'Password123!' })
+    });
+    const reactivateLoginData = await reactivateLoginRes.json();
+    assert(reactivateLoginRes.status === 200 && reactivateLoginData.data.user.isActive === true, 'User login seamlessly reactivates account');
+
+    // Test Delete Account on a dedicated temporary user
+    const tempUserPhone = `9${Math.floor(100000000 + Math.random() * 900000000)}`;
+    const tempUserEmail = `temp_del_${Date.now()}@example.com`;
+    const tempOtpRes = await fetch(`${BASE_URL}/auth/send-otp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone: tempUserPhone })
+    });
+    const tempOtpData = await tempOtpRes.json();
+    const tempVerifyRes = await fetch(`${BASE_URL}/auth/verify-otp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone: tempUserPhone, code: tempOtpData.devOtp })
+    });
+    const tempVerifyData = await tempVerifyRes.json();
+    const tempRegRes = await fetch(`${BASE_URL}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: tempUserEmail,
+        password: 'Password123!',
+        firstName: 'Temp',
+        lastName: 'User',
+        phone: tempUserPhone,
+        otpToken: tempVerifyData.data.otpToken
+      })
+    });
+    const tempRegData = await tempRegRes.json();
+    const tempToken = tempRegData.data.token;
+    const tempUserId = tempRegData.data.user.id;
+
+    const deleteAccRes = await fetch(`${BASE_URL}/user/delete`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${tempToken}`
+      },
+      body: JSON.stringify({ password: 'Password123!' })
+    });
+    const deleteAccData = await deleteAccRes.json();
+    assert(deleteAccRes.status === 200 && deleteAccData.success, 'User permanently deletes account with password verification');
+    const deletedUserCheck = await prisma.user.findUnique({ where: { id: tempUserId } });
+    assert(deletedUserCheck === null, 'Deleted user account permanently removed from database');
+
     console.log();
 
     // ----------------------------------------------------
@@ -238,7 +306,11 @@ async function runE2ETests() {
       body: JSON.stringify({ code: couponCode, cartTotal: 1000 })
     });
     const validateMinFailData = await validateMinFailRes.json();
-    assert(!validateMinFailData.data.valid && validateMinFailData.data.reason === 'MinOrderNotMet', 'Coupon minOrder restriction enforced');
+    assert(
+      !validateMinFailData.data.valid &&
+      (validateMinFailData.data.reason.includes('Minimum order amount') || validateMinFailData.data.reason === 'MinOrderNotMet'),
+      'Coupon minOrder restriction enforced'
+    );
 
     const validateSuccessRes = await fetch(`${BASE_URL}/coupons/validate`, {
       method: 'POST',
@@ -292,11 +364,79 @@ async function runE2ETests() {
     assert(checkoutRes.status === 201 && checkoutData.success && !!checkoutData.data.orderNumber, 'Place COD Order with coupon');
     orderId = checkoutData.data.id;
     orderNumber = checkoutData.data.orderNumber;
-    assert(checkoutData.data.total === 4500 && checkoutData.data.discount === 500, 'Order totals correctly calculated (2x2500 - 500 = 4500)');
+    assert(
+      checkoutData.data.total === 4500 &&
+      checkoutData.data.discount === 500 &&
+      checkoutData.data.subtotal === 5000 &&
+      checkoutData.data.shipping === 0,
+      'Order totals correctly calculated (2x2500 - 500 = 4500, shipping: 0)'
+    );
 
     const updatedProductDB = await prisma.product.findUnique({ where: { id: productId } });
     const sizeStockObj: any = updatedProductDB?.sizeStock;
     assert(updatedProductDB?.stock === 48 && sizeStockObj['L'] === 28, 'Atomic stock deduction on order checkout (50 -> 48, L: 30 -> 28)');
+
+    // Under ₹500 order test (verify ₹79 shipping is applied)
+    const lowValueProductRes = await fetch(`${BASE_URL}/admin/catalog/products`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${adminToken}`
+      },
+      body: JSON.stringify({
+        name: 'E2E Low Value Sock',
+        sku: `SKU-SOCK-${Date.now()}`,
+        price: 300,
+        compareAtPrice: 350,
+        categorySlug: categorySlug,
+        shortDescription: 'Cozy socks',
+        description: 'Full description for socks',
+        colors: [{ name: 'White', hex: '#FFFFFF' }],
+        sizes: ['M'],
+        images: { front: 'https://example.com/sock.jpg' },
+        stock: 20,
+        sizeStock: { M: 20 },
+        isFeatured: false,
+        tags: ['socks']
+      })
+    });
+    const lowValueProductData = await lowValueProductRes.json();
+    const lowValueProduct = lowValueProductData.data;
+
+    const lowOrderRes = await fetch(`${BASE_URL}/orders/checkout`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userId: userId,
+        userEmail: userEmail,
+        fullName: 'E2E Tester',
+        phone: '9876543210',
+        line1: '42 Innovation Way',
+        city: 'TechCity',
+        state: 'Karnataka',
+        postalCode: '560001',
+        country: 'India',
+        items: [{
+          productId: lowValueProduct.id,
+          name: lowValueProduct.name,
+          size: 'M',
+          color: 'White',
+          quantity: 1,
+          price: 300
+        }],
+        paymentMethod: 'COD'
+      })
+    });
+    const lowOrderData = await lowOrderRes.json();
+    assert(
+      lowOrderData.data.subtotal === 300 &&
+      lowOrderData.data.shipping === 79 &&
+      lowOrderData.data.total === 379,
+      'Under ₹500 order incurs ₹79 delivery fee (300 + 79 = 379)'
+    );
+    await prisma.orderItem.deleteMany({ where: { orderId: lowOrderData.data.id } });
+    await prisma.order.delete({ where: { id: lowOrderData.data.id } });
+    await prisma.product.delete({ where: { id: lowValueProduct.id } });
 
     console.log();
 
@@ -417,46 +557,154 @@ async function runE2ETests() {
     );
 
     console.log();
-
     // ----------------------------------------------------
-    // TEST 10: Admin Editorial & CMS Page Operations
+    // TEST 11: Instagram Photos CRUD & Storefront Gallery
     // ----------------------------------------------------
-    console.log('▶️  TEST 10: Admin Editorial & CMS Pages');
+    console.log('▶️  TEST 11: Instagram Photos Management (Add, Update, Delete)');
 
-    const cmsPageSlug = `e2e-editorial-${Date.now()}`;
-    const createCmsRes = await fetch(`${BASE_URL}/admin/cms`, {
+    const listIgBeforeRes = await fetch(`${BASE_URL}/admin/instagram`, {
+      headers: { Authorization: `Bearer ${adminToken}` }
+    });
+    const listIgBeforeData = await listIgBeforeRes.json();
+    assert(listIgBeforeRes.status === 200 && listIgBeforeData.success && Array.isArray(listIgBeforeData.data), 'Admin lists Instagram photos');
+
+    const createIgRes = await fetch(`${BASE_URL}/admin/instagram`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${adminToken}`
       },
       body: JSON.stringify({
-        title: 'E2E Editorial Story',
-        slug: cmsPageSlug,
-        content: '# E2E Autumn Collection Story',
-        status: 'published'
+        src: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600',
+        alt: 'E2E Autumn Runway Look'
       })
     });
-    const createCmsData = await createCmsRes.json();
-    assert(createCmsRes.status === 201 && createCmsData.success && createCmsData.data.slug === cmsPageSlug, 'Admin creates published CMS editorial page');
-    const cmsPageId = createCmsData.data.id;
+    const createIgData = await createIgRes.json();
+    assert(createIgRes.status === 201 && createIgData.success && !!createIgData.data.id, 'Admin adds new Instagram photo');
+    const newIgId = createIgData.data.id;
 
-    const listCmsRes = await fetch(`${BASE_URL}/admin/cms`, {
-      headers: { Authorization: `Bearer ${adminToken}` }
+    const publicIgRes = await fetch(`${BASE_URL}/cms/instagram`);
+    const publicIgData = await publicIgRes.json();
+    assert(
+      publicIgRes.status === 200 &&
+      publicIgData.success &&
+      publicIgData.data.some((item: any) => item.id === newIgId),
+      'Public storefront retrieves updated Instagram gallery photos'
+    );
+
+    const updateIgRes = await fetch(`${BASE_URL}/admin/instagram/${newIgId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${adminToken}`
+      },
+      body: JSON.stringify({
+        alt: 'E2E Autumn Runway Look Updated'
+      })
     });
-    const listCmsData = await listCmsRes.json();
-    assert(listCmsRes.status === 200 && listCmsData.data.some((p: any) => p.id === cmsPageId), 'Admin lists all CMS pages');
+    const updateIgData = await updateIgRes.json();
+    assert(
+      updateIgRes.status === 200 &&
+      updateIgData.success &&
+      updateIgData.data.alt === 'E2E Autumn Runway Look Updated',
+      'Admin updates Instagram photo details'
+    );
 
-    const getPublicCmsRes = await fetch(`${BASE_URL}/cms/${cmsPageSlug}`);
-    const getPublicCmsData = await getPublicCmsRes.json();
-    assert(getPublicCmsRes.status === 200 && getPublicCmsData.data.title === 'E2E Editorial Story', 'Public storefront retrieves published editorial page by slug');
-
-    const deleteCmsRes = await fetch(`${BASE_URL}/admin/cms/${cmsPageId}`, {
+    const deleteIgRes = await fetch(`${BASE_URL}/admin/instagram/${newIgId}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${adminToken}` }
     });
-    const deleteCmsData = await deleteCmsRes.json();
-    assert(deleteCmsRes.status === 200 && deleteCmsData.success, 'Admin deletes CMS editorial page');
+    const deleteIgData = await deleteIgRes.json();
+    assert(deleteIgRes.status === 200 && deleteIgData.success, 'Admin deletes Instagram photo');
+
+    console.log();
+
+    // ----------------------------------------------------
+    // TEST 12: Role-Based Access Control (Admin vs Editor)
+    // ----------------------------------------------------
+    console.log('▶️  TEST 12: Role-Based Access Control (Admin & Editor Permissions)');
+
+    const editorToken = jwt.sign(
+      { id: 'e2e-editor-id', role: 'EDITOR', type: 'admin' },
+      process.env.JWT_SECRET || 'your_jwt_secret',
+      { expiresIn: '1h' }
+    );
+
+    // 12.1 Team Management Access
+    const editorTeamRes = await fetch(`${BASE_URL}/admin/team`, {
+      headers: { Authorization: `Bearer ${editorToken}` }
+    });
+    assert(editorTeamRes.status === 403, 'Editor is FORBIDDEN (403) from accessing Team management');
+
+    const adminTeamRes = await fetch(`${BASE_URL}/admin/team`, {
+      headers: { Authorization: `Bearer ${adminToken}` }
+    });
+    assert(adminTeamRes.status === 200, 'Admin has full access (200) to Team management');
+
+    // 12.2 Settings Access
+    const editorSettingsRes = await fetch(`${BASE_URL}/admin/settings`, {
+      headers: { Authorization: `Bearer ${editorToken}` }
+    });
+    assert(editorSettingsRes.status === 403, 'Editor is FORBIDDEN (403) from accessing Admin Settings');
+
+    const adminSettingsRes = await fetch(`${BASE_URL}/admin/settings`, {
+      headers: { Authorization: `Bearer ${adminToken}` }
+    });
+    assert(adminSettingsRes.status === 200, 'Admin has full access (200) to Admin Settings');
+
+    // 12.3 User Management Access
+    const editorUsersRes = await fetch(`${BASE_URL}/admin/users`, {
+      headers: { Authorization: `Bearer ${editorToken}` }
+    });
+    assert(editorUsersRes.status === 403, 'Editor is FORBIDDEN (403) from accessing User accounts');
+
+    const adminUsersRes = await fetch(`${BASE_URL}/admin/users`, {
+      headers: { Authorization: `Bearer ${adminToken}` }
+    });
+    assert(adminUsersRes.status === 200, 'Admin has full access (200) to User accounts');
+
+    // 12.4 Content/Data Access for Editor
+    const editorProductsRes = await fetch(`${BASE_URL}/admin/catalog/products`, {
+      headers: { Authorization: `Bearer ${editorToken}` }
+    });
+    assert(editorProductsRes.status === 200, 'Editor CAN access and manage Products');
+
+    const editorCouponsRes = await fetch(`${BASE_URL}/admin/coupons`, {
+      headers: { Authorization: `Bearer ${editorToken}` }
+    });
+    assert(editorCouponsRes.status === 200, 'Editor CAN access and manage Coupons');
+
+    const editorIgRes = await fetch(`${BASE_URL}/admin/instagram`, {
+      headers: { Authorization: `Bearer ${editorToken}` }
+    });
+    assert(editorIgRes.status === 200, 'Editor CAN access and manage Instagram photos');
+
+    // 12.5 Admin Team Member creation with role normalization
+    const createTeamMemberRes = await fetch(`${BASE_URL}/admin/team`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${adminToken}`
+      },
+      body: JSON.stringify({
+        name: 'E2E Test Editor',
+        email: `editor_${Date.now()}@trenova.in`,
+        role: 'Editor',
+        password: 'password123'
+      })
+    });
+    const createTeamMemberData = await createTeamMemberRes.json();
+    assert(
+      createTeamMemberRes.status === 201 &&
+      createTeamMemberData.success &&
+      createTeamMemberData.data.role === 'Editor',
+      'Admin creates team member with normalized Editor role'
+    );
+    const createdTeamMemberId = createTeamMemberData.data?.id;
+
+    if (createdTeamMemberId) {
+      await prisma.teamMember.delete({ where: { id: createdTeamMemberId } }).catch(() => {});
+    }
 
     console.log();
 

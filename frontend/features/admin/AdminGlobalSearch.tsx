@@ -40,17 +40,17 @@ function matches(query: string, ...parts: Array<string | number | undefined | nu
   return haystack.includes(query);
 }
 
-async function runUniversalSearch(rawQuery: string): Promise<SearchHit[]> {
+async function runUniversalSearch(rawQuery: string, isEditor: boolean = false): Promise<SearchHit[]> {
   const query = rawQuery.trim().toLowerCase();
   if (query.length < 1) return [];
 
   const [products, users, orders, inventory, coupons, team] = await Promise.all([
     getAdminProducts(),
-    getAdminUsers(),
+    isEditor ? Promise.resolve([]) : getAdminUsers(),
     getAdminOrders(),
     getAdminInventory(),
     getAdminCoupons(),
-    getAdminTeam(),
+    isEditor ? Promise.resolve([]) : getAdminTeam(),
   ]);
 
   const hits: SearchHit[] = [];
@@ -77,15 +77,17 @@ async function runUniversalSearch(rawQuery: string): Promise<SearchHit[]> {
     });
   }
 
-  for (const user of users) {
-    if (!matches(query, user.name, user.email, user.phone, user.location)) continue;
-    hits.push({
-      id: `user-${user.id}`,
-      group: "Users",
-      title: user.name,
-      subtitle: user.email,
-      href: "/admin/users",
-    });
+  if (!isEditor) {
+    for (const user of users) {
+      if (!matches(query, user.name, user.email, user.phone, user.location)) continue;
+      hits.push({
+        id: `user-${user.id}`,
+        group: "Users",
+        title: user.name,
+        subtitle: user.email,
+        href: "/admin/users",
+      });
+    }
   }
 
   for (const order of orders) {
@@ -131,17 +133,19 @@ async function runUniversalSearch(rawQuery: string): Promise<SearchHit[]> {
     });
   }
 
-  for (const member of team) {
-    if (!matches(query, member.name, member.email, member.role, member.status)) {
-      continue;
+  if (!isEditor) {
+    for (const member of team) {
+      if (!matches(query, member.name, member.email, member.role, member.status)) {
+        continue;
+      }
+      hits.push({
+        id: `team-${member.id}`,
+        group: "Team",
+        title: member.name,
+        subtitle: `${member.email} · ${member.role}`,
+        href: "/admin/team",
+      });
     }
-    hits.push({
-      id: `team-${member.id}`,
-      group: "Team",
-      title: member.name,
-      subtitle: `${member.email} · ${member.role}`,
-      href: "/admin/team",
-    });
   }
 
   return hits.slice(0, 24);
@@ -177,8 +181,12 @@ export function AdminGlobalSearch() {
 
     let cancelled = false;
     setLoading(true);
-    const timer = window.setTimeout(() => {
-      void runUniversalSearch(q)
+    const timer = window.setTimeout(async () => {
+      const { useAdminAuthStore } = await import("@/hooks/stores/adminAuthStore");
+      const currentRole = useAdminAuthStore.getState().admin?.role;
+      const isEditor = currentRole ? String(currentRole).trim().toLowerCase() === "editor" : false;
+
+      void runUniversalSearch(q, isEditor)
         .then((next) => {
           if (cancelled) return;
           setHits(next);

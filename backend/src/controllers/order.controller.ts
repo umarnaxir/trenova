@@ -113,6 +113,10 @@ export const checkout = async (req: Request, res: Response) => {
         couponIdToLog = coupon.id;
       }
 
+      // Delivery charges: Free shipping on orders of ₹500 and above. Orders below ₹500 have ₹79 shipping charge.
+      const calculatedShipping = (finalTotal >= 500 || items.length === 0) ? 0 : 79;
+      const finalPayableTotal = finalTotal + calculatedShipping;
+
       const newOrder = await tx.order.create({
         data: {
           orderNumber,
@@ -125,8 +129,11 @@ export const checkout = async (req: Request, res: Response) => {
           state,
           postalCode,
           country: country || 'India',
-          total: finalTotal,
+          subtotal: calculatedTotal,
           discount: appliedDiscount,
+          shipping: calculatedShipping,
+          total: finalPayableTotal,
+          couponCode: couponCode ? String(couponCode).trim().toUpperCase() : null,
           paymentMethod: paymentMethod === 'RAZORPAY' ? 'RAZORPAY' : 'COD',
           status: 'PENDING',
           items: {

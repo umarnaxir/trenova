@@ -10,6 +10,7 @@ import {
 } from "@/services/admin.service";
 import { AdminPage } from "@/features/admin/AdminPage";
 import { AdminForm } from "@/features/admin/AdminForm";
+import { AdminRoleGuard } from "@/features/admin/AdminRoleGuard";
 import {
   CardHint,
   CompactModalForm,
@@ -24,7 +25,6 @@ import { useUiStore } from "@/hooks/stores/uiStore";
 
 const roleOptions: { label: string; value: AdminRole }[] = [
   { label: "Admin", value: "Admin" },
-  { label: "Manager", value: "Manager" },
   { label: "Editor", value: "Editor" },
 ];
 
@@ -166,37 +166,39 @@ export default function AdminTeamPage() {
   const load = useCallback(() => getAdminTeam(), []);
 
   return (
-    <AdminPage<TeamMember>
-      title="Team Management"
-      description="Add teammates with name, email, role, and password. Roles: Admin, Manager, Editor."
-      load={load}
-      getRowKey={(row) => row.id}
-      getSearchText={(row) => `${row.name} ${row.email} ${row.role} ${row.status}`}
-      createLabel="Add member"
-      formTitle={(item) => (item ? "Edit team member" : "Add team member")}
-      formSize="md"
-      renderForm={(props) => <TeamForm {...props} />}
-      onDelete={async (item) => {
-        await deleteAdminTeamMember(item.id);
-      }}
-      deleteMessage={(item) => `Remove ${item.name} from the team?`}
-      columns={[
-        { key: "name", header: "Name", render: (row) => row.name },
-        { key: "email", header: "Email", render: (row) => row.email },
-        { key: "role", header: "Role", render: (row) => row.role },
-        {
-          key: "status",
-          header: "Status",
-          render: (row) => (
-            <StatusPill $tone={statusTone(row.status)}>{row.status}</StatusPill>
-          ),
-        },
-        {
-          key: "joined",
-          header: "Joined",
-          render: (row) => formatDate(row.joinedAt),
-        },
-      ]}
-    />
+    <AdminRoleGuard requiredRole="Admin" fallbackTitle="Team Management">
+      <AdminPage<TeamMember>
+        title="Team Management"
+        description="Add teammates with name, email, role, and password. Roles: Admin, Editor."
+        load={load}
+        getRowKey={(row) => row.id}
+        getSearchText={(row) => `${row.name} ${row.email} ${row.role} ${row.status}`}
+        createLabel="Add member"
+        formTitle={(item) => (item ? "Edit team member" : "Add team member")}
+        formSize="md"
+        renderForm={(props) => <TeamForm {...props} />}
+        onDelete={async (item) => {
+          await deleteAdminTeamMember(item.id);
+        }}
+        deleteMessage={(item) => `Remove ${item.name} from the team?`}
+        columns={[
+          { key: "name", header: "Name", render: (row) => row.name },
+          { key: "email", header: "Email", render: (row) => row.email },
+          { key: "role", header: "Role", render: (row) => row.role },
+          {
+            key: "status",
+            header: "Status",
+            render: (row) => (
+              <StatusPill $tone={statusTone(row.status)}>{row.status}</StatusPill>
+            ),
+          },
+          {
+            key: "joined",
+            header: "Joined",
+            render: (row) => formatDate(row.joinedAt),
+          },
+        ]}
+      />
+    </AdminRoleGuard>
   );
 }

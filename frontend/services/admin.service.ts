@@ -8,6 +8,7 @@ import type {
 import type { Coupon } from "@/types/cart";
 import type { OrderStatus } from "@/types/user";
 import type { SizeStock } from "@/types/product";
+import type { InstagramShot } from "@/services/mock/catalogStore";
 import * as repo from "@/services/mock/adminRepository";
 import {
   getReviewsStore,
@@ -17,19 +18,37 @@ import {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
 
+export function getAdminToken(): string {
+  if (typeof window === "undefined") return "mock-token-admin";
+  const direct = localStorage.getItem("adminToken") || localStorage.getItem("token");
+  if (direct && direct !== "undefined" && direct !== "null" && direct.trim() !== "") {
+    return direct;
+  }
+  try {
+    const raw = localStorage.getItem("trenova-admin-session") || localStorage.getItem("admin-session");
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      const t = parsed?.state?.token || parsed?.token;
+      if (t && t !== "undefined" && t !== "null" && t.trim() !== "") {
+        return t;
+      }
+    }
+  } catch {}
+  return "mock-token-admin";
+}
+
 export async function getAdminDashboard() {
-  const token = typeof window !== 'undefined' ? (localStorage.getItem('adminToken') || localStorage.getItem('token')) : null;
-  if (!token) return repo.repoGetDashboard();
+  const token = getAdminToken();
   try {
     const res = await fetch(`${API_URL}/admin/analytics/dashboard`, {
       headers: { Authorization: `Bearer ${token}` }
     });
-    if (!res.ok) return repo.repoGetDashboard();
-    const json = await res.json();
-    return json.data;
-  } catch {
-    return repo.repoGetDashboard();
-  }
+    if (res.ok) {
+      const json = await res.json();
+      if (json.success && json.data) return json.data;
+    }
+  } catch {}
+  return repo.repoGetDashboard();
 }
 
 export async function getAdminStats() {
@@ -51,69 +70,72 @@ export async function getAdminAnalytics() {
   return repo.repoGetAnalytics();
 }
 export async function getAdminProducts() {
-  const token = typeof window !== 'undefined' ? localStorage.getItem('adminToken') : null;
+  const token = getAdminToken();
   try {
     const res = await fetch(`${API_URL}/catalog/products?pageSize=100`, {
-      headers: { ...(token && { Authorization: `Bearer ${token}` }) }
+      headers: { Authorization: `Bearer ${token}` }
     });
-    if (!res.ok) return repo.repoGetProducts();
-    const json = await res.json();
-    return json.data?.items || json.data || repo.repoGetProducts();
-  } catch {
-    return repo.repoGetProducts();
-  }
+    if (res.ok) {
+      const json = await res.json();
+      const items = json.data?.items || json.data;
+      if (Array.isArray(items) && items.length > 0) return items;
+    }
+  } catch {}
+  return repo.repoGetProducts();
 }
 
 export async function getAdminUsers() {
-  const token = typeof window !== 'undefined' ? localStorage.getItem('adminToken') : null;
+  const token = getAdminToken();
   try {
     const res = await fetch(`${API_URL}/admin/users`, {
-      headers: { ...(token && { Authorization: `Bearer ${token}` }) }
+      headers: { Authorization: `Bearer ${token}` }
     });
-    if (!res.ok) return repo.repoGetUsers();
-    const json = await res.json();
-    return json.data || repo.repoGetUsers();
-  } catch {
-    return repo.repoGetUsers();
-  }
+    if (res.ok) {
+      const json = await res.json();
+      if (json.success && Array.isArray(json.data)) return json.data;
+    }
+  } catch {}
+  return repo.repoGetUsers();
 }
 
 export async function getAdminOrders() {
-  const token = typeof window !== 'undefined' ? localStorage.getItem('adminToken') : null;
+  const token = getAdminToken();
   try {
     const res = await fetch(`${API_URL}/admin/orders`, {
-      headers: { ...(token && { Authorization: `Bearer ${token}` }) }
+      headers: { Authorization: `Bearer ${token}` }
     });
-    if (!res.ok) return repo.repoGetOrders();
-    const json = await res.json();
-    return json.data?.items || json.data || repo.repoGetOrders();
-  } catch {
-    return repo.repoGetOrders();
-  }
+    if (res.ok) {
+      const json = await res.json();
+      const items = json.data?.items || json.data;
+      if (Array.isArray(items)) return items;
+    }
+  } catch {}
+  return repo.repoGetOrders();
 }
 
 export async function getAdminInventory() {
-  const token = typeof window !== 'undefined' ? localStorage.getItem('adminToken') : null;
-  if (!token) return repo.repoGetInventory();
+  const token = getAdminToken();
   try {
     const res = await fetch(`${API_URL}/admin/inventory`, {
       headers: { Authorization: `Bearer ${token}` }
     });
-    if (!res.ok) return repo.repoGetInventory();
-    const json = await res.json();
-    return json.data.map((item: any) => ({
-      id: item.id,
-      productName: item.name,
-      sku: item.sku,
-      category: item.categorySlug,
-      stock: item.stock,
-      sizeStock: item.sizeStock || {},
-      status: item.stock > 10 ? 'In Stock' : item.stock > 0 ? 'Low Stock' : 'Out of Stock',
-      updatedAt: item.updatedAt
-    }));
-  } catch {
-    return repo.repoGetInventory();
-  }
+    if (res.ok) {
+      const json = await res.json();
+      if (Array.isArray(json.data)) {
+        return json.data.map((item: any) => ({
+          id: item.id,
+          productName: item.name,
+          sku: item.sku,
+          category: item.categorySlug,
+          stock: item.stock,
+          sizeStock: item.sizeStock || {},
+          status: item.stock > 10 ? 'In Stock' : item.stock > 0 ? 'Low Stock' : 'Out of Stock',
+          updatedAt: item.updatedAt
+        }));
+      }
+    }
+  } catch {}
+  return repo.repoGetInventory();
 }
 
 export const getAdminNotifications = repo.repoGetNotifications;
@@ -121,22 +143,21 @@ export const getAdminMedia = repo.repoGetMedia;
 export const getAdminNewsletter = repo.repoGetNewsletter;
 
 export async function getAdminSettings() {
-  const token = typeof window !== 'undefined' ? localStorage.getItem('adminToken') : null;
-  if (!token) return repo.repoGetSettings();
+  const token = getAdminToken();
   try {
     const res = await fetch(`${API_URL}/admin/settings`, {
       headers: { Authorization: `Bearer ${token}` }
     });
-    if (!res.ok) return repo.repoGetSettings();
-    const json = await res.json();
-    return json.data;
-  } catch {
-    return repo.repoGetSettings();
-  }
+    if (res.ok) {
+      const json = await res.json();
+      if (json.success && json.data) return json.data;
+    }
+  } catch {}
+  return repo.repoGetSettings();
 }
 
 export async function createAdminProduct(input: any) {
-  const token = typeof window !== 'undefined' ? localStorage.getItem('adminToken') : null;
+  const token = getAdminToken();
   const res = await fetch(`${API_URL}/admin/catalog/products`, {
     method: 'POST',
     headers: {
@@ -257,76 +278,68 @@ export async function updateAdminInventory(
 }
 
 export async function getAdminCoupons(): Promise<AdminCoupon[]> {
-  const token = typeof window !== 'undefined' ? (localStorage.getItem("adminToken") || localStorage.getItem("token")) : null;
-  if (!token) return repo.repoGetCoupons() as any;
-  try {
-    const res = await fetch(`${API_URL}/admin/coupons`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    if (!res.ok) return repo.repoGetCoupons() as any;
-    const json = await res.json();
-    return json.data || [];
-  } catch {
-    return repo.repoGetCoupons() as any;
+  const token = getAdminToken();
+  const res = await fetch(`${API_URL}/admin/coupons`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => "");
+    throw new Error(`Failed to load coupons from database (${res.status}) ${errorText}`);
   }
+  const json = await res.json();
+  return json.data || [];
 }
 
-export async function createAdminCoupon(input: any) {
-  const token = typeof window !== 'undefined' ? (localStorage.getItem("adminToken") || localStorage.getItem("token")) : null;
-  try {
-    const res = await fetch(`${API_URL}/admin/coupons`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token ?? ''}`
-      },
-      body: JSON.stringify(input)
-    });
-    if (!res.ok) return repo.repoCreateCoupon(input);
-    const json = await res.json();
-    if (!json.success) throw new Error(json.message);
-    return json.data;
-  } catch {
-    return repo.repoCreateCoupon(input);
+export async function createAdminCoupon(input: any): Promise<AdminCoupon> {
+  const token = getAdminToken();
+  const res = await fetch(`${API_URL}/admin/coupons`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(input)
+  });
+  const json = await res.json();
+  if (!res.ok || !json.success) {
+    throw new Error(json.message || "Failed to create coupon in database");
   }
+  return json.data;
 }
 
-export async function updateAdminCoupon(id: string, input: any) {
-  const token = typeof window !== 'undefined' ? (localStorage.getItem("adminToken") || localStorage.getItem("token")) : null;
-  try {
-    const res = await fetch(`${API_URL}/admin/coupons/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token ?? ''}`
-      },
-      body: JSON.stringify(input)
-    });
-    if (!res.ok) return repo.repoUpdateCoupon(id, input);
-    const json = await res.json();
-    if (!json.success) throw new Error(json.message);
-    return json.data;
-  } catch {
-    return repo.repoUpdateCoupon(id, input);
+export async function updateAdminCoupon(id: string, input: any): Promise<AdminCoupon> {
+  const token = getAdminToken();
+  const res = await fetch(`${API_URL}/admin/coupons/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(input)
+  });
+  const json = await res.json();
+  if (!res.ok || !json.success) {
+    throw new Error(json.message || "Failed to update coupon in database");
   }
+  return json.data;
 }
 
-export async function deleteAdminCoupon(id: string) {
-  const token = typeof window !== 'undefined' ? (localStorage.getItem("adminToken") || localStorage.getItem("token")) : null;
-  try {
-    const res = await fetch(`${API_URL}/admin/coupons/${id}`, {
-      method: 'DELETE',
-      headers: { Authorization: `Bearer ${token ?? ''}` }
-    });
-    if (!res.ok) return repo.repoDeleteCoupon(id);
-    return true;
-  } catch {
-    return repo.repoDeleteCoupon(id);
+export async function deleteAdminCoupon(id: string): Promise<boolean> {
+  const token = getAdminToken();
+  const res = await fetch(`${API_URL}/admin/coupons/${id}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  const json = await res.json();
+  if (!res.ok || !json.success) {
+    throw new Error(json.message || "Failed to delete coupon from database");
   }
+  return true;
 }
 
 export async function getAdminReviews(): Promise<AdminReview[]> {
-  const token = typeof window !== "undefined" ? (localStorage.getItem("adminToken") || localStorage.getItem("token")) : null;
+  const token = getAdminToken();
   try {
     const res = await fetch(`${API_URL}/admin/reviews`, {
       headers: { Authorization: `Bearer ${token ?? ''}` }
@@ -554,9 +567,93 @@ export async function updateAdminSettings(input: AdminSettings) {
   return json.data;
 }
 
-export const getAdminInstagram = repo.repoGetInstagram;
-export const updateAdminInstagramShot = repo.repoUpdateInstagramShot;
-export const replaceAdminInstagram = repo.repoReplaceInstagram;
+export async function getAdminInstagram(): Promise<InstagramShot[]> {
+  const token = typeof window !== 'undefined' ? (localStorage.getItem("adminToken") || localStorage.getItem("token")) : null;
+  try {
+    const res = await fetch(`${API_URL}/admin/instagram`, {
+      headers: { ...(token && { Authorization: `Bearer ${token}` }) }
+    });
+    if (!res.ok) return repo.repoGetInstagram();
+    const json = await res.json();
+    return json.data || [];
+  } catch {
+    return repo.repoGetInstagram();
+  }
+}
+
+export async function createAdminInstagramShot(input: { src: string; alt?: string }): Promise<InstagramShot> {
+  const token = typeof window !== 'undefined' ? (localStorage.getItem("adminToken") || localStorage.getItem("token")) : null;
+  try {
+    const res = await fetch(`${API_URL}/admin/instagram`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token ?? ''}`
+      },
+      body: JSON.stringify(input)
+    });
+    if (!res.ok) return repo.repoCreateInstagramShot(input);
+    const json = await res.json();
+    return json.data;
+  } catch {
+    return repo.repoCreateInstagramShot(input);
+  }
+}
+
+export async function updateAdminInstagramShot(
+  id: string,
+  input: Partial<Pick<InstagramShot, "src" | "alt">>
+): Promise<InstagramShot> {
+  const token = typeof window !== 'undefined' ? (localStorage.getItem("adminToken") || localStorage.getItem("token")) : null;
+  try {
+    const res = await fetch(`${API_URL}/admin/instagram/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token ?? ''}`
+      },
+      body: JSON.stringify(input)
+    });
+    if (!res.ok) return repo.repoUpdateInstagramShot(id, input);
+    const json = await res.json();
+    return json.data;
+  } catch {
+    return repo.repoUpdateInstagramShot(id, input);
+  }
+}
+
+export async function deleteAdminInstagramShot(id: string): Promise<boolean> {
+  const token = typeof window !== 'undefined' ? (localStorage.getItem("adminToken") || localStorage.getItem("token")) : null;
+  try {
+    const res = await fetch(`${API_URL}/admin/instagram/${id}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token ?? ''}` }
+    });
+    if (!res.ok) return repo.repoDeleteInstagramShot(id);
+    return true;
+  } catch {
+    return repo.repoDeleteInstagramShot(id);
+  }
+}
+
+export async function replaceAdminInstagram(shots: InstagramShot[]): Promise<InstagramShot[]> {
+  const token = typeof window !== 'undefined' ? (localStorage.getItem("adminToken") || localStorage.getItem("token")) : null;
+  try {
+    const res = await fetch(`${API_URL}/admin/instagram`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token ?? ''}`
+      },
+      body: JSON.stringify({ shots })
+    });
+    if (!res.ok) return repo.repoReplaceInstagram(shots);
+    const json = await res.json();
+    return json.data;
+  } catch {
+    return repo.repoReplaceInstagram(shots);
+  }
+}
 
 export type { AdminProductInput, AdminDashboardData } from "@/services/mock/adminRepository";
 export type { InstagramShot } from "@/services/mock/catalogStore";

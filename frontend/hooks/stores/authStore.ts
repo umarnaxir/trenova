@@ -31,8 +31,12 @@ type AuthState = {
     currentPassword: string,
     nextPassword: string,
   ) => Promise<{ ok: boolean, error?: string }>;
-  deactivateAccount: (password: string) => boolean;
-  deleteAccount: (password: string) => boolean;
+  deactivateAccount: (
+    password: string,
+  ) => Promise<{ ok: boolean; error?: string }>;
+  deleteAccount: (
+    password: string,
+  ) => Promise<{ ok: boolean; error?: string }>;
 };
 
 export const useAuthStore = create<AuthState>()(
@@ -216,8 +220,50 @@ export const useAuthStore = create<AuthState>()(
           return { ok: false, error: error.message };
         }
       },
-      deactivateAccount: (password) => { return false; },
-      deleteAccount: (password) => { return false; },
+      deactivateAccount: async (password: string) => {
+        try {
+          const token = get().token;
+          if (!token) return { ok: false, error: "Not logged in" };
+          const res = await fetch(`${API_URL}/user/deactivate`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ password })
+          });
+          const data = await res.json().catch(() => ({}));
+          if (res.ok && data.success) {
+            set({ user: null, token: null, isAuthenticated: false });
+            return { ok: true };
+          }
+          return { ok: false, error: data.message || "Failed to deactivate account" };
+        } catch (error: any) {
+          return { ok: false, error: error.message || "Network error" };
+        }
+      },
+      deleteAccount: async (password: string) => {
+        try {
+          const token = get().token;
+          if (!token) return { ok: false, error: "Not logged in" };
+          const res = await fetch(`${API_URL}/user/delete`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ password })
+          });
+          const data = await res.json().catch(() => ({}));
+          if (res.ok && data.success) {
+            set({ user: null, token: null, isAuthenticated: false });
+            return { ok: true };
+          }
+          return { ok: false, error: data.message || "Failed to delete account" };
+        } catch (error: any) {
+          return { ok: false, error: error.message || "Network error" };
+        }
+      },
     }),
     {
       name: "trenova-auth",

@@ -6,7 +6,9 @@ import {
   getAddresses,
   addAddress,
   updateAddress,
-  deleteAddress
+  deleteAddress,
+  deactivateAccount,
+  deleteAccount
 } from '../controllers/user.controller';
 
 const router = Router();
@@ -15,6 +17,10 @@ router.use(protect); // All routes require login
 
 router.put('/profile', updateProfile);
 router.put('/password', changePassword);
+router.put('/deactivate', deactivateAccount);
+router.post('/deactivate', deactivateAccount);
+router.delete('/delete', deleteAccount);
+router.post('/delete', deleteAccount);
 
 router.get('/addresses', getAddresses);
 router.post('/addresses', addAddress);

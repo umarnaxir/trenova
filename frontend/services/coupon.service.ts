@@ -36,31 +36,31 @@ export async function validateCoupon(
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ code: normalized, cartTotal }),
+      cache: "no-store",
     });
 
     const json = await res.json();
-    if (res.ok && json.success && json.data) {
+    if (json && json.data) {
       if (json.data.valid && json.data.coupon) {
         return {
           ...json.data,
           error: undefined,
         };
       }
-      if (json.data.valid === false) {
-        return {
-          ...json.data,
-          error: json.data.reason || "Invalid coupon code",
-        };
-      }
+      return {
+        ...json.data,
+        error: json.data.reason || "Invalid coupon code",
+      };
     }
-  } catch {
-    // API network fetch failed, fallback to client store below
+  } catch (error) {
+    console.error("Coupon validation error:", error);
   }
 
+  // Fallback to fetching coupons from admin API if validate endpoint failed
   try {
     const allCoupons = await getAdminCoupons();
     let found = allCoupons.find(
-      (c) => c.code.toUpperCase() === normalized && c.isActive,
+      (c) => c.code.toUpperCase() === normalized,
     );
 
     if (!found && normalized === "TRENOVA10") {
@@ -85,6 +85,29 @@ export async function validateCoupon(
       };
     }
 
+    if (!found.isActive) {
+      return {
+        valid: false,
+        discountAmount: 0,
+        finalTotal: cartTotal,
+        reason: "This coupon is inactive",
+        error: "This coupon is inactive",
+      };
+    }
+
+    if (found.expiresAt) {
+      const exp = new Date(found.expiresAt);
+      if (!isNaN(exp.getTime()) && new Date() > exp) {
+        return {
+          valid: false,
+          discountAmount: 0,
+          finalTotal: cartTotal,
+          reason: "This coupon has expired",
+          error: "This coupon has expired",
+        };
+      }
+    }
+
     const minOrder = Number(found.minOrder || 0);
     if (cartTotal < minOrder) {
       const msg = `Minimum order amount of ₹${minOrder.toLocaleString("en-IN")} required`;
@@ -92,13 +115,13 @@ export async function validateCoupon(
         valid: false,
         discountAmount: 0,
         finalTotal: cartTotal,
-        reason: "MinOrderNotMet",
+        reason: msg,
         error: msg,
       };
     }
 
     let discount = 0;
-    const typeUpper = String(found.type).toUpperCase();
+    const typeUpper = String(found.type || "").toUpperCase();
     if (typeUpper === "PERCENT") {
       discount = Math.round((cartTotal * Number(found.value)) / 100);
       if (

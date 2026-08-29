@@ -31,7 +31,7 @@ export default function DeactivateAccountPage() {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
-  function onSubmit(event: React.FormEvent) {
+  async function onSubmit(event: React.FormEvent) {
     event.preventDefault();
     setError("");
     if (!agreed) {
@@ -49,13 +49,13 @@ export default function DeactivateAccountPage() {
       return;
     }
     setBusy(true);
-    const ok = deactivateAccount(password);
+    const res = await deactivateAccount(password);
     setBusy(false);
-    if (!ok) {
-      setError("Password is incorrect. Please try again.");
+    if (!res.ok) {
+      setError(res.error || "Password is incorrect. Please try again.");
       return;
     }
-    pushToast("Account deactivated");
+    pushToast("Account deactivated successfully");
     router.replace("/login");
   }
 

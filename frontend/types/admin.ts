@@ -65,8 +65,7 @@ export type NewsletterSubscriber = {
   status: "active" | "unsubscribed";
 };
 
-/** Roles ready for future permission maps — not enforced yet. */
-export type AdminRole = "Admin" | "Manager" | "Editor";
+export type AdminRole = "Admin" | "Editor";
 
 export type AdminSession = {
   id: string;

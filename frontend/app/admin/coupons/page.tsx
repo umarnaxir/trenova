@@ -35,34 +35,56 @@ function PromotionForm({
   return (
     <AdminForm
       submitting={submitting}
-      submitLabel={item ? "Save changes" : "Create promo"}
+      submitLabel={item ? "Save changes" : "Add coupon"}
       onCancel={onClose}
       onSubmit={async (event) => {
         const data = new FormData(event.currentTarget);
-        
+        const code = String(data.get("code") ?? "").trim().toUpperCase();
+        const value = Number(data.get("value"));
+
+        if (!code) {
+          pushToast("Enter a coupon code", "error");
+          return;
+        }
+
+        if (isNaN(value) || value <= 0) {
+          pushToast("Enter a valid discount value greater than 0", "error");
+          return;
+        }
+
+        const expiresAtRaw = data.get("expiresAt");
+        let expiresAtIso: string | null = null;
+        if (expiresAtRaw && String(expiresAtRaw).trim()) {
+          const d = new Date(String(expiresAtRaw));
+          if (!isNaN(d.getTime())) {
+            d.setHours(23, 59, 59, 999);
+            expiresAtIso = d.toISOString();
+          }
+        }
         const payload: any = {
-          code: String(data.get("code")).toUpperCase(),
-          description: String(data.get("description")),
+          code,
+          description: String(data.get("description") || "").trim() || null,
           type: String(data.get("type")),
-          value: Number(data.get("value")),
+          value,
           minOrder: Number(data.get("minOrder") || 0),
           maxDiscountAmount: data.get("maxDiscountAmount") ? Number(data.get("maxDiscountAmount")) : null,
           maxUses: data.get("maxUses") ? Number(data.get("maxUses")) : null,
           isActive: data.get("isActive") === "true",
+          expiresAt: expiresAtIso,
         };
 
         setSubmitting(true);
         try {
           if (item) {
             await updateAdminCoupon(item.id, payload);
-            pushToast("Promo updated");
+            pushToast("Coupon updated successfully", "success");
           } else {
             await createAdminCoupon(payload);
-            pushToast("Promo created");
+            pushToast("Coupon created successfully", "success");
           }
           onSaved();
         } catch (err) {
-          pushToast(err instanceof Error ? err.message : "Failed to save promo", "error");
+          pushToast(err instanceof Error ? err.message : "Failed to save coupon", "error");
         } finally {
           setSubmitting(false);
         }
@@ -70,45 +92,62 @@ function PromotionForm({
     >
       <Input
         name="code"
-        label="Promo Code"
+        label="Coupon Code"
+        placeholder="e.g. SUMMER20, WELCOME10"
         defaultValue={item?.code}
         required
       />
       <Input
         name="description"
         label="Description (optional)"
+        placeholder="e.g. 20% discount on orders above ₹999"
         defaultValue={item?.description ?? undefined}
       />
       <Select
         name="type"
-        label="Type"
+        label="Discount Type"
         options={typeOptions}
         defaultValue={item?.type ? String(item.type).toUpperCase() : "PERCENT"}
       />
       <Input
         name="value"
-        label="Value (amount or percentage)"
+        label="Discount Value (% or ₹ amount)"
         type="number"
+        min={1}
+        step="any"
+        placeholder="e.g. 15 for 15% or 500 for ₹500"
         defaultValue={item?.value ?? undefined}
         required
       />
       <Input
         name="minOrder"
-        label="Minimum Order Amount"
+        label="Minimum Order Amount (₹)"
         type="number"
+        min={0}
+        placeholder="0 for no minimum"
         defaultValue={item?.minOrder ?? undefined}
       />
       <Input
         name="maxDiscountAmount"
-        label="Max Discount Cap (optional)"
+        label="Max Discount Cap (₹, optional for %)"
         type="number"
+        min={0}
+        placeholder="e.g. 1000"
         defaultValue={item?.maxDiscountAmount ?? undefined}
       />
       <Input
         name="maxUses"
-        label="Max Uses (optional)"
+        label="Max Total Uses (optional)"
         type="number"
+        min={1}
+        placeholder="e.g. 100"
         defaultValue={item?.maxUses ?? undefined}
+      />
+      <Input
+        name="expiresAt"
+        label="Expiry Date (optional)"
+        type="date"
+        defaultValue={item?.expiresAt ? new Date(item.expiresAt).toISOString().split("T")[0] : undefined}
       />
       <Select
         name="isActive"
@@ -123,23 +162,26 @@ function PromotionForm({
   );
 }
 
-export default function AdminPromotionsPage() {
+export default function AdminCouponsPage() {
   const load = useCallback(() => getAdminCoupons(), []);
   const pushToast = useUiStore((state) => state.pushToast);
 
   return (
     <AdminPage<AdminCoupon>
-      title="Promotions"
-      description="Manage coupon codes, discounts, and campaigns."
+      title="Coupons"
+      description="Create and manage coupon codes, discounts, and promotional campaigns."
       load={load}
       getRowKey={(row) => row.id || row.code}
-      getSearchText={(row) => row.code}
-      formTitle={(row) => (row ? "Edit promotion" : "Add promotion")}
+      getSearchText={(row) => `${row.code} ${row.description || ""}`}
+      createLabel="Add coupon"
+      formTitle={(row) => (row ? "Edit coupon" : "Add coupon")}
       renderForm={(props) => <PromotionForm {...props} />}
+      emptyTitle="No coupons yet"
+      emptyDescription="Create your first coupon code to offer discounts to customers."
       onDelete={async (item) => {
         try {
           await deleteAdminCoupon(item.id);
-          pushToast("Deleted promotion");
+          pushToast("Deleted coupon");
         } catch (err) {
           pushToast(err instanceof Error ? err.message : "Delete failed", "error");
         }
@@ -149,7 +191,7 @@ export default function AdminPromotionsPage() {
           for (const item of items) {
             await deleteAdminCoupon(item.id);
           }
-          pushToast(`Deleted ${items.length} promotion(s)`);
+          pushToast(`Deleted ${items.length} coupon(s)`);
         } catch (err) {
           pushToast(err instanceof Error ? err.message : "Delete failed", "error");
         }
@@ -183,7 +225,7 @@ export default function AdminPromotionsPage() {
         {
           key: "usage",
           header: "Usage",
-          render: (row) => `${row.usedCount || 0} ${row.maxUses ? `/ ${row.maxUses}` : ""}`,
+          render: (row) => `${row.usedCount || 0}${row.maxUses ? ` / ${row.maxUses}` : ""}`,
         },
         {
           key: "status",

@@ -51,6 +51,11 @@ export type Order = {
   status: OrderStatus;
   createdAt: string;
   total: number;
+  subtotal?: number;
+  discount?: number;
+  shipping?: number;
+  couponCode?: string;
+  paymentMethod?: string;
   items: OrderItem[];
   shippingAddress?: Address;
   fullName?: string;

@@ -1,35 +1,43 @@
-import { Coupon } from '@prisma/client';
-
 export type CouponValidationResult = 
   | { valid: true; discountAmount: number; finalTotal: number }
   | { valid: false; discountAmount: number; finalTotal: number; reason: string };
 
-export function validateCouponLogic(coupon: Coupon, cartTotal: number): CouponValidationResult {
+export function validateCouponLogic(coupon: any, cartTotal: number): CouponValidationResult {
   if (!coupon.isActive) {
-    return { valid: false, discountAmount: 0, finalTotal: cartTotal, reason: 'Inactive' };
+    return { valid: false, discountAmount: 0, finalTotal: cartTotal, reason: 'This coupon is inactive' };
   }
 
-  if (coupon.expiresAt && new Date() > coupon.expiresAt) {
-    return { valid: false, discountAmount: 0, finalTotal: cartTotal, reason: 'Expired' };
+  if (coupon.expiresAt) {
+    const expiryDate = new Date(coupon.expiresAt);
+    if (!isNaN(expiryDate.getTime()) && new Date() > expiryDate) {
+      return { valid: false, discountAmount: 0, finalTotal: cartTotal, reason: 'This coupon has expired' };
+    }
   }
 
-  if (coupon.maxUses !== null && coupon.usedCount >= coupon.maxUses) {
-    return { valid: false, discountAmount: 0, finalTotal: cartTotal, reason: 'MaxUsesReached' };
+  if (coupon.maxUses !== null && coupon.maxUses !== undefined && Number(coupon.usedCount || 0) >= Number(coupon.maxUses)) {
+    return { valid: false, discountAmount: 0, finalTotal: cartTotal, reason: 'Coupon usage limit reached' };
   }
 
-  const minOrderNum = Number(coupon.minOrder);
+  const minOrderNum = Number(coupon.minOrder || 0);
   if (cartTotal < minOrderNum) {
-    return { valid: false, discountAmount: 0, finalTotal: cartTotal, reason: 'MinOrderNotMet' };
+    return {
+      valid: false,
+      discountAmount: 0,
+      finalTotal: cartTotal,
+      reason: `Minimum order amount of ₹${minOrderNum.toLocaleString('en-IN')} required to apply this coupon`
+    };
   }
 
   let discount = 0;
-  if (coupon.type === 'FIXED') {
-    discount = Number(coupon.value);
-  } else if (coupon.type === 'PERCENT') {
-    discount = cartTotal * (Number(coupon.value) / 100);
-    if (coupon.maxDiscountAmount !== null) {
+  const typeUpper = String(coupon.type || '').toUpperCase();
+  if (typeUpper === 'FIXED') {
+    discount = Number(coupon.value || 0);
+  } else {
+    // PERCENT
+    discount = Math.round(cartTotal * (Number(coupon.value || 0) / 100));
+    if (coupon.maxDiscountAmount !== null && coupon.maxDiscountAmount !== undefined) {
       const maxD = Number(coupon.maxDiscountAmount);
-      if (discount > maxD) {
+      if (maxD > 0 && discount > maxD) {
         discount = maxD;
       }
     }
@@ -39,5 +47,5 @@ export function validateCouponLogic(coupon: Coupon, cartTotal: number): CouponVa
     discount = cartTotal;
   }
 
-  return { valid: true, discountAmount: discount, finalTotal: cartTotal - discount };
+  return { valid: true, discountAmount: discount, finalTotal: Math.max(0, cartTotal - discount) };
 }

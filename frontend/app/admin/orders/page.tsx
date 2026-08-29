@@ -44,6 +44,10 @@ function OrderForm({
 
   if (!item) return null;
 
+  const itemsSubtotal = item.subtotal ?? item.items.reduce((sum, line) => sum + (line.price * line.quantity), 0);
+  const discountAmount = item.discount ?? 0;
+  const shippingAmount = item.shipping ?? (item.total - (itemsSubtotal - discountAmount) > 0 ? item.total - (itemsSubtotal - discountAmount) : 0);
+
   return (
     <AdminForm
       submitting={submitting}
@@ -65,15 +69,59 @@ function OrderForm({
       }}
     >
       <Stack gap={3}>
-        <Text>
-          <strong>{item.orderNumber}</strong> · {formatCurrency(item.total)}
-        </Text>
-        <Text color="gray600">
-          {item.items.map((line) => `${line.name || (line as any).productName} × ${line.quantity}`).join(", ")}
-        </Text>
-        <Text color="gray600">
-          Ship to {item.fullName}, {item.city}
-        </Text>
+        <div>
+          <Text>
+            <strong>Order #{item.orderNumber}</strong>
+          </Text>
+          <Text color="gray600" style={{ fontSize: "0.82rem", marginTop: "0.2rem" }}>
+            Placed on {formatDate(item.createdAt)} · Payment: <strong>{item.paymentMethod || "COD"}</strong>
+          </Text>
+        </div>
+
+        <div style={{ background: "#F9F9F8", padding: "0.75rem 1rem", borderRadius: "8px", border: "1px solid #EEEEEC" }}>
+          <Text style={{ fontSize: "0.85rem", fontWeight: 600, marginBottom: "0.35rem" }}>
+            Customer & Delivery:
+          </Text>
+          <Text color="gray700" style={{ fontSize: "0.82rem", lineHeight: 1.4 }}>
+            {item.fullName} ({item.userEmail || "No email"})<br />
+            Phone: {item.phone || "N/A"}<br />
+            Address: {item.line1}{item.city ? `, ${item.city}` : ""}{item.state ? `, ${item.state}` : ""}{item.postalCode ? ` - ${item.postalCode}` : ""}
+          </Text>
+        </div>
+
+        <div style={{ borderTop: "1px solid #EEEEEC", paddingTop: "0.5rem" }}>
+          <Text style={{ fontSize: "0.85rem", fontWeight: 600, marginBottom: "0.4rem" }}>
+            Ordered Items:
+          </Text>
+          {item.items.map((line) => (
+            <div key={`${line.productId}-${line.size}`} style={{ display: "flex", justifyContent: "space-between", fontSize: "0.82rem", marginBottom: "0.25rem" }}>
+              <span>{line.name || (line as any).productName} ({line.size}) × {line.quantity}</span>
+              <span>{formatCurrency(line.price * line.quantity)}</span>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ borderTop: "1px solid #EEEEEC", paddingTop: "0.5rem", display: "grid", gap: "0.25rem", fontSize: "0.82rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <span style={{ color: "#666" }}>Items Subtotal:</span>
+            <span>{formatCurrency(itemsSubtotal)}</span>
+          </div>
+          {discountAmount > 0 ? (
+            <div style={{ display: "flex", justifyContent: "space-between", color: "#16a34a" }}>
+              <span>Coupon Discount{item.couponCode ? ` (${item.couponCode})` : ""}:</span>
+              <span>-{formatCurrency(discountAmount)}</span>
+            </div>
+          ) : null}
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <span style={{ color: "#666" }}>Delivery / Shipping:</span>
+            <span>{shippingAmount > 0 ? formatCurrency(shippingAmount) : "FREE"}</span>
+          </div>
+          <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: "0.95rem", borderTop: "1px dashed #DDD", paddingTop: "0.35rem", marginTop: "0.2rem" }}>
+            <span>Final Payable Total:</span>
+            <span>{formatCurrency(item.total)}</span>
+          </div>
+        </div>
+
         <Select
           name="status"
           label="Status"
