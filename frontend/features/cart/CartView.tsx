@@ -95,18 +95,28 @@ export function CartView({ suggestions = [] }: CartViewProps) {
   };
 
   const applyCoupon = async () => {
-    setApplyingCoupon(true);
-    const result = await validateCoupon(code, subtotal);
-    if (!result.valid || !result.coupon) {
-      const msg = result.error || result.reason || "Invalid coupon";
-      pushToast(msg, "error");
-      setCoupon(null);
-      setApplyingCoupon(false);
+    const trimmed = code.trim();
+    if (!trimmed) {
+      pushToast("Please enter a coupon code", "error");
       return;
     }
-    setCoupon(result.coupon as any);
-    pushToast(`Coupon ${result.coupon.code} applied`);
-    setApplyingCoupon(false);
+    setApplyingCoupon(true);
+    try {
+      const result = await validateCoupon(trimmed, subtotal);
+      if (!result.valid || !result.coupon) {
+        const msg = result.error || result.reason || "Invalid coupon code";
+        pushToast(msg, "error");
+        setCoupon(null);
+        return;
+      }
+      setCoupon(result.coupon as any);
+      setCode(result.coupon.code);
+      pushToast(`Coupon ${result.coupon.code} applied!`, "success");
+    } catch {
+      pushToast("Could not validate coupon code", "error");
+    } finally {
+      setApplyingCoupon(false);
+    }
   };
 
   if (!isClient) {

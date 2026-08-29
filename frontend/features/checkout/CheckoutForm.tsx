@@ -98,7 +98,7 @@ import { openRazorpayCheckout } from "@/lib/razorpayClient";
 import { formatCurrency } from "@/utils/format";
 import { API_URL } from "@/lib/api";
 
-const FREE_SHIPPING_THRESHOLD = 999;
+const FREE_SHIPPING_THRESHOLD = 500;
 const FLAT_SHIPPING = 79;
 
 const schema = z.object({
@@ -115,7 +115,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 const TRUST = [
-  { icon: Truck, title: "Free Shipping", copy: "On orders above ₹999" },
+  { icon: Truck, title: "Free Shipping", copy: "On orders above ₹500" },
   { icon: RotateCcw, title: "Easy Returns", copy: "14 days return policy" },
   { icon: ShieldCheck, title: "Secure Payment", copy: "100% secure checkout" },
   { icon: Headset, title: "24/7 Support", copy: "We're here to help" },
@@ -195,7 +195,12 @@ export function CheckoutForm() {
       state: values.state,
       postalCode: values.postalCode,
       items,
+      subtotal,
+      discount,
+      shipping,
       total: payable,
+      couponCode: coupon?.code,
+      paymentMethod: 'COD',
     });
     clearCart();
     pushToast(
@@ -213,7 +218,7 @@ export function CheckoutForm() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         items,
-        couponCode: coupon?.code
+        couponCode: coupon?.code,
       }),
     });
     
@@ -262,7 +267,11 @@ export function CheckoutForm() {
                     state: values.state,
                     postalCode: values.postalCode,
                     items,
-                    couponCode: coupon?.code
+                    subtotal,
+                    discount,
+                    shipping,
+                    total: payable,
+                    couponCode: coupon?.code,
                   }
                 }),
               });

@@ -222,6 +222,14 @@ export const login = async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, message: 'Invalid credentials' });
     }
 
+    // If account was deactivated, reactivate on successful login
+    if (!user.isActive) {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { isActive: true },
+      });
+    }
+
     const token = jwt.sign({ id: user.id, type: 'user' }, JWT_SECRET, {
       expiresIn: JWT_EXPIRES_IN as any,
     });
@@ -237,6 +245,7 @@ export const login = async (req: Request, res: Response) => {
           firstName: user.firstName,
           lastName: user.lastName,
           phone: user.phone,
+          isActive: true,
           addresses: user.addresses || [],
         },
       },
@@ -261,6 +270,7 @@ export const getProfile = async (req: Request, res: Response) => {
         firstName: true,
         lastName: true,
         phone: true,
+        isActive: true,
         createdAt: true,
         addresses: true,
       }

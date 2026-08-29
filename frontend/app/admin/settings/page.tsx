@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { AdminSettings } from "@/types/admin";
 import { AdminShell } from "@/features/admin/AdminShell";
+import { AdminRoleGuard } from "@/features/admin/AdminRoleGuard";
 import {
   CardHintOnDark,
   CardTitleOnDark,
@@ -42,16 +43,14 @@ export default function AdminSettingsPage() {
     return useSiteSettingsStore.persist.onFinishHydration(apply);
   }, []);
 
-  if (!settings) {
-    return (
-      <AdminShell title="Settings">
-        <Loader />
-      </AdminShell>
-    );
-  }
-
   return (
-    <AdminShell title="Settings">
+    <AdminRoleGuard requiredRole="Admin" fallbackTitle="Settings">
+      {!settings ? (
+        <AdminShell title="Settings">
+          <Loader />
+        </AdminShell>
+      ) : (
+        <AdminShell title="Settings">
       <PageIntro>
         Contact, address, and social links used across the storefront footer,
         homepage, contact page, and WhatsApp button.
@@ -270,6 +269,8 @@ export default function AdminSettingsPage() {
           </Button>
         </FormFooter>
       </form>
-    </AdminShell>
+        </AdminShell>
+      )}
+    </AdminRoleGuard>
   );
 }

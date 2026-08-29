@@ -59,7 +59,7 @@ export const setup = async (req: Request, res: Response) => {
           id: admin.id,
           name: admin.name,
           email: admin.email,
-          role: admin.role,
+          role: 'Admin',
         },
       },
     });
@@ -85,7 +85,8 @@ export const login = async (req: Request, res: Response) => {
     if (adminUser) {
       const isMatch = await bcrypt.compare(data.password, adminUser.password);
       if (isMatch) {
-        const token = jwt.sign({ id: adminUser.id, role: adminUser.role, type: 'admin' }, JWT_SECRET, {
+        const role = 'Admin';
+        const token = jwt.sign({ id: adminUser.id, role: 'ADMIN', type: 'admin' }, JWT_SECRET, {
           expiresIn: JWT_EXPIRES_IN as any,
         });
 
@@ -97,7 +98,7 @@ export const login = async (req: Request, res: Response) => {
               id: adminUser.id,
               name: adminUser.name,
               email: adminUser.email,
-              role: adminUser.role,
+              role: 'Admin',
             },
           },
         });
@@ -115,8 +116,10 @@ export const login = async (req: Request, res: Response) => {
         isMatch = await bcrypt.compare(data.password, teamMember.password);
       }
       if (isMatch) {
+        const rawRole = String(teamMember.role || '').toUpperCase();
+        const role = (rawRole === 'ADMIN' || rawRole === 'SUPERADMIN') ? 'Admin' : 'Editor';
         const token = jwt.sign(
-          { id: teamMember.id, role: teamMember.role.toUpperCase(), type: 'admin' },
+          { id: teamMember.id, role: role.toUpperCase(), type: 'admin' },
           JWT_SECRET,
           { expiresIn: JWT_EXPIRES_IN as any }
         );
@@ -129,7 +132,7 @@ export const login = async (req: Request, res: Response) => {
               id: teamMember.id,
               name: teamMember.name,
               email: teamMember.email,
-              role: teamMember.role,
+              role: role,
             },
           },
         });

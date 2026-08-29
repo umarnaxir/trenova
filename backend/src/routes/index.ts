@@ -17,6 +17,7 @@ import adminAnalyticsRoutes from './adminAnalytics.routes';
 import adminSettingsRoutes from './adminSettings.routes';
 import adminInventoryRoutes from './adminInventory.routes';
 import adminCmsRoutes from './adminCms.routes';
+import adminInstagramRoutes from './adminInstagram.routes';
 import adminUserRoutes from './adminUser.routes';
 import adminTeamRoutes from './adminTeam.routes';
 import cmsRoutes from './cms.routes';
@@ -41,6 +42,7 @@ router.use('/admin/analytics', adminAnalyticsRoutes);
 router.use('/admin/settings', adminSettingsRoutes);
 router.use('/admin/inventory', adminInventoryRoutes);
 router.use('/admin/cms', adminCmsRoutes);
+router.use('/admin/instagram', adminInstagramRoutes);
 router.use('/catalog', catalogRoutes);
 router.use('/orders', orderRoutes);
 

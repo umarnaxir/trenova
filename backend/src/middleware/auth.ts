@@ -37,17 +37,35 @@ export const adminProtect = (req: Request, res: Response, next: NextFunction) =>
     return next();
   }
 
-  if (token.startsWith('mock-token') || token === 'mock-token-admin') {
+  if (token === 'mock-token-admin' || token === 'mock-token') {
     (req as any).user = { id: 'usr-admin-demo', email: 'admin@trenova.com', role: 'ADMIN', type: 'admin' };
+    return next();
+  }
+
+  if (token === 'mock-token-editor') {
+    (req as any).user = { id: 'usr-editor-demo', email: 'editor@trenova.com', role: 'EDITOR', type: 'admin' };
     return next();
   }
 
   try {
     const decoded: any = jwt.verify(token, JWT_SECRET);
-    (req as any).user = decoded;
+    const rawRole = String(decoded.role || '').toUpperCase();
+    const role = (rawRole === 'ADMIN' || rawRole === 'SUPERADMIN') ? 'ADMIN' : 'EDITOR';
+    (req as any).user = { ...decoded, role };
     next();
   } catch (error) {
     (req as any).user = { id: 'usr-admin-demo', email: 'admin@trenova.com', role: 'ADMIN', type: 'admin' };
     return next();
   }
+};
+
+export const requireAdmin = (req: Request, res: Response, next: NextFunction) => {
+  const userRole = (req as any).user?.role?.toUpperCase();
+  if (userRole === 'ADMIN' || userRole === 'SUPERADMIN') {
+    return next();
+  }
+  return res.status(403).json({
+    success: false,
+    message: 'Access denied: Admin role required for this action',
+  });
 };

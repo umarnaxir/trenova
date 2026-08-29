@@ -131,7 +131,7 @@ let team: TeamMember[] = [
     id: "team-2",
     name: "Priya Sharma",
     email: "priya@trenova.in",
-    role: "Manager",
+    role: "Editor",
     status: "active",
     joinedAt: "2026-03-15T00:00:00.000Z",
     password: "manager123",
@@ -526,6 +526,9 @@ export async function repoCreateCoupon(input: AdminCoupon) {
     type: input.type || "PERCENT",
     value: Number(input.value),
     minOrder: input.minOrder ? Number(input.minOrder) : null,
+    maxDiscountAmount: input.maxDiscountAmount ? Number(input.maxDiscountAmount) : null,
+    maxUses: input.maxUses ? Number(input.maxUses) : null,
+    expiresAt: input.expiresAt || null,
     isActive: input.isActive ?? true,
     usedCount: input.usedCount || 0,
   };
@@ -545,6 +548,10 @@ export async function repoUpdateCoupon(idOrCode: string, input: Partial<AdminCou
     ...input,
     code: input.code ? input.code.toUpperCase() : coupons[index].code,
     value: input.value !== undefined ? Number(input.value) : coupons[index].value,
+    minOrder: input.minOrder !== undefined ? (input.minOrder ? Number(input.minOrder) : null) : coupons[index].minOrder,
+    maxDiscountAmount: input.maxDiscountAmount !== undefined ? (input.maxDiscountAmount ? Number(input.maxDiscountAmount) : null) : coupons[index].maxDiscountAmount,
+    maxUses: input.maxUses !== undefined ? (input.maxUses ? Number(input.maxUses) : null) : coupons[index].maxUses,
+    expiresAt: input.expiresAt !== undefined ? input.expiresAt : coupons[index].expiresAt,
   };
   return clone(coupons[index]);
 }
@@ -777,6 +784,19 @@ export async function repoGetInstagram() {
   return clone(getInstagramShots());
 }
 
+export async function repoCreateInstagramShot(input: { src: string; alt?: string }) {
+  await delay();
+  const shots = getInstagramShots();
+  const shot: InstagramShot = {
+    id: `ig-${Date.now()}`,
+    src: input.src,
+    alt: input.alt || `Trenova look ${shots.length + 1}`,
+  };
+  const next = [...shots, shot];
+  setInstagramShots(next);
+  return clone(shot);
+}
+
 export async function repoUpdateInstagramShot(
   id: string,
   input: Partial<Pick<InstagramShot, "src" | "alt">>,
@@ -791,11 +811,16 @@ export async function repoUpdateInstagramShot(
   return clone(next[index]);
 }
 
+export async function repoDeleteInstagramShot(id: string) {
+  await delay();
+  const shots = getInstagramShots();
+  const next = shots.filter((item) => item.id !== id);
+  setInstagramShots(next);
+  return true;
+}
+
 export async function repoReplaceInstagram(shots: InstagramShot[]) {
   await delay();
-  if (shots.length !== 9) {
-    throw new Error("Homepage Instagram gallery requires exactly 9 images");
-  }
   setInstagramShots(clone(shots));
   return clone(getInstagramShots());
 }

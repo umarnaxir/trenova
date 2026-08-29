@@ -31,7 +31,7 @@ export default function DeleteAccountPage() {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
-  function onSubmit(event: React.FormEvent) {
+  async function onSubmit(event: React.FormEvent) {
     event.preventDefault();
     setError("");
     if (!agreed) {
@@ -49,13 +49,13 @@ export default function DeleteAccountPage() {
       return;
     }
     setBusy(true);
-    const ok = deleteAccount(password);
+    const res = await deleteAccount(password);
     setBusy(false);
-    if (!ok) {
-      setError("Password is incorrect. Please try again.");
+    if (!res.ok) {
+      setError(res.error || "Password is incorrect. Please try again.");
       return;
     }
-    pushToast("Account scheduled for permanent deletion");
+    pushToast("Account deleted successfully");
     router.replace("/");
   }
 

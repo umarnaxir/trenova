@@ -108,11 +108,16 @@ export const useCartStore = create<CartState>()(
       discount: () => {
         const { coupon } = get();
         const subtotal = get().subtotal();
-        if (!coupon) return 0;
-        if (coupon.type.toLowerCase() === "percent") {
-          return Math.round((subtotal * coupon.value) / 100);
+        if (!coupon || subtotal <= 0) return 0;
+        const typeUpper = String(coupon.type || "").toUpperCase();
+        if (typeUpper === "PERCENT") {
+          let d = Math.round((subtotal * Number(coupon.value || 0)) / 100);
+          if (coupon.maxDiscountAmount && d > Number(coupon.maxDiscountAmount)) {
+            d = Number(coupon.maxDiscountAmount);
+          }
+          return Math.min(subtotal, d);
         }
-        return Math.min(subtotal, coupon.value);
+        return Math.min(subtotal, Number(coupon.value || 0));
       },
       total: () => Math.max(0, get().subtotal() - get().discount()),
       itemCount: () =>

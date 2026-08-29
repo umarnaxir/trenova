@@ -18,6 +18,7 @@ model User {
   firstName String?
   lastName  String?
   phone     String?  @unique
+  isActive  Boolean  @default(true)
   addresses Address[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -233,8 +234,11 @@ model Order {
   country       String      @default("India")
   
   // Financials
+  subtotal      Float?      @default(0)
+  shipping      Float       @default(0)
   total         Float
   discount      Float       @default(0)
+  couponCode    String?
   
   // Status
   razorpayOrderId   String?     @unique

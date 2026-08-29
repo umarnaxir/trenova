@@ -256,6 +256,23 @@ export default function OrdersPage() {
               </ShipBlock>
             ) : null}
 
+            <div style={{ display: "grid", gap: "0.25rem", fontSize: "0.78rem", borderTop: "1px solid #EEEEEC", paddingTop: "0.5rem" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", color: "#666" }}>
+                <span>Subtotal:</span>
+                <span>{formatCurrency(order.subtotal ?? order.items.reduce((s, i) => s + (i.price * i.quantity), 0))}</span>
+              </div>
+              {(order.discount ?? 0) > 0 ? (
+                <div style={{ display: "flex", justifyContent: "space-between", color: "#16a34a" }}>
+                  <span>Coupon Discount{order.couponCode ? ` (${order.couponCode})` : ""}:</span>
+                  <span>-{formatCurrency(order.discount!)}</span>
+                </div>
+              ) : null}
+              <div style={{ display: "flex", justifyContent: "space-between", color: "#666" }}>
+                <span>Delivery / Shipping:</span>
+                <span>{(order.shipping ?? 0) > 0 ? formatCurrency(order.shipping!) : "Free"}</span>
+              </div>
+            </div>
+
             <Total>
               <TrackLink href="/track-order">Track this order</TrackLink>
               <strong>{formatCurrency(order.total)}</strong>

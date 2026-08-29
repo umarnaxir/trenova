@@ -106,6 +106,14 @@ export function AdminShell({
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
 
+  const isEditor = admin?.role ? String(admin.role).trim().toLowerCase() === "editor" : false;
+  const visibleLinks = links.filter((link) => {
+    if (isEditor && (link.href === "/admin/users" || link.href === "/admin/team" || link.href === "/admin/settings")) {
+      return false;
+    }
+    return true;
+  });
+
   const closeMobile = () => setMobileOpen(false);
 
   useEffect(() => {
@@ -140,7 +148,7 @@ export function AdminShell({
         </BrandBlock>
 
         <Nav aria-label="Admin">
-          {links.map((link) => {
+          {visibleLinks.map((link) => {
             const Icon = link.icon;
             return (
               <SideLink

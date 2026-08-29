@@ -51,6 +51,11 @@ export type PlaceOrderInput = {
   country?: string;
   items: CartItem[];
   total: number;
+  subtotal?: number;
+  discount?: number;
+  shipping?: number;
+  couponCode?: string;
+  paymentMethod?: string;
 };
 
 export async function placeOrder(input: PlaceOrderInput): Promise<Order> {
@@ -67,7 +72,7 @@ export async function placeOrder(input: PlaceOrderInput): Promise<Order> {
     headers,
     body: JSON.stringify({
       ...input,
-      paymentMethod: 'COD' // Default for COD
+      paymentMethod: input.paymentMethod || 'COD'
     }),
   });
 
@@ -97,4 +102,40 @@ export async function trackOrderAPI(orderNumber: string, email: string): Promise
   } catch {
     return null;
   }
+}
+
+export async function deactivateAccountAPI(password: string): Promise<boolean> {
+  const token = useAuthStore.getState().token;
+  if (!token) throw new Error("Not authenticated");
+  const res = await fetch(`${API_URL}/user/deactivate`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ password }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to deactivate account");
+  }
+  return true;
+}
+
+export async function deleteAccountAPI(password: string): Promise<boolean> {
+  const token = useAuthStore.getState().token;
+  if (!token) throw new Error("Not authenticated");
+  const res = await fetch(`${API_URL}/user/delete`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ password }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to delete account");
+  }
+  return true;
 }

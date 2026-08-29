@@ -5,11 +5,12 @@ import {
   updateTeamMember,
   deleteTeamMember,
 } from '../controllers/adminTeam.controller';
-import { adminProtect } from '../middleware/auth';
+import { adminProtect, requireAdmin } from '../middleware/auth';
 
 const router = Router();
 
 router.use(adminProtect);
+router.use(requireAdmin);
 
 router.get('/', getTeamMembers);
 router.post('/', createTeamMember);
